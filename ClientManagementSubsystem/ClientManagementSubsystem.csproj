@@ -59,16 +59,43 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Homepage.cs">
+    <Compile Include="userControls\bookingsUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControls\bookingsUserControl.Designer.cs">
+      <DependentUpon>bookingsUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControls\dashboardUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControls\dashboardUserControl.Designer.cs">
+      <DependentUpon>dashboardUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Homepage.Designer.cs">
-      <DependentUpon>Homepage.cs</DependentUpon>
+    <Compile Include="Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControls\personalUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControls\personalUserControl.Designer.cs">
+      <DependentUpon>personalUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Homepage.resx">
-      <DependentUpon>Homepage.cs</DependentUpon>
+    <EmbeddedResource Include="userControls\bookingsUserControl.resx">
+      <DependentUpon>bookingsUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControls\dashboardUserControl.resx">
+      <DependentUpon>dashboardUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControls\personalUserControl.resx">
+      <DependentUpon>personalUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
