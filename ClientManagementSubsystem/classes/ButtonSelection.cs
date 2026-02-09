@@ -14,7 +14,7 @@ namespace ClientManagementSubsystem
         private readonly Color _defaultColor;
 
         // Dictionary to link buttons to their indicator shapes
-        private Dictionary<IconButton, Guna2Shapes> _indicators = new Dictionary<IconButton, Guna2Shapes>();
+        private Dictionary<IconButton, Guna2Panel> _indicators = new Dictionary<IconButton, Guna2Panel>();
 
         public ButtonSelection(Color activeColor, Color defaultColor)
         {
@@ -23,7 +23,7 @@ namespace ClientManagementSubsystem
         }
 
         // Linking the buttons with their indicator shapes
-        public void RegisterButton(IconButton btn, Guna2Shapes indicator)
+        public void RegisterButton(IconButton btn, Guna2Panel indicator)
         {
             if (!_indicators.ContainsKey(btn))
             {
@@ -42,6 +42,7 @@ namespace ClientManagementSubsystem
                 currentBtn = btn;
                 currentBtn.ForeColor = _activeColor;
                 currentBtn.IconColor = _activeColor;
+                currentBtn.IconSize = 52;
 
                 if (_indicators.ContainsKey(currentBtn))
                 {
@@ -56,6 +57,7 @@ namespace ClientManagementSubsystem
             {
                 currentBtn.ForeColor = _defaultColor;
                 currentBtn.IconColor = _defaultColor;
+                currentBtn.IconSize = 45;
 
                 if (_indicators.ContainsKey(currentBtn))
                 {
