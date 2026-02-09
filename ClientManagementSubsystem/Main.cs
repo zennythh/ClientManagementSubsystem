@@ -21,8 +21,8 @@ namespace ClientManagementSubsystem
             InitializeComponent();
 
             btnSelection = new ButtonSelection(
-                Color.FromArgb(255, 56, 189, 248),
-                Color.FromArgb(255, 230, 241, 247)
+                Color.FromArgb(42, 132, 191),
+                Color.Gray
             );
         }
 
@@ -115,16 +115,19 @@ namespace ClientManagementSubsystem
             }
         }
 
+        // NO NEED FOR THIS HARD CODED SECTION,
+        // THIS IS ALREADY BEING HANDLED VIA FLAT APPEARANCE PROPERTY
+
         // Mouse Events
 
-        private void OnButtonMouseEnter(object sender, EventArgs e)
-        {
-            btnSelection.OnMouseEnter(sender);
-        }
+        //private void OnButtonMouseEnter(object sender, EventArgs e)
+        //{
+        //    btnSelection.OnMouseEnter(sender);
+        //}
 
-        private void OnButtonMouseLeave(object sender, EventArgs e)
-        {
-            btnSelection.OnMouseLeave(sender);
-        }
+        //private void OnButtonMouseLeave(object sender, EventArgs e)
+        //{
+        //    btnSelection.OnMouseLeave(sender);
+        //}
     }
 }
