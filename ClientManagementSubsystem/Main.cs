@@ -1,5 +1,7 @@
-﻿using ClientManagementSubsystem.userControls;
+﻿using ClientManagementSubsystem.classes;
+using ClientManagementSubsystem.userControls;
 using FontAwesome.Sharp;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -37,6 +39,7 @@ namespace ClientManagementSubsystem
 
             showControl(new dashboardUserControl());
             btnSelection.ActivateButton(dashboardBtn);
+            testDB();
         }
 
         // Logic for loading User Controls
@@ -115,6 +118,39 @@ namespace ClientManagementSubsystem
             }
         }
 
+        private void testDB()
+        {
+            // We use 'try-catch' because database connections are prone to external errors
+            try
+            {
+                // 1. Call your helper to get and open the connection
+                using (var conn = MySQLConnStr.GetConnection())
+                {
+                    // 2. Prepare a tiny SQL command to ask for the version
+                    string sql = "SELECT VERSION();";
+
+                    using (var cmd = new MySqlCommand(sql, conn))
+                    {
+                        // ExecuteScalar is for when you expect a single value back
+                        string dbVersion = cmd.ExecuteScalar().ToString();
+
+                        // 3. If we made it here, it works!
+                        MessageBox.Show($"Success! Connected to:\n{dbVersion}",
+                                        "Connection Test",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // 4. If something is wrong, this will show the EXACT error (likely the plugin error if it's still there)
+                MessageBox.Show($"Connection Failed!\n\nError: {ex.Message}",
+                                "Connection Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
+        }
         // NO NEED FOR THIS HARD CODED SECTION,
         // THIS IS ALREADY BEING HANDLED VIA FLAT APPEARANCE PROPERTY
 
