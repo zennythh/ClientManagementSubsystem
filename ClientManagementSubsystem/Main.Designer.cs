@@ -30,6 +30,9 @@
         {
             this.containerPanel = new Guna.UI2.WinForms.Guna2Panel();
             this.headerPanel = new Guna.UI2.WinForms.Guna2Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.minimizeButton = new FontAwesome.Sharp.IconButton();
+            this.closeButton = new FontAwesome.Sharp.IconButton();
             this.logoutBtn = new FontAwesome.Sharp.IconButton();
             this.activityLabel = new System.Windows.Forms.Label();
             this.dashboardBtn = new FontAwesome.Sharp.IconButton();
@@ -47,12 +50,11 @@
             this.inboundBtn = new FontAwesome.Sharp.IconButton();
             this.layoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.headerPanel.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.sidebarPanel.SuspendLayout();
             this.layoutPanel.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // containerPanel
@@ -78,6 +80,49 @@
             this.headerPanel.Name = "headerPanel";
             this.headerPanel.Size = new System.Drawing.Size(1106, 58);
             this.headerPanel.TabIndex = 3;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.minimizeButton);
+            this.panel1.Controls.Add(this.closeButton);
+            this.panel1.Controls.Add(this.logoutBtn);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel1.Location = new System.Drawing.Point(716, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(390, 58);
+            this.panel1.TabIndex = 2;
+            // 
+            // minimizeButton
+            // 
+            this.minimizeButton.BackColor = System.Drawing.Color.Transparent;
+            this.minimizeButton.FlatAppearance.BorderSize = 0;
+            this.minimizeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.minimizeButton.IconChar = FontAwesome.Sharp.IconChar.WindowMinimize;
+            this.minimizeButton.IconColor = System.Drawing.Color.Black;
+            this.minimizeButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.minimizeButton.IconSize = 25;
+            this.minimizeButton.Location = new System.Drawing.Point(294, 0);
+            this.minimizeButton.Name = "minimizeButton";
+            this.minimizeButton.Size = new System.Drawing.Size(45, 23);
+            this.minimizeButton.TabIndex = 3;
+            this.minimizeButton.UseVisualStyleBackColor = false;
+            this.minimizeButton.Click += new System.EventHandler(this.minimizeButton_Click);
+            // 
+            // closeButton
+            // 
+            this.closeButton.BackColor = System.Drawing.Color.Transparent;
+            this.closeButton.FlatAppearance.BorderSize = 0;
+            this.closeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.closeButton.IconChar = FontAwesome.Sharp.IconChar.X;
+            this.closeButton.IconColor = System.Drawing.Color.Red;
+            this.closeButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.closeButton.IconSize = 22;
+            this.closeButton.Location = new System.Drawing.Point(345, 0);
+            this.closeButton.Name = "closeButton";
+            this.closeButton.Size = new System.Drawing.Size(45, 23);
+            this.closeButton.TabIndex = 2;
+            this.closeButton.UseVisualStyleBackColor = false;
+            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
             // logoutBtn
             // 
@@ -238,7 +283,7 @@
             this.personalSelected.CustomizableEdges.TopLeft = false;
             this.personalSelected.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(132)))), ((int)(((byte)(191)))));
             this.personalSelected.Location = new System.Drawing.Point(0, 488);
-            this.personalSelected.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.personalSelected.Margin = new System.Windows.Forms.Padding(2);
             this.personalSelected.Name = "personalSelected";
             this.personalSelected.Size = new System.Drawing.Size(9, 80);
             this.personalSelected.TabIndex = 11;
@@ -251,7 +296,7 @@
             this.damagesSelected.CustomizableEdges.TopLeft = false;
             this.damagesSelected.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(132)))), ((int)(((byte)(191)))));
             this.damagesSelected.Location = new System.Drawing.Point(0, 409);
-            this.damagesSelected.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.damagesSelected.Margin = new System.Windows.Forms.Padding(2);
             this.damagesSelected.Name = "damagesSelected";
             this.damagesSelected.Size = new System.Drawing.Size(9, 80);
             this.damagesSelected.TabIndex = 10;
@@ -264,7 +309,7 @@
             this.inboundSelected.CustomizableEdges.TopLeft = false;
             this.inboundSelected.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(132)))), ((int)(((byte)(191)))));
             this.inboundSelected.Location = new System.Drawing.Point(0, 334);
-            this.inboundSelected.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.inboundSelected.Margin = new System.Windows.Forms.Padding(2);
             this.inboundSelected.Name = "inboundSelected";
             this.inboundSelected.Size = new System.Drawing.Size(9, 80);
             this.inboundSelected.TabIndex = 9;
@@ -277,7 +322,7 @@
             this.outboundSelected.CustomizableEdges.TopLeft = false;
             this.outboundSelected.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(132)))), ((int)(((byte)(191)))));
             this.outboundSelected.Location = new System.Drawing.Point(0, 257);
-            this.outboundSelected.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.outboundSelected.Margin = new System.Windows.Forms.Padding(2);
             this.outboundSelected.Name = "outboundSelected";
             this.outboundSelected.Size = new System.Drawing.Size(9, 80);
             this.outboundSelected.TabIndex = 8;
@@ -290,7 +335,7 @@
             this.bookingsSelected.CustomizableEdges.TopLeft = false;
             this.bookingsSelected.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(132)))), ((int)(((byte)(191)))));
             this.bookingsSelected.Location = new System.Drawing.Point(0, 181);
-            this.bookingsSelected.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.bookingsSelected.Margin = new System.Windows.Forms.Padding(2);
             this.bookingsSelected.Name = "bookingsSelected";
             this.bookingsSelected.Size = new System.Drawing.Size(9, 80);
             this.bookingsSelected.TabIndex = 7;
@@ -303,7 +348,7 @@
             this.dashboardSelected.CustomizableEdges.TopLeft = false;
             this.dashboardSelected.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(132)))), ((int)(((byte)(191)))));
             this.dashboardSelected.Location = new System.Drawing.Point(0, 104);
-            this.dashboardSelected.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dashboardSelected.Margin = new System.Windows.Forms.Padding(2);
             this.dashboardSelected.Name = "dashboardSelected";
             this.dashboardSelected.Size = new System.Drawing.Size(9, 80);
             this.dashboardSelected.TabIndex = 0;
@@ -429,15 +474,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1106, 727);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.logoutBtn);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(716, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(390, 58);
-            this.panel1.TabIndex = 2;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -454,10 +490,10 @@
             this.Load += new System.EventHandler(this.Main_Load);
             this.headerPanel.ResumeLayout(false);
             this.headerPanel.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.sidebarPanel.ResumeLayout(false);
             this.layoutPanel.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -483,6 +519,8 @@
         private Guna.UI2.WinForms.Guna2Panel outboundSelected;
         private Guna.UI2.WinForms.Guna2Panel bookingsSelected;
         private System.Windows.Forms.Panel panel1;
+        private FontAwesome.Sharp.IconButton closeButton;
+        private FontAwesome.Sharp.IconButton minimizeButton;
     }
 }
 
