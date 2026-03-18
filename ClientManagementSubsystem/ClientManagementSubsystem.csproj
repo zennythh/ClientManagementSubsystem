@@ -107,9 +107,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="classes\DatabaseManager.cs" />
     <Compile Include="models\Booking.cs" />
     <Compile Include="classes\ButtonSelection.cs" />
     <Compile Include="classes\MySQLConnStr.cs" />
+    <Compile Include="models\PendingInfos.cs" />
     <Compile Include="userControls\BookingCard.cs">
       <SubType>UserControl</SubType>
     </Compile>

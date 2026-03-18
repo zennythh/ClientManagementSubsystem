@@ -39,7 +39,9 @@ namespace ClientManagementSubsystem
 
             showControl(new dashboardUserControl());
             btnSelection.ActivateButton(dashboardBtn);
-            // testDB();
+
+            var conn = MySQLConnStr.GetConnection();
+            //testDB();
         }
 
         // Logic for loading User Controls
