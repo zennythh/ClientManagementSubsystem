@@ -28,18 +28,111 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.lblBooking = new System.Windows.Forms.Label();
+            this.lblBookingNum = new System.Windows.Forms.Label();
+            this.lblCustomerName = new System.Windows.Forms.Label();
+            this.lblRentalStartDate = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblTo = new System.Windows.Forms.Label();
+            this.lblTimeAgo = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // lblBooking
+            // 
+            this.lblBooking.AutoSize = true;
+            this.lblBooking.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBooking.Location = new System.Drawing.Point(62, 0);
+            this.lblBooking.Name = "lblBooking";
+            this.lblBooking.Size = new System.Drawing.Size(121, 25);
+            this.lblBooking.TabIndex = 6;
+            this.lblBooking.Text = "BOOKING ID:";
+            // 
+            // lblBookingNum
+            // 
+            this.lblBookingNum.AutoSize = true;
+            this.lblBookingNum.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBookingNum.Location = new System.Drawing.Point(158, 0);
+            this.lblBookingNum.Name = "lblBookingNum";
+            this.lblBookingNum.Size = new System.Drawing.Size(52, 25);
+            this.lblBookingNum.TabIndex = 5;
+            this.lblBookingNum.Text = "3242";
+            // 
+            // lblCustomerName
+            // 
+            this.lblCustomerName.AutoSize = true;
+            this.lblCustomerName.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCustomerName.Location = new System.Drawing.Point(3, 25);
+            this.lblCustomerName.Name = "lblCustomerName";
+            this.lblCustomerName.Size = new System.Drawing.Size(65, 25);
+            this.lblCustomerName.TabIndex = 7;
+            this.lblCustomerName.Text = "NAME";
+            // 
+            // lblRentalStartDate
+            // 
+            this.lblRentalStartDate.AutoSize = true;
+            this.lblRentalStartDate.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRentalStartDate.Location = new System.Drawing.Point(3, 50);
+            this.lblRentalStartDate.Name = "lblRentalStartDate";
+            this.lblRentalStartDate.Size = new System.Drawing.Size(115, 25);
+            this.lblRentalStartDate.TabIndex = 8;
+            this.lblRentalStartDate.Text = "START DATE";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(3, 75);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(99, 25);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "END DATE";
+            // 
+            // lblTo
+            // 
+            this.lblTo.AutoSize = true;
+            this.lblTo.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTo.Location = new System.Drawing.Point(145, 50);
+            this.lblTo.Name = "lblTo";
+            this.lblTo.Size = new System.Drawing.Size(29, 25);
+            this.lblTo.TabIndex = 10;
+            this.lblTo.Text = "to";
+            // 
+            // lblTimeAgo
+            // 
+            this.lblTimeAgo.AutoSize = true;
+            this.lblTimeAgo.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTimeAgo.Location = new System.Drawing.Point(158, 25);
+            this.lblTimeAgo.Name = "lblTimeAgo";
+            this.lblTimeAgo.Size = new System.Drawing.Size(93, 25);
+            this.lblTimeAgo.TabIndex = 11;
+            this.lblTimeAgo.Text = "TIMEAGO";
             // 
             // ConflictBookingCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lblTimeAgo);
+            this.Controls.Add(this.lblTo);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblRentalStartDate);
+            this.Controls.Add(this.lblCustomerName);
+            this.Controls.Add(this.lblBooking);
+            this.Controls.Add(this.lblBookingNum);
             this.Name = "ConflictBookingCard";
-            this.Size = new System.Drawing.Size(180, 115);
+            this.Size = new System.Drawing.Size(271, 115);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Label lblBooking;
+        private System.Windows.Forms.Label lblBookingNum;
+        private System.Windows.Forms.Label lblCustomerName;
+        private System.Windows.Forms.Label lblRentalStartDate;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblTo;
+        private System.Windows.Forms.Label lblTimeAgo;
     }
 }
