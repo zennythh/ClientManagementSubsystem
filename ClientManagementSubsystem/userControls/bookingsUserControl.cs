@@ -16,7 +16,7 @@ namespace ClientManagementSubsystem
 {
     public partial class bookingsUserControl : UserControl
     {
-        DatabaseManager db = new DatabaseManager();
+        BookingHandler db = new BookingHandler();
         private Booking originalBooking;
         private PendingInfos currentPendingInfo;
 
@@ -102,12 +102,14 @@ namespace ClientManagementSubsystem
 
             lblRentalTimeValue.Text = GetRentalDuration(b.DateSchedOut, b.DateDue);
 
-            if (!string.IsNullOrEmpty(b.ImagePath))
+            if (!string.IsNullOrEmpty(b.ImagePath) && System.IO.File.Exists(b.ImagePath))
             {
-                vehiclePictureBox.ImageLocation = b.ImagePath;
+                // Loading manually into the Image property preserves the Zoom mode better
+                vehiclePictureBox.Image = Image.FromFile(b.ImagePath);
             }
             else
             {
+                // Explicitly set the resource as the main Image
                 vehiclePictureBox.Image = Properties.Resources.defaultVehicle;
             }
         }

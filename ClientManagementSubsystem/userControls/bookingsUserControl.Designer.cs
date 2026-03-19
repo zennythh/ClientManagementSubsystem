@@ -69,6 +69,8 @@
             this.approvedSelected = new Guna.UI2.WinForms.Guna2Shapes();
             this.approvedBtn = new Guna.UI2.WinForms.Guna2Button();
             this.pendingBtn = new Guna.UI2.WinForms.Guna2Button();
+            this.lblBookingConflicts = new System.Windows.Forms.Label();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tableLayoutPanel.SuspendLayout();
             this.bookingPanels.SuspendLayout();
             this.bookingDetailsPanel.SuspendLayout();
@@ -119,6 +121,8 @@
             // bookingDetailsPanel
             // 
             this.bookingDetailsPanel.BorderRadius = 5;
+            this.bookingDetailsPanel.Controls.Add(this.flowLayoutPanel1);
+            this.bookingDetailsPanel.Controls.Add(this.lblBookingConflicts);
             this.bookingDetailsPanel.Controls.Add(this.rentalDateEndDTP);
             this.bookingDetailsPanel.Controls.Add(this.rentalDateStartDTP);
             this.bookingDetailsPanel.Controls.Add(this.customerBdayDTP);
@@ -228,18 +232,18 @@
             this.lblRentalTimeValue.AutoSize = true;
             this.lblRentalTimeValue.BackColor = System.Drawing.Color.Transparent;
             this.lblRentalTimeValue.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRentalTimeValue.Location = new System.Drawing.Point(653, 500);
+            this.lblRentalTimeValue.Location = new System.Drawing.Point(701, 500);
             this.lblRentalTimeValue.Name = "lblRentalTimeValue";
             this.lblRentalTimeValue.Size = new System.Drawing.Size(138, 30);
             this.lblRentalTimeValue.TabIndex = 33;
-            this.lblRentalTimeValue.Text = "1 day 2 hours";
+            this.lblRentalTimeValue.Text = "0 day 2 hours";
             // 
             // lblRentalTime
             // 
             this.lblRentalTime.AutoSize = true;
             this.lblRentalTime.BackColor = System.Drawing.Color.Transparent;
             this.lblRentalTime.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRentalTime.Location = new System.Drawing.Point(466, 500);
+            this.lblRentalTime.Location = new System.Drawing.Point(514, 500);
             this.lblRentalTime.Name = "lblRentalTime";
             this.lblRentalTime.Size = new System.Drawing.Size(189, 30);
             this.lblRentalTime.TabIndex = 32;
@@ -250,18 +254,18 @@
             this.lblDateofRequestValue.AutoSize = true;
             this.lblDateofRequestValue.BackColor = System.Drawing.Color.Transparent;
             this.lblDateofRequestValue.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDateofRequestValue.Location = new System.Drawing.Point(237, 500);
+            this.lblDateofRequestValue.Location = new System.Drawing.Point(285, 500);
             this.lblDateofRequestValue.Name = "lblDateofRequestValue";
-            this.lblDateofRequestValue.Size = new System.Drawing.Size(172, 30);
+            this.lblDateofRequestValue.Size = new System.Drawing.Size(211, 30);
             this.lblDateofRequestValue.TabIndex = 31;
-            this.lblDateofRequestValue.Text = "02/02/2022 02:02";
+            this.lblDateofRequestValue.Text = "02/02/2022 02:02 AM";
             // 
             // lblDateOfRequest
             // 
             this.lblDateOfRequest.AutoSize = true;
             this.lblDateOfRequest.BackColor = System.Drawing.Color.Transparent;
             this.lblDateOfRequest.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDateOfRequest.Location = new System.Drawing.Point(62, 500);
+            this.lblDateOfRequest.Location = new System.Drawing.Point(110, 500);
             this.lblDateOfRequest.Name = "lblDateOfRequest";
             this.lblDateOfRequest.Size = new System.Drawing.Size(181, 30);
             this.lblDateOfRequest.TabIndex = 30;
@@ -600,7 +604,7 @@
             this.rejectBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.rejectBtn.IconSize = 40;
             this.rejectBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.rejectBtn.Location = new System.Drawing.Point(529, 676);
+            this.rejectBtn.Location = new System.Drawing.Point(529, 706);
             this.rejectBtn.Name = "rejectBtn";
             this.rejectBtn.Size = new System.Drawing.Size(184, 58);
             this.rejectBtn.TabIndex = 1;
@@ -618,7 +622,7 @@
             this.approveBtn.IconColor = System.Drawing.Color.Black;
             this.approveBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.approveBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.approveBtn.Location = new System.Drawing.Point(252, 676);
+            this.approveBtn.Location = new System.Drawing.Point(252, 706);
             this.approveBtn.Name = "approveBtn";
             this.approveBtn.Size = new System.Drawing.Size(184, 58);
             this.approveBtn.TabIndex = 0;
@@ -721,6 +725,31 @@
             this.pendingBtn.Text = "Pending";
             this.pendingBtn.Click += new System.EventHandler(this.pendingBtn_Click);
             // 
+            // lblBookingConflicts
+            // 
+            this.lblBookingConflicts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblBookingConflicts.AutoSize = true;
+            this.lblBookingConflicts.BackColor = System.Drawing.Color.Transparent;
+            this.lblBookingConflicts.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBookingConflicts.Location = new System.Drawing.Point(374, 533);
+            this.lblBookingConflicts.Name = "lblBookingConflicts";
+            this.lblBookingConflicts.Size = new System.Drawing.Size(188, 30);
+            this.lblBookingConflicts.TabIndex = 38;
+            this.lblBookingConflicts.Text = "Booking Conflicts";
+            this.lblBookingConflicts.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.AutoScroll = true;
+            this.flowLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(28, 571);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(910, 115);
+            this.flowLayoutPanel1.TabIndex = 39;
+            this.flowLayoutPanel1.WrapContents = false;
+            // 
             // bookingsUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -784,5 +813,7 @@
         private FontAwesome.Sharp.IconButton approveBtn;
         private Guna.UI2.WinForms.Guna2DateTimePicker rentalDateStartDTP;
         private Guna.UI2.WinForms.Guna2DateTimePicker rentalDateEndDTP;
+        private System.Windows.Forms.Label lblBookingConflicts;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }

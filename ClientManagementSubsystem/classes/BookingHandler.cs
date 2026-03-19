@@ -9,17 +9,16 @@ using ClientManagementSubsystem.classes;
 
 namespace ClientManagementSubsystem.classes
 {
-    internal class DatabaseManager
+    internal class BookingHandler
     {
         public List<Booking> GetBookingsByStatus(string status)
         {
             List<Booking> list = new List<Booking>();
-            string query =
-        @"SELECT b.*, CONCAT(v.Manufacturer, ' ', v.Model) AS FullVehicleName, v.LicensePlate, v.ImagePath
-        FROM Bookings b
-        JOIN Vehicles v ON b.VehicleVIN = v.VIN
-        WHERE b.Status = @status
-        ORDER BY b.DateSubmitted DESC";
+            string query = @"SELECT b.*, CONCAT(v.Manufacturer, ' ', v.Model) AS FullVehicleName, v.LicensePlate, v.ImagePath
+                            FROM Bookings b
+                            JOIN Vehicles v ON b.VehicleVIN = v.VIN
+                            WHERE b.Status = @status AND b.Deleted = 0
+                            ORDER BY b.DateSubmitted DESC";
 
             using (var conn = new MySqlConnection(MySQLConnStr.ConnectionString))
             {
@@ -49,7 +48,7 @@ namespace ClientManagementSubsystem.classes
                             DateSchedOut = reader.GetDateTime("DateSchedOut"),
                             DateDue = reader.GetDateTime("DateDue"),
 
-                            // Handle Nullables safely
+                            // Nullables
                             DateOut = reader.IsDBNull(reader.GetOrdinal("DateOut")) ? (DateTime?)null : reader.GetDateTime("DateOut"),
                             DateIn = reader.IsDBNull(reader.GetOrdinal("DateIn")) ? (DateTime?)null : reader.GetDateTime("DateIn"),
                             MileageOut = reader.IsDBNull(reader.GetOrdinal("MileageOut")) ? (int?)null : reader.GetInt32("MileageOut"),
@@ -61,6 +60,52 @@ namespace ClientManagementSubsystem.classes
                 }
             }
             return list;
+        }
+
+        public static List<Booking> GetConflictingBookings(string vin, DateTime requestedStart, DateTime requestedEnd)
+        {
+            List<Booking> conflicts = new List<Booking>();
+
+            // Buffer time in hours to account for cleaning, maintenance, and unforeseen delays
+            int bufferHours = 3;
+
+            string query = @"SELECT b.*, CONCAT(v.Manufacturer, ' ', v.Model) AS VehicleName 
+                            FROM Bookings b
+                            JOIN Vehicles v ON b.VehicleVIN = v.VIN
+                            WHERE b.VehicleVIN = @vin 
+                            AND b.Status IN ('Pending', 'Reserved', 'Out')
+                            AND @RequestedStart < DATE_ADD(b.DateDue, INTERVAL @Buffer HOUR)
+                            AND @RequestedEnd > b.DateSchedOut
+                            AND b.BookingID != @CurrentBookingID 
+                            AND b.Deleted = 0";
+
+            using (var conn = new MySqlConnection(MySQLConnStr.ConnectionString))
+            {
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@vin", vin);
+                cmd.Parameters.AddWithValue("@RequestedStart", requestedStart);
+                cmd.Parameters.AddWithValue("@RequestedEnd", requestedEnd);
+                cmd.Parameters.AddWithValue("@Buffer", bufferHours);
+
+                conn.Open();
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        conflicts.Add(new Booking
+                        {
+                            BookingID = reader.GetInt32("BookingID"),
+                            FirstName = reader.GetString("FirstName"),
+                            LastName = reader.GetString("LastName"),
+                            VehicleName = reader.GetString("VehicleName"),
+                            DateSchedOut = reader.GetDateTime("DateSchedOut"),
+                            DateDue = reader.GetDateTime("DateDue")
+                        });
+                    }
+                }
+            }
+            return conflicts;
         }
     }
 }
