@@ -36,6 +36,7 @@ namespace ClientManagementSubsystem.classes
                             BookingID = reader.GetInt32("BookingID"),
                             FirstName = reader.GetString("FirstName"),
                             LastName = reader.GetString("LastName"),
+                            LicenseNumber = reader.GetString("LicenseNum"),
                             DateOfBirth = reader.GetDateTime("DateOfBirth"),
                             Email = reader.GetString("Email"),
                             PhoneNumber = reader.GetString("PhoneNumber"),

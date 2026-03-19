@@ -1,4 +1,5 @@
 ﻿using ClientManagementSubsystem.classes;
+using ClientManagementSubsystem.models;
 using ClientManagementSubsystem.Models;
 using ClientManagementSubsystem.userControls;
 using System;
@@ -16,6 +17,8 @@ namespace ClientManagementSubsystem
     public partial class bookingsUserControl : UserControl
     {
         DatabaseManager db = new DatabaseManager();
+        private Booking originalBooking;
+        private PendingInfos currentPendingInfo;
 
         public bookingsUserControl()
         {
@@ -23,48 +26,124 @@ namespace ClientManagementSubsystem
             pendingSelected.Visible = true;
             approvedSelected.Visible = false;
             LoadBookingCards();
-            // LoadBookings();
+            // LoadBookings(); for noDB test purposes
         }
 
         private void LoadBookingCards()
         {
             try
             {
-                // 1. Fetch data for 'Pending' status (or change as needed for other panels)
                 List<Booking> bookings = db.GetBookingsByStatus("Pending");
-
-                // 2. Clear existing cards to prevent stacking on refresh
                 bookingListPanel.Controls.Clear();
 
-                // 3. Loop through the list and create cards
                 foreach (Booking booking in bookings)
                 {
                     BookingCard card = new BookingCard();
-
-                    // This calls the Populate method we just finished!
                     card.Populate(booking);
-
-                    // Set the VehicleName explicitly if your Populate method doesn't do it yet
                     card.VehicleName = booking.VehicleName;
 
-                    // Subscribe to the select event if you want to open details on click
-                    card.OnSelect += (s, e) => {
-                        OpenBookingDetails(booking);
+                    card.OnSelect += (s, e) =>
+                    {
+                        BookingCard clickedCard = (BookingCard)s;
+
+                        originalBooking = clickedCard.BookingData;
+
+                        currentPendingInfo = MapToPendingInfo(originalBooking);
+
+                        DisplayBookingDetails(currentPendingInfo);
                     };
 
                     bookingListPanel.Controls.Add(card);
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
+            CenterCards();
+        }
+
+        private PendingInfos MapToPendingInfo(Booking b)
+        {
+            return new PendingInfos
             {
-                MessageBox.Show("Error loading bookings: " + ex.Message);
+                BookingID = b.BookingID,
+                FirstName = b.FirstName,
+                LastName = b.LastName,
+                LicenseNumber = b.LicenseNumber,
+                DateOfBirth = b.DateOfBirth,
+                Email = b.Email,
+                PhoneNumber = b.PhoneNumber,
+                VehicleVIN = b.VehicleVIN,
+                VehicleName = b.VehicleName,
+                LicensePlate = b.LicensePlate,
+                ImagePath = b.ImagePath,
+                DateSchedOut = b.DateSchedOut,
+                DateDue = b.DateDue,
+                DateSubmitted = b.DateSubmitted
+            };
+        }
+
+        private void DisplayBookingDetails(PendingInfos b)
+        {
+            lblBookingIDValue.Text = b.BookingID.ToString();
+            firstNameTextBox.Text = b.FirstName;
+            lastNameTextBox.Text = b.LastName;
+            customerLicenseTextBox.Text = b.LicenseNumber;
+            customerEmailTextBox.Text = b.Email;
+            customerContactNumTextBox.Text = b.PhoneNumber;
+            customerBdayDTP.Value = b.DateOfBirth;
+            customerAgeTextBox.Text = b.Age.ToString();
+
+            lblDateofRequestValue.Text = GetRequestDate(b.DateSubmitted);
+
+            vehicleLicenseTextBox.Text = b.LicensePlate;
+            vehicleNameTextBox.Text = b.VehicleName;
+
+            rentalDateStartDTP.Value = b.DateSchedOut;
+            rentalDateEndDTP.Value = b.DateDue;
+
+            lblRentalTimeValue.Text = GetRentalDuration(b.DateSchedOut, b.DateDue);
+
+            if (!string.IsNullOrEmpty(b.ImagePath))
+            {
+                vehiclePictureBox.ImageLocation = b.ImagePath;
+            }
+            else
+            {
+                vehiclePictureBox.Image = Properties.Resources.defaultVehicle;
             }
         }
 
-        private void OpenBookingDetails(Booking b)
+        private string GetRequestDate(DateTime date)
         {
-            // This is where you would show the full info for the Inbound process
-            Console.WriteLine($"Selected Booking #{b.BookingID} for {b.FullName}");
+            DateTime now = DateTime.Now;
+
+            if (date.Date == now.Date)
+            {
+                return $"Today at {date:hh:mm tt}";
+            }
+            else if (date.Date == now.AddDays(-1).Date)
+            {
+                return $"Yesterday at {date:hh:mm tt}";
+            }
+            else
+            {
+                return date.ToString("MM/dd/yyyy hh:mm tt");
+            }
+        }
+
+        private string GetRentalDuration(DateTime start, DateTime end)
+        {
+            TimeSpan duration = end - start;
+
+            if (duration.TotalSeconds <= 0) return "Invalid Duration";
+
+            int days = duration.Days;
+            int hours = duration.Hours;
+
+            string dayPart = days > 0 ? $"{days} {(days == 1 ? "Day" : "Days")}" : "";
+            string hourPart = hours > 0 ? $"{hours} {(hours == 1 ? "Hour" : "Hours")}" : "";
+
+            if (days > 0 && hours > 0) return $"{dayPart}, {hourPart}";
+            return string.IsNullOrEmpty(dayPart) ? hourPart : dayPart;
         }
 
         public void LoadBookings()
@@ -79,11 +158,11 @@ namespace ClientManagementSubsystem
                 card.VehicleName = "Toyota Vios";
                 card.ClientName = "John Doe";
                 card.BookingID = i;
-                
+
                 card.OnSelect += (s, e) =>
                 {
                     MessageBox.Show($"You clicked booking #{card.BookingID}");
-                 };
+                };
 
                 bookingListPanel.Controls.Add(card);
             }
@@ -120,7 +199,6 @@ namespace ClientManagementSubsystem
             approvedSelected.Visible = true;
             pendingSelected.Visible = false;
         }
-
 
     }
 }

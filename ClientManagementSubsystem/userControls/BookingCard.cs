@@ -9,7 +9,6 @@ namespace ClientManagementSubsystem.userControls
     {
         public event EventHandler OnSelect;
 
-        // Stores the full data for later use (e.g. double-clicking to open details)
         public Booking BookingData { get; private set; }
 
         public BookingCard()
@@ -23,27 +22,27 @@ namespace ClientManagementSubsystem.userControls
         {
             this.BookingData = booking;
 
-            // Basic Info
             this.ClientName = booking.FullName;
             this.BookingID = booking.BookingID;
 
-            // Dates Section
             lblDateOut.Text = booking.DateSchedOut.ToString("MMM dd, hh:mm tt");
             lblDateIn.Text = booking.DateDue.ToString("MMM dd, hh:mm tt");
             lblTimeAgo.Text = GetTimeAgo(booking.DateSubmitted);
         }
 
-
-        // Helper to make the "Time Ago" look natural
         private string GetTimeAgo(DateTime dateTime)
         {
             TimeSpan timeSpan = DateTime.Now - dateTime;
 
             if (timeSpan.TotalMinutes < 1) return "Just now";
+            if (timeSpan.TotalMinutes < 2) return $"{(int)timeSpan.TotalMinutes} a minute ago";
             if (timeSpan.TotalMinutes < 60) return $"{(int)timeSpan.TotalMinutes} minutes ago";
+            if (timeSpan.TotalHours < 2) return $"{(int)timeSpan.TotalHours} an hour ago";
             if (timeSpan.TotalHours < 24) return $"{(int)timeSpan.TotalHours} hours ago";
+            if (timeSpan.TotalDays < 2) return $"{(int)timeSpan.TotalDays} Yesterday";
+            if (timeSpan.TotalDays < 7) return $"{(int)timeSpan.TotalDays} days ago";
 
-            return dateTime.ToString("MMM dd"); // Fallback to date if older than a day
+            return dateTime.ToString("MMM dd");
         }
 
         private void WireAllControls(Control parent)
@@ -60,7 +59,6 @@ namespace ClientManagementSubsystem.userControls
             OnSelect?.Invoke(this, e);
         }
 
-        // --- Properties linked to Labels ---
         public string VehicleName { get { return lblVehicle.Text; } set { lblVehicle.Text = value; } }
         public string ClientName { get { return lblClient.Text; } set { lblClient.Text = value; } }
 

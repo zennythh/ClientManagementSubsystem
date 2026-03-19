@@ -10,18 +10,17 @@ namespace ClientManagementSubsystem.models
     {
         // Identification
         public int BookingID { get; set; }
-        public string Status { get; set; }
         public DateTime DateSubmitted { get; set; }
 
         // Customer Details
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string FullName => $"{FirstName} {LastName}";
+        public string LicenseNumber { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
 
-        // Vehicle Details (The stuff the Clerk checks against the lot)
+        // Vehicle Details 
         public string VehicleVIN { get; set; }
         public string VehicleName { get; set; } 
         public string LicensePlate { get; set; }
