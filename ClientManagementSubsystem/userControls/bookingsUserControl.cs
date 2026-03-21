@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace ClientManagementSubsystem
 {
@@ -19,6 +20,7 @@ namespace ClientManagementSubsystem
         BookingHandler db = new BookingHandler();
         private Booking originalBooking;
         private PendingInfos currentPendingInfo;
+        private bool isSyncing = false; 
 
         public bookingsUserControl()
         {
@@ -57,6 +59,32 @@ namespace ClientManagementSubsystem
                 }
             }
             catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
+            CenterCards();
+        }
+        // DBLESS TEST PURPOSES!!
+        // UNCOMMENT THE LoadBookingCards() CALL IN THE CONSTRUCTOR TO USE THIS
+        public void LoadBookings()
+        {
+            bookingListPanel.Controls.Clear();
+            bookingListPanel.SuspendLayout();
+
+            for (int i = 0; i < 12; i++)
+            {
+                BookingCard card = new BookingCard();
+
+                card.VehicleName = "Toyota Vios";
+                card.ClientName = "John Doe";
+                card.BookingID = i;
+
+                card.OnSelect += (s, e) =>
+                {
+                    MessageBox.Show($"You clicked booking #{card.BookingID}");
+                };
+
+                bookingListPanel.Controls.Add(card);
+            }
+
+            bookingListPanel.ResumeLayout();
             CenterCards();
         }
 
@@ -98,8 +126,10 @@ namespace ClientManagementSubsystem
             vehicleLicenseTextBox.Text = b.LicensePlate;
             vehicleNameTextBox.Text = b.VehicleName;
 
+            isSyncing = true; 
             rentalDateStartDTP.Value = b.DateSchedOut;
             rentalDateEndDTP.Value = b.DateDue;
+            isSyncing = false;
 
             lblRentalTimeValue.Text = GetRentalDuration(b.DateSchedOut, b.DateDue);
 
@@ -147,20 +177,10 @@ namespace ClientManagementSubsystem
                     conflictFlowPanel.Controls.Add(lblNoBookingConflicts);
                 }
                 lblNoBookingConflicts.Visible = true;
-                lblNoBookingConflicts.Margin = new Padding((conflictFlowPanel.Width - lblNoBookingConflicts.Width) / 2, 20, 0, 0);
+                //lblNoBookingConflicts.Margin = new Padding((conflictFlowPanel.Width - lblNoBookingConflicts.Width) / 2, 20, 0, 0);
             }
         }
 
-        private void rentalDate_ValueChanged(object sender, EventArgs e)
-        {
-            if (currentPendingInfo != null)
-            {
-                currentPendingInfo.DateSchedOut = rentalDateStartDTP.Value;
-                currentPendingInfo.DateDue = rentalDateEndDTP.Value;
-
-                DisplayBookingDetails(currentPendingInfo);
-            }
-        }
         private string GetRequestDate(DateTime date)
         {
             DateTime now = DateTime.Now;
@@ -183,7 +203,11 @@ namespace ClientManagementSubsystem
         {
             TimeSpan duration = end - start;
 
-            if (duration.TotalSeconds <= 0) return "Invalid Duration";
+            if (duration.TotalSeconds <= 0)
+            {
+                lblRentalTimeValue.ForeColor = Color.Red;
+                return "Invalid Duration";
+            }
 
             int days = duration.Days;
             int hours = duration.Hours;
@@ -192,32 +216,49 @@ namespace ClientManagementSubsystem
             string hourPart = hours > 0 ? $"{hours} {(hours == 1 ? "Hour" : "Hours")}" : "";
 
             if (days > 0 && hours > 0) return $"{dayPart}, {hourPart}";
+            lblRentalTimeValue.ForeColor = Color.Black;
             return string.IsNullOrEmpty(dayPart) ? hourPart : dayPart;
         }
 
-        public void LoadBookings()
+        private void RefreshConflictSection()
         {
-            bookingListPanel.Controls.Clear();
-            bookingListPanel.SuspendLayout();
+            if (currentPendingInfo == null) return;
 
-            for (int i = 0; i < 12; i++)
+            lblRentalTimeValue.Text = GetRentalDuration(rentalDateStartDTP.Value, rentalDateEndDTP.Value);
+
+
+            conflictFlowPanel.Controls.Clear();
+            lblBookingConflicts.Visible = false;
+            lblNoBookingConflicts.Visible = false;
+
+            var conflicts = BookingHandler.GetConflictingBookings(
+                            currentPendingInfo.BookingID, 
+                            currentPendingInfo.VehicleVIN,
+                            rentalDateStartDTP.Value,     
+                            rentalDateEndDTP.Value        
+                            );
+
+            // Repopulate the panel
+            if (conflicts.Count > 0)
             {
-                BookingCard card = new BookingCard();
-
-                card.VehicleName = "Toyota Vios";
-                card.ClientName = "John Doe";
-                card.BookingID = i;
-
-                card.OnSelect += (s, e) =>
+                lblBookingConflicts.Visible = true;
+                foreach (var conflict in conflicts)
                 {
-                    MessageBox.Show($"You clicked booking #{card.BookingID}");
-                };
-
-                bookingListPanel.Controls.Add(card);
+                    ConflictBookingCard miniCard = new ConflictBookingCard();
+                    miniCard.Populate(conflict);
+                    conflictFlowPanel.Controls.Add(miniCard);
+                }
+                CenterConflictCards();
             }
-
-            bookingListPanel.ResumeLayout();
-            CenterCards();
+            else
+            {
+                if (!conflictFlowPanel.Controls.Contains(lblNoBookingConflicts))
+                {
+                    conflictFlowPanel.Controls.Add(lblNoBookingConflicts);
+                }
+                lblNoBookingConflicts.Visible = true;
+                lblNoBookingConflicts.Margin = new Padding((conflictFlowPanel.Width - lblNoBookingConflicts.Width) / 2, 20, 0, 0);
+            }
         }
 
         // Centering the cards
@@ -239,27 +280,21 @@ namespace ClientManagementSubsystem
 
         private void CenterConflictCards()
         {
-            // 1. Calculate the total width of all cards + their margins
             int totalCardsWidth = 0;
             foreach (Control card in conflictFlowPanel.Controls)
             {
-                // Width + Left/Right Margins
                 totalCardsWidth += card.Width + card.Margin.Horizontal;
             }
 
-            // 2. Check if the cards are narrower than the panel
             if (totalCardsWidth + 20 < conflictFlowPanel.Width)
             {
-                // Calculate the necessary left padding to push them to the center
                 int offset = (conflictFlowPanel.Width - totalCardsWidth) / 2;
                 conflictFlowPanel.Padding = new Padding(offset, 0, 0, 0);
 
-                // Disable the scrollbar when centered (it's not needed)
                 conflictFlowPanel.AutoScroll = false;
             }
             else
             {
-                // If they overflow, reset padding to 0 and enable the scrollbar
                 conflictFlowPanel.Padding = new Padding(0);
                 conflictFlowPanel.AutoScroll = true;
             }
@@ -277,6 +312,88 @@ namespace ClientManagementSubsystem
             approvedSelected.Visible = true;
             pendingSelected.Visible = false;
         }
+
+        private void approveBtn_Click(object sender, EventArgs e)
+        {
+            if (currentPendingInfo == null || originalBooking == null) return;
+
+            // 1. Sync the TextBoxes back to currentPendingInfo 
+            // (Dates are already synced via the ValueChanged event)
+            currentPendingInfo.FirstName = firstNameTextBox.Text;
+            currentPendingInfo.LastName = lastNameTextBox.Text;
+            currentPendingInfo.LicenseNumber = customerLicenseTextBox.Text;
+            currentPendingInfo.Email = customerEmailTextBox.Text;
+            currentPendingInfo.PhoneNumber = customerContactNumTextBox.Text;
+            currentPendingInfo.DateOfBirth = customerBdayDTP.Value;
+
+            // 2. Compare currentPendingInfo vs originalBooking
+            List<string> changes = new List<string>();
+
+            if (currentPendingInfo.FirstName != originalBooking.FirstName)
+                changes.Add($"• Name: {originalBooking.FirstName} → {currentPendingInfo.FirstName}");
+
+            if (currentPendingInfo.LastName != originalBooking.LastName)
+                changes.Add($"• Last Name: {originalBooking.LastName} → {currentPendingInfo.LastName}");
+
+            if (currentPendingInfo.LicenseNumber != originalBooking.LicenseNumber)
+                changes.Add($"• License: {originalBooking.LicenseNumber} → {currentPendingInfo.LicenseNumber}");
+
+            if (currentPendingInfo.Email != originalBooking.Email)
+                changes.Add($"• Email: {originalBooking.Email} → {currentPendingInfo.Email}");
+
+            if (currentPendingInfo.PhoneNumber != originalBooking.PhoneNumber)
+                changes.Add($"• Contact: {originalBooking.PhoneNumber} → {currentPendingInfo.PhoneNumber}");
+
+            if (currentPendingInfo.DateOfBirth != originalBooking.DateOfBirth)
+                changes.Add($"• DOB: {originalBooking.DateOfBirth:MMM dd, yyyy} → {currentPendingInfo.DateOfBirth:MMM dd, yyyy}");
+
+            if (currentPendingInfo.DateSchedOut != originalBooking.DateSchedOut)
+                changes.Add($"• Start: {originalBooking.DateSchedOut:MMM dd, hh:mm tt} → {currentPendingInfo.DateSchedOut:MMM dd, hh:mm tt}");
+
+            if (currentPendingInfo.DateDue != originalBooking.DateDue)
+                changes.Add($"• Return: {originalBooking.DateDue:MMM dd, hh:mm tt} → {currentPendingInfo.DateDue:MMM dd, hh:mm tt}");
+
+
+            var conflicts = BookingHandler.GetConflictingBookings(
+                currentPendingInfo.BookingID, currentPendingInfo.VehicleVIN,
+                currentPendingInfo.DateSchedOut, currentPendingInfo.DateDue);
+
+            string alertMessage = "Are you sure you want to approve this booking?";
+
+            if (changes.Count > 0)
+                alertMessage = "CONFIRM UPDATES:\n" + string.Join("\n", changes) + "\n\n" + alertMessage;
+
+            if (conflicts.Count > 0)
+                alertMessage = "⚠️ WARNING: There are still schedule conflicts!\n\n" + alertMessage;
+
+            DialogResult result = MessageBox.Show(alertMessage, "Final Approval",
+                                  MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
+            {
+                // ExecuteApproval();
+            }
+
+
+        }
+
+
+        // Event listeners
+        private void rentalDate_ValueChanged(object sender, EventArgs e)
+        {
+            // Prevent the event from firing recursively or before info is loaded
+            if (currentPendingInfo == null || isSyncing) return;
+
+            isSyncing = true; // Lock
+
+            currentPendingInfo.DateSchedOut = rentalDateStartDTP.Value;
+            currentPendingInfo.DateDue = rentalDateEndDTP.Value;
+
+            RefreshConflictSection();
+
+            isSyncing = false; // Unlock
+        }
+         
 
     }
 }
