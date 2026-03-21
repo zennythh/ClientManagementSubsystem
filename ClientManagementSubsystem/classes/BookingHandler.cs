@@ -15,7 +15,7 @@ namespace ClientManagementSubsystem.classes
         public List<Booking> GetBookingsByStatus(string status)
         {
             List<Booking> list = new List<Booking>();
-            string query = @"SELECT b.*, CONCAT(v.Manufacturer, ' ', v.Model) AS FullVehicleName, v.LicensePlate, v.ImagePath
+            string query = @"SELECT b.*, CONCAT(v.Manufacturer, ' ', v.Model) AS FullVehicleName, v.LicensePlate, v.ImagePath, v.DailyRate
                             FROM Bookings b
                             JOIN Vehicles v ON b.VehicleVIN = v.VIN
                             WHERE b.Status = @status AND b.Deleted = 0
@@ -48,6 +48,8 @@ namespace ClientManagementSubsystem.classes
                             DateSubmitted = reader.GetDateTime("DateSubmitted"),
                             DateSchedOut = reader.GetDateTime("DateSchedOut"),
                             DateDue = reader.GetDateTime("DateDue"),
+                            DailyRate = reader.GetDecimal("DailyRate"),
+                            ProjectedPrice = reader.GetDecimal("ProjectedPrice"),
 
                             // Nullables
                             DateOut = reader.IsDBNull(reader.GetOrdinal("DateOut")) ? (DateTime?)null : reader.GetDateTime("DateOut"),
@@ -55,7 +57,9 @@ namespace ClientManagementSubsystem.classes
                             MileageOut = reader.IsDBNull(reader.GetOrdinal("MileageOut")) ? (int?)null : reader.GetInt32("MileageOut"),
                             MileageIn = reader.IsDBNull(reader.GetOrdinal("MileageIn")) ? (int?)null : reader.GetInt32("MileageIn"),
                             FuelLevelOut = reader.IsDBNull(reader.GetOrdinal("FuelLevelOut")) ? null : reader.GetString("FuelLevelOut"),
-                            FuelLevelIn = reader.IsDBNull(reader.GetOrdinal("FuelLevelIn")) ? null : reader.GetString("FuelLevelIn")
+                            FuelLevelIn = reader.IsDBNull(reader.GetOrdinal("FuelLevelIn")) ? null : reader.GetString("FuelLevelIn"),
+                            AdditionalFees = reader.IsDBNull(reader.GetOrdinal("AdditionalFees")) ? (decimal?)null : reader.GetDecimal("AdditionalFees"),
+                            TotalPrice = reader.IsDBNull(reader.GetOrdinal("TotalPrice")) ? (decimal?)null : reader.GetDecimal("TotalPrice")
                         });
                     }
                 }
@@ -152,10 +156,11 @@ namespace ClientManagementSubsystem.classes
 
                         // 4. APPROVE CURRENT BOOKING
                         string updateBooking = @"UPDATE Bookings SET 
-                                                FirstName=@fn, LastName=@ln, LicenseNum=@lic, Email=@em, PhoneNumber=@ph, 
-                                                DateOfBirth=@dob, DateSchedOut=@start, DateDue=@due, Status='Reserved' 
-                                                WHERE BookingID=@bid";
-                            
+                        FirstName=@fn, LastName=@ln, LicenseNum=@lic, Email=@em, PhoneNumber=@ph, 
+                        DateOfBirth=@dob, DateSchedOut=@start, DateDue=@due, 
+                        ProjectedPrice=@price, Status='Reserved' 
+                        WHERE BookingID=@bid";
+
                         using (var cmd = new MySqlCommand(updateBooking, connection, transaction))
                         {
                             cmd.Parameters.AddWithValue("@fn", info.FirstName);
@@ -166,6 +171,7 @@ namespace ClientManagementSubsystem.classes
                             cmd.Parameters.AddWithValue("@dob", info.DateOfBirth);
                             cmd.Parameters.AddWithValue("@start", info.DateSchedOut);
                             cmd.Parameters.AddWithValue("@due", info.DateDue);
+                            cmd.Parameters.AddWithValue("@price", info.ProjectedPrice); // <-- ADD THIS
                             cmd.Parameters.AddWithValue("@bid", info.BookingID);
                             cmd.ExecuteNonQuery();
                         }
@@ -186,6 +192,33 @@ namespace ClientManagementSubsystem.classes
                         transaction.Rollback();
                         return (false, $"Database Error: {ex.Message}");
                     }
+                }
+            }
+        }
+
+        public (bool success, string message) ProcessRejection(int bookingID)
+        {
+            using (var connection = new MySqlConnection(MySQLConnStr.ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = "UPDATE Bookings SET Status = 'Rejected' WHERE BookingID = @bid";
+
+                    using (var cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@bid", bookingID);
+                        int rows = cmd.ExecuteNonQuery();
+
+                        if (rows > 0)
+                            return (true, "Booking has been rejected.");
+                        else
+                            return (false, "Booking not found or already updated.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return (false, $"Database Error: {ex.Message}");
                 }
             }
         }

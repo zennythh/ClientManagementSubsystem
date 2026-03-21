@@ -73,6 +73,9 @@
             this.approvedSelected = new Guna.UI2.WinForms.Guna2Shapes();
             this.approvedBtn = new Guna.UI2.WinForms.Guna2Button();
             this.pendingBtn = new Guna.UI2.WinForms.Guna2Button();
+            this.lblPriceValue = new System.Windows.Forms.Label();
+            this.lblPrice = new System.Windows.Forms.Label();
+            this.noBookingSelectedPanel = new System.Windows.Forms.Panel();
             this.tableLayoutPanel.SuspendLayout();
             this.bookingPanels.SuspendLayout();
             this.bookingDetailsPanel.SuspendLayout();
@@ -125,6 +128,8 @@
             // bookingDetailsPanel
             // 
             this.bookingDetailsPanel.BorderRadius = 5;
+            this.bookingDetailsPanel.Controls.Add(this.lblPriceValue);
+            this.bookingDetailsPanel.Controls.Add(this.lblPrice);
             this.bookingDetailsPanel.Controls.Add(this.customerBdayDTP);
             this.bookingDetailsPanel.Controls.Add(this.rentalDateEndDTP);
             this.bookingDetailsPanel.Controls.Add(this.rentalDateStartDTP);
@@ -173,7 +178,9 @@
             this.customerBdayDTP.CustomFormat = "MMMM dd, yyyy";
             this.customerBdayDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customerBdayDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.customerBdayDTP.Location = new System.Drawing.Point(28, 453);
+            this.customerBdayDTP.Location = new System.Drawing.Point(117, 413);
+            this.customerBdayDTP.MaxDate = new System.DateTime(2026, 12, 31, 0, 0, 0, 0);
+            this.customerBdayDTP.MinDate = new System.DateTime(1910, 12, 31, 0, 0, 0, 0);
             this.customerBdayDTP.Name = "customerBdayDTP";
             this.customerBdayDTP.Size = new System.Drawing.Size(220, 33);
             this.customerBdayDTP.TabIndex = 44;
@@ -186,7 +193,7 @@
             this.rentalDateEndDTP.CustomFormat = " MM/dd/yyyy hh:mm tt";
             this.rentalDateEndDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rentalDateEndDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.rentalDateEndDTP.Location = new System.Drawing.Point(690, 453);
+            this.rentalDateEndDTP.Location = new System.Drawing.Point(669, 486);
             this.rentalDateEndDTP.Name = "rentalDateEndDTP";
             this.rentalDateEndDTP.Size = new System.Drawing.Size(246, 33);
             this.rentalDateEndDTP.TabIndex = 43;
@@ -199,7 +206,7 @@
             this.rentalDateStartDTP.CustomFormat = " MM/dd/yyyy hh:mm tt";
             this.rentalDateStartDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rentalDateStartDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.rentalDateStartDTP.Location = new System.Drawing.Point(400, 454);
+            this.rentalDateStartDTP.Location = new System.Drawing.Point(669, 447);
             this.rentalDateStartDTP.Name = "rentalDateStartDTP";
             this.rentalDateStartDTP.Size = new System.Drawing.Size(246, 33);
             this.rentalDateStartDTP.TabIndex = 42;
@@ -221,7 +228,7 @@
             this.lblRentalTimeValue.AutoSize = true;
             this.lblRentalTimeValue.BackColor = System.Drawing.Color.Transparent;
             this.lblRentalTimeValue.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRentalTimeValue.Location = new System.Drawing.Point(701, 500);
+            this.lblRentalTimeValue.Location = new System.Drawing.Point(516, 450);
             this.lblRentalTimeValue.Name = "lblRentalTimeValue";
             this.lblRentalTimeValue.Size = new System.Drawing.Size(138, 30);
             this.lblRentalTimeValue.TabIndex = 33;
@@ -232,18 +239,18 @@
             this.lblRentalTime.AutoSize = true;
             this.lblRentalTime.BackColor = System.Drawing.Color.Transparent;
             this.lblRentalTime.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRentalTime.Location = new System.Drawing.Point(514, 500);
+            this.lblRentalTime.Location = new System.Drawing.Point(417, 450);
             this.lblRentalTime.Name = "lblRentalTime";
-            this.lblRentalTime.Size = new System.Drawing.Size(189, 30);
+            this.lblRentalTime.Size = new System.Drawing.Size(106, 30);
             this.lblRentalTime.TabIndex = 32;
-            this.lblRentalTime.Text = "Total Rental Time:";
+            this.lblRentalTime.Text = "Duration:";
             // 
             // lblDateofRequestValue
             // 
             this.lblDateofRequestValue.AutoSize = true;
             this.lblDateofRequestValue.BackColor = System.Drawing.Color.Transparent;
             this.lblDateofRequestValue.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDateofRequestValue.Location = new System.Drawing.Point(285, 500);
+            this.lblDateofRequestValue.Location = new System.Drawing.Point(80, 489);
             this.lblDateofRequestValue.Name = "lblDateofRequestValue";
             this.lblDateofRequestValue.Size = new System.Drawing.Size(211, 30);
             this.lblDateofRequestValue.TabIndex = 31;
@@ -254,7 +261,7 @@
             this.lblDateOfRequest.AutoSize = true;
             this.lblDateOfRequest.BackColor = System.Drawing.Color.Transparent;
             this.lblDateOfRequest.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDateOfRequest.Location = new System.Drawing.Point(110, 500);
+            this.lblDateOfRequest.Location = new System.Drawing.Point(92, 459);
             this.lblDateOfRequest.Name = "lblDateOfRequest";
             this.lblDateOfRequest.Size = new System.Drawing.Size(181, 30);
             this.lblDateOfRequest.TabIndex = 30;
@@ -265,7 +272,7 @@
             this.lblRentalPeriod.AutoSize = true;
             this.lblRentalPeriod.BackColor = System.Drawing.Color.Transparent;
             this.lblRentalPeriod.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRentalPeriod.Location = new System.Drawing.Point(426, 414);
+            this.lblRentalPeriod.Location = new System.Drawing.Point(664, 412);
             this.lblRentalPeriod.Name = "lblRentalPeriod";
             this.lblRentalPeriod.Size = new System.Drawing.Size(144, 30);
             this.lblRentalPeriod.TabIndex = 28;
@@ -276,7 +283,7 @@
             this.lblCustomerAge.AutoSize = true;
             this.lblCustomerAge.BackColor = System.Drawing.Color.Transparent;
             this.lblCustomerAge.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCustomerAge.Location = new System.Drawing.Point(269, 414);
+            this.lblCustomerAge.Location = new System.Drawing.Point(360, 413);
             this.lblCustomerAge.Name = "lblCustomerAge";
             this.lblCustomerAge.Size = new System.Drawing.Size(52, 30);
             this.lblCustomerAge.TabIndex = 26;
@@ -287,7 +294,7 @@
             this.lblCustomerBirthday.AutoSize = true;
             this.lblCustomerBirthday.BackColor = System.Drawing.Color.Transparent;
             this.lblCustomerBirthday.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCustomerBirthday.Location = new System.Drawing.Point(28, 414);
+            this.lblCustomerBirthday.Location = new System.Drawing.Point(14, 417);
             this.lblCustomerBirthday.Name = "lblCustomerBirthday";
             this.lblCustomerBirthday.Size = new System.Drawing.Size(97, 30);
             this.lblCustomerBirthday.TabIndex = 24;
@@ -438,7 +445,7 @@
             this.customerAgeTextBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.customerAgeTextBox.Font = new System.Drawing.Font("Segoe UI Symbol", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customerAgeTextBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.customerAgeTextBox.Location = new System.Drawing.Point(274, 453);
+            this.customerAgeTextBox.Location = new System.Drawing.Point(418, 412);
             this.customerAgeTextBox.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
             this.customerAgeTextBox.Multiline = true;
             this.customerAgeTextBox.Name = "customerAgeTextBox";
@@ -453,7 +460,7 @@
             this.lblto.AutoSize = true;
             this.lblto.BackColor = System.Drawing.Color.Transparent;
             this.lblto.Font = new System.Drawing.Font("Segoe UI Semilight", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblto.Location = new System.Drawing.Point(652, 456);
+            this.lblto.Location = new System.Drawing.Point(921, 450);
             this.lblto.Name = "lblto";
             this.lblto.Size = new System.Drawing.Size(32, 30);
             this.lblto.TabIndex = 13;
@@ -595,6 +602,7 @@
             this.rejectBtn.Text = " Reject";
             this.rejectBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.rejectBtn.UseVisualStyleBackColor = false;
+            this.rejectBtn.Click += new System.EventHandler(this.rejectBtn_Click);
             // 
             // approveBtn
             // 
@@ -668,6 +676,7 @@
             // 
             this.innerHeaderPanel.BackColor = System.Drawing.Color.Transparent;
             this.innerHeaderPanel.BorderRadius = 25;
+            this.innerHeaderPanel.Controls.Add(this.noBookingSelectedPanel);
             this.innerHeaderPanel.Controls.Add(this.pendingSelected);
             this.innerHeaderPanel.Controls.Add(this.approvedSelected);
             this.innerHeaderPanel.Controls.Add(this.approvedBtn);
@@ -759,6 +768,37 @@
             this.pendingBtn.Text = "Pending";
             this.pendingBtn.Click += new System.EventHandler(this.pendingBtn_Click);
             // 
+            // lblPriceValue
+            // 
+            this.lblPriceValue.AutoSize = true;
+            this.lblPriceValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblPriceValue.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPriceValue.Location = new System.Drawing.Point(483, 486);
+            this.lblPriceValue.Name = "lblPriceValue";
+            this.lblPriceValue.Size = new System.Drawing.Size(80, 30);
+            this.lblPriceValue.TabIndex = 46;
+            this.lblPriceValue.Text = "P20002";
+            // 
+            // lblPrice
+            // 
+            this.lblPrice.AutoSize = true;
+            this.lblPrice.BackColor = System.Drawing.Color.Transparent;
+            this.lblPrice.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPrice.Location = new System.Drawing.Point(418, 486);
+            this.lblPrice.Name = "lblPrice";
+            this.lblPrice.Size = new System.Drawing.Size(67, 30);
+            this.lblPrice.TabIndex = 45;
+            this.lblPrice.Text = "Price:";
+            // 
+            // noBookingSelectedPanel
+            // 
+            this.noBookingSelectedPanel.BackColor = System.Drawing.Color.Transparent;
+            this.noBookingSelectedPanel.Location = new System.Drawing.Point(171, 11);
+            this.noBookingSelectedPanel.Name = "noBookingSelectedPanel";
+            this.noBookingSelectedPanel.Size = new System.Drawing.Size(935, 765);
+            this.noBookingSelectedPanel.TabIndex = 47;
+            this.noBookingSelectedPanel.Visible = false;
+            // 
             // bookingsUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -829,5 +869,8 @@
         private System.Windows.Forms.DateTimePicker rentalDateStartDTP;
         private System.Windows.Forms.DateTimePicker rentalDateEndDTP;
         private System.Windows.Forms.DateTimePicker customerBdayDTP;
+        private System.Windows.Forms.Label lblPriceValue;
+        private System.Windows.Forms.Label lblPrice;
+        private System.Windows.Forms.Panel noBookingSelectedPanel;
     }
 }

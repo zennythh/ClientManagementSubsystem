@@ -29,6 +29,11 @@ namespace ClientManagementSubsystem.Models
         public int? MileageIn { get; set; }
         public string FuelLevelOut { get; set; }
         public string FuelLevelIn { get; set; }
+        // Prices
+        public decimal DailyRate { get; set; }
+        public decimal ProjectedPrice { get; set; }
+        public decimal? AdditionalFees { get; set; }
+        public decimal? TotalPrice { get; set ; }
 
         public string FullName => $"{FirstName} {LastName}";
 

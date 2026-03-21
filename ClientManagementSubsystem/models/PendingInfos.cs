@@ -27,6 +27,10 @@ namespace ClientManagementSubsystem.models
         public string LicensePlate { get; set; }
         public string ImagePath { get; set; } 
         public string FullImagePath  => System.IO.Path.Combine(ClientManagementSubsystem.classes.RoamingPath.roamingBase, "CarRentalApp", ImagePath);
+
+        public decimal ProjectedPrice { get; set; }
+        public decimal DailyRate { get; set; }
+
         // Schedule Details
         public DateTime DateSchedOut { get; set; }
         public DateTime DateDue { get; set; }

@@ -105,7 +105,9 @@ namespace ClientManagementSubsystem
                 ImagePath = b.ImagePath,
                 DateSchedOut = b.DateSchedOut,
                 DateDue = b.DateDue,
-                DateSubmitted = b.DateSubmitted
+                DateSubmitted = b.DateSubmitted,
+                DailyRate = b.DailyRate,
+                ProjectedPrice = b.ProjectedPrice
             };
         }
 
@@ -129,6 +131,7 @@ namespace ClientManagementSubsystem
             isSyncing = true; 
             rentalDateStartDTP.Value = b.DateSchedOut;
             rentalDateEndDTP.Value = b.DateDue;
+            lblPriceValue.Text = "₱" + b.ProjectedPrice.ToString("N2");
             isSyncing = false;
 
             lblRentalTimeValue.Text = GetRentalDuration(b.DateSchedOut, b.DateDue);
@@ -206,37 +209,79 @@ namespace ClientManagementSubsystem
             if (duration.TotalSeconds <= 0)
             {
                 lblRentalTimeValue.ForeColor = Color.Red;
-                return "Invalid Duration";
+                return "Invalid Dates";
             }
 
             int days = duration.Days;
             int hours = duration.Hours;
 
             string dayPart = days > 0 ? $"{days} {(days == 1 ? "Day" : "Days")}" : "";
-            string hourPart = hours > 0 ? $"{hours} {(hours == 1 ? "Hour" : "Hours")}" : "";
+            string hourPart = hours > 0 ? $"{hours} {(hours == 1 ? "Hour" : "Hrs")}" : "";
 
             if (days > 0 && hours > 0) return $"{dayPart}, {hourPart}";
             lblRentalTimeValue.ForeColor = Color.Black;
             return string.IsNullOrEmpty(dayPart) ? hourPart : dayPart;
         }
 
-        private void RefreshConflictSection()
+        private bool IsDatePeriodValid(out string errorMessage)
+        {
+            errorMessage = string.Empty;
 
+            if (rentalDateEndDTP.Value <= rentalDateStartDTP.Value)
+            {
+                errorMessage = "Return date must be after the pickup date.";
+                return false;
+            }
+
+            // Optional: Prevent bookings in the past (if you want to enforce this)
+            //if (rentalDateStartDTP.Value < DateTime.Now.AddMinutes(-15)) // 15-min grace period
+            //{
+            //    errorMessage = "Pickup date cannot be in the past.";
+            //    return false;
+            //}
+
+
+            return true;
+        }
+
+        private void RefreshConflictSection()
         {
             if (currentPendingInfo == null) return;
+
+            // 1. Run Validation
+            bool isValid = IsDatePeriodValid(out string error);
+
+            if (!isValid)
+            {
+                // UI Feedback for Error State
+                lblRentalTimeValue.Text = "Invalid Data";
+                lblRentalTimeValue.ForeColor = Color.Red;
+                lblPriceValue.Text = "₱0.00";
+                currentPendingInfo.ProjectedPrice = 0;
+
+                conflictFlowPanel.Controls.Clear();
+                lblBookingConflicts.Visible = false;
+                return; // Exit early
+            }
+
+            // 2. UI Reset for Success State
+            lblRentalTimeValue.ForeColor = Color.Black;
+
+            // 3. Logic & Calculation
+            decimal newPrice = CalculateProjectedPrice(rentalDateStartDTP.Value, rentalDateEndDTP.Value, currentPendingInfo.DailyRate);
+            lblPriceValue.Text = "₱" + newPrice.ToString("N2");
+            currentPendingInfo.ProjectedPrice = newPrice;
+
+            // Use the duration helper
             lblRentalTimeValue.Text = GetRentalDuration(rentalDateStartDTP.Value, rentalDateEndDTP.Value);
 
+            // 4. Conflict Checking (Existing Logic)
             conflictFlowPanel.Controls.Clear();
-            lblBookingConflicts.Visible = false;
-            lblNoBookingConflicts.Visible = false;
-
             var conflicts = BookingHandler.GetConflictingBookings(
-                            currentPendingInfo.BookingID,
-                            currentPendingInfo.VehicleVIN,
-                            rentalDateStartDTP.Value,
-                            rentalDateEndDTP.Value
-                            );
-            // Repopulate the panel
+                                currentPendingInfo.BookingID,
+                                currentPendingInfo.VehicleVIN,
+                                rentalDateStartDTP.Value,
+                                rentalDateEndDTP.Value);
 
             if (conflicts.Count > 0)
             {
@@ -251,18 +296,12 @@ namespace ClientManagementSubsystem
             }
             else
             {
-
+                lblBookingConflicts.Visible = false;
                 if (!conflictFlowPanel.Controls.Contains(lblNoBookingConflicts))
-                {
                     conflictFlowPanel.Controls.Add(lblNoBookingConflicts);
-                }
                 lblNoBookingConflicts.Visible = true;
-                lblNoBookingConflicts.Margin = new Padding((conflictFlowPanel.Width - lblNoBookingConflicts.Width) / 2, 20, 0, 0);
-
             }
-
         }
-
 
         private void ClearDetails()
         {
@@ -278,6 +317,16 @@ namespace ClientManagementSubsystem
             lblBookingIDValue.Text = "---";
             conflictFlowPanel.Controls.Clear();
             vehiclePictureBox.Image = Properties.Resources.defaultVehicle;
+        }
+
+        private decimal CalculateProjectedPrice(DateTime start, DateTime end, decimal dailyRate)
+        {
+            TimeSpan duration = end - start;
+            if (duration.TotalSeconds <= 0) return 0;
+
+            // Round up to the nearest full day (e.g., 25 hours = 2 days)
+            int totalDays = (int)Math.Ceiling(duration.TotalHours / 24.0);
+            return totalDays * dailyRate;
         }
 
         // Centering the cards
@@ -335,6 +384,13 @@ namespace ClientManagementSubsystem
         private void approveBtn_Click(object sender, EventArgs e)
         {
             if (currentPendingInfo == null || originalBooking == null) return;
+
+            // FINAL DATE CHECK
+            if (!IsDatePeriodValid(out string error))
+            {
+                MessageBox.Show($"🛑 Invalid Dates: {error}", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             // 1. Sync UI to currentPendingInfo
             currentPendingInfo.FirstName = firstNameTextBox.Text;
@@ -437,17 +493,20 @@ namespace ClientManagementSubsystem
         // Event listeners
         private void rentalDate_ValueChanged(object sender, EventArgs e)
         {
-            // Prevent the event from firing recursively or before info is loaded
             if (currentPendingInfo == null || isSyncing) return;
 
-            isSyncing = true; // Lock
+            try
+            {
+                isSyncing = true;
+                currentPendingInfo.DateSchedOut = rentalDateStartDTP.Value;
+                currentPendingInfo.DateDue = rentalDateEndDTP.Value;
 
-            currentPendingInfo.DateSchedOut = rentalDateStartDTP.Value;
-            currentPendingInfo.DateDue = rentalDateEndDTP.Value;
-
-            RefreshConflictSection();
-
-            isSyncing = false; // Unlock
+                RefreshConflictSection();
+            }
+            finally
+            {
+                isSyncing = false; // This ALWAYS runs, even if RefreshConflictSection crashes
+            }
         }
 
         // Add this helper in the bookingsUserControl class (below other private methods)
@@ -469,6 +528,35 @@ namespace ClientManagementSubsystem
             var pendingList = conflicts.Where(c => c.Status == "Pending").ToList();
 
             return (hardDirect, bufferOverlaps, pendingList);
+        }
+
+        private void rejectBtn_Click(object sender, EventArgs e)
+        {
+            // 1. Validation: Ensure a booking is actually selected
+            if (currentPendingInfo == null) return;
+
+            // 2. Confirmation: Ask the user to be sure
+            string msg = $"Are you sure you want to REJECT the booking for {currentPendingInfo.FirstName} {currentPendingInfo.LastName}?\n\nThis action cannot be undone.";
+            DialogResult result = MessageBox.Show(msg, "Confirm Rejection", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
+            {
+                // 3. Execute: Call the DB handler
+                var dbResult = db.ProcessRejection(currentPendingInfo.BookingID);
+
+                if (dbResult.success)
+                {
+                    MessageBox.Show(dbResult.message, "Rejected", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // 4. Cleanup: Refresh the list and clear the details panel
+                    LoadBookingCards();
+                    ClearDetails();
+                }
+                else
+                {
+                    MessageBox.Show(dbResult.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }
