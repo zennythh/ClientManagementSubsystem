@@ -1,17 +1,56 @@
 ﻿using ClientManagementSubsystem.classes;
 using ClientManagementSubsystem.models;
 using ClientManagementSubsystem.Models;
-using MySql.Data.MySqlClient; 
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClientManagementSubsystem.classes
 {
     internal class BookingHandler
     {
+        // --- THE MAPPING HELPER ---
+        private Booking MapReaderToBooking(MySqlDataReader reader)
+        {
+            // First, identify columns that might have different names depending on the JOIN
+            // In some queries you use 'FullVehicleName', in others 'VehicleName'
+            string vehicleNameCol = "FullVehicleName";
+            if (reader.GetSchemaTable().Select("ColumnName = 'VehicleName'").Length > 0)
+                vehicleNameCol = "VehicleName";
+
+            return new Booking
+            {
+                BookingID = reader.GetInt32("BookingID"),
+                FirstName = reader.GetString("FirstName"),
+                LastName = reader.GetString("LastName"),
+                LicenseNumber = reader.GetString("LicenseNum"),
+                DateOfBirth = reader.GetDateTime("DateOfBirth"),
+                Email = reader.GetString("Email"),
+                PhoneNumber = reader.GetString("PhoneNumber"),
+                VehicleVIN = reader.GetString("VehicleVIN"),
+                VehicleName = reader.GetString(vehicleNameCol),
+                LicensePlate = reader.GetString("LicensePlate"),
+                ImagePath = reader.GetString("ImagePath"),
+                Status = reader.GetString("Status"),
+                DateSubmitted = reader.GetDateTime("DateSubmitted"),
+                DateSchedOut = reader.GetDateTime("DateSchedOut"),
+                DateDue = reader.GetDateTime("DateDue"),
+                DailyRate = reader.GetDecimal("DailyRate"),
+                ProjectedPrice = reader.GetDecimal("ProjectedPrice"),
+
+                // Nullables
+                DateOut = reader.IsDBNull(reader.GetOrdinal("DateOut")) ? (DateTime?)null : reader.GetDateTime("DateOut"),
+                DateIn = reader.IsDBNull(reader.GetOrdinal("DateIn")) ? (DateTime?)null : reader.GetDateTime("DateIn"),
+                MileageOut = reader.IsDBNull(reader.GetOrdinal("MileageOut")) ? (int?)null : reader.GetInt32("MileageOut"),
+                MileageIn = reader.IsDBNull(reader.GetOrdinal("MileageIn")) ? (int?)null : reader.GetInt32("MileageIn"),
+                FuelLevelOut = reader.IsDBNull(reader.GetOrdinal("FuelLevelOut")) ? null : reader.GetString("FuelLevelOut"),
+                FuelLevelIn = reader.IsDBNull(reader.GetOrdinal("FuelLevelIn")) ? null : reader.GetString("FuelLevelIn"),
+                AdditionalFees = reader.IsDBNull(reader.GetOrdinal("AdditionalFees")) ? (decimal?)null : reader.GetDecimal("AdditionalFees"),
+                TotalPrice = reader.IsDBNull(reader.GetOrdinal("TotalPrice")) ? (decimal?)null : reader.GetDecimal("TotalPrice")
+            };
+        }
+
         public List<Booking> GetBookingsByStatus(string status)
         {
             List<Booking> list = new List<Booking>();
@@ -31,40 +70,52 @@ namespace ClientManagementSubsystem.classes
                 {
                     while (reader.Read())
                     {
-                        list.Add(new Booking
-                        {
-                            BookingID = reader.GetInt32("BookingID"),
-                            FirstName = reader.GetString("FirstName"),
-                            LastName = reader.GetString("LastName"),
-                            LicenseNumber = reader.GetString("LicenseNum"),
-                            DateOfBirth = reader.GetDateTime("DateOfBirth"),
-                            Email = reader.GetString("Email"),
-                            PhoneNumber = reader.GetString("PhoneNumber"),
-                            VehicleVIN = reader.GetString("VehicleVIN"),
-                            VehicleName = reader.GetString("FullVehicleName"),
-                            LicensePlate = reader.GetString("LicensePlate"),
-                            ImagePath = reader.GetString("ImagePath"),
-                            Status = reader.GetString("Status"),
-                            DateSubmitted = reader.GetDateTime("DateSubmitted"),
-                            DateSchedOut = reader.GetDateTime("DateSchedOut"),
-                            DateDue = reader.GetDateTime("DateDue"),
-                            DailyRate = reader.GetDecimal("DailyRate"),
-                            ProjectedPrice = reader.GetDecimal("ProjectedPrice"),
-
-                            // Nullables
-                            DateOut = reader.IsDBNull(reader.GetOrdinal("DateOut")) ? (DateTime?)null : reader.GetDateTime("DateOut"),
-                            DateIn = reader.IsDBNull(reader.GetOrdinal("DateIn")) ? (DateTime?)null : reader.GetDateTime("DateIn"),
-                            MileageOut = reader.IsDBNull(reader.GetOrdinal("MileageOut")) ? (int?)null : reader.GetInt32("MileageOut"),
-                            MileageIn = reader.IsDBNull(reader.GetOrdinal("MileageIn")) ? (int?)null : reader.GetInt32("MileageIn"),
-                            FuelLevelOut = reader.IsDBNull(reader.GetOrdinal("FuelLevelOut")) ? null : reader.GetString("FuelLevelOut"),
-                            FuelLevelIn = reader.IsDBNull(reader.GetOrdinal("FuelLevelIn")) ? null : reader.GetString("FuelLevelIn"),
-                            AdditionalFees = reader.IsDBNull(reader.GetOrdinal("AdditionalFees")) ? (decimal?)null : reader.GetDecimal("AdditionalFees"),
-                            TotalPrice = reader.IsDBNull(reader.GetOrdinal("TotalPrice")) ? (decimal?)null : reader.GetDecimal("TotalPrice")
-                        });
+                        list.Add(MapReaderToBooking(reader));
                     }
                 }
             }
             return list;
+        }
+
+        public List<Booking> SearchBookings(string searchTerm, string status = "Pending")
+        {
+            List<Booking> results = new List<Booking>();
+            using (var connection = new MySqlConnection(MySQLConnStr.ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string query = $@"SELECT b.*, CONCAT(v.Manufacturer, ' ', v.Model) AS VehicleName, v.LicensePlate, v.ImagePath, v.DailyRate 
+                             FROM Bookings b
+                             JOIN Vehicles v ON b.VehicleVIN = v.VIN
+                             WHERE b.Status = @status AND b.Deleted = 0
+                             AND (
+                                 b.BookingID LIKE @search OR
+                                 b.FirstName LIKE @search OR
+                                 b.LastName LIKE @search OR
+                                 CONCAT(b.FirstName, ' ', b.LastName) LIKE @search OR
+                                 b.LicenseNum LIKE @search OR
+                                 b.Email LIKE @search OR
+                                 b.PhoneNumber LIKE @search
+                             )";
+
+                    using (var cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@status", status);
+                        cmd.Parameters.AddWithValue("@search", $"%{searchTerm}%");
+
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                results.Add(MapReaderToBooking(reader));
+                            }
+                        }
+                    }
+                }
+                catch (Exception) { /* Handle log */ }
+            }
+            return results;
         }
 
         public static List<Booking> GetConflictingBookings(int currentBookingID, string vin, DateTime requestedStart, DateTime requestedEnd)
@@ -72,7 +123,7 @@ namespace ClientManagementSubsystem.classes
             List<Booking> conflicts = new List<Booking>();
             int bufferHours = 3;
 
-            string query = @"SELECT b.*, CONCAT(v.Manufacturer, ' ', v.Model) AS VehicleName 
+            string query = @"SELECT b.*, CONCAT(v.Manufacturer, ' ', v.Model) AS VehicleName, v.LicensePlate, v.ImagePath, v.DailyRate 
                     FROM Bookings b
                     JOIN Vehicles v ON b.VehicleVIN = v.VIN
                     WHERE b.VehicleVIN = @vin 
@@ -93,21 +144,16 @@ namespace ClientManagementSubsystem.classes
 
                 conn.Open();
 
+                // Since MapReaderToBooking is instance-based and this is static, 
+                // we create a temporary instance or just map manually here.
+                // Recommendation: Make MapReaderToBooking public/internal static.
+                var handler = new BookingHandler();
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        conflicts.Add(new Booking
-                        {
-                            BookingID = reader.GetInt32("BookingID"),
-                            FirstName = reader.GetString("FirstName"),
-                            LastName = reader.GetString("LastName"),
-                            VehicleName = reader.GetString("VehicleName"),
-                            DateSchedOut = reader.GetDateTime("DateSchedOut"),
-                            DateDue = reader.GetDateTime("DateDue"),
-                            DateSubmitted = reader.GetDateTime("DateSubmitted"),
-                            Status = reader.GetString("Status") 
-                        });
+                        conflicts.Add(handler.MapReaderToBooking(reader));
                     }
                 }
             }

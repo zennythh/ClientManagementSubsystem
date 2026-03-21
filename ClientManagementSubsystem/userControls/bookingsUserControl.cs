@@ -23,10 +23,16 @@ namespace ClientManagementSubsystem
         private PendingInfos currentPendingInfo;
         private bool isSyncing = false;
         private Panel emptyStateOverlay;
+        // Add this at the top of your class variables
+        private Timer searchDebounceTimer;
 
         public bookingsUserControl()
         {
             InitializeComponent();
+
+            searchDebounceTimer = new Timer();
+            searchDebounceTimer.Interval = 350; // 350 milliseconds cooldown
+            searchDebounceTimer.Tick += SearchDebounceTimer_Tick;
             pendingSelected.Visible = true;
             approvedSelected.Visible = false;
             LoadBookingCards();
@@ -55,6 +61,26 @@ namespace ClientManagementSubsystem
             LoadBookingCards();
             UpdateOverlayState(); // Set initial state
         }
+
+        private void SearchDebounceTimer_Tick(object sender, EventArgs e)
+        {
+            // Stop the timer so it doesn't keep firing
+            searchDebounceTimer.Stop();
+
+            string term = searchBarTextBox.Text.Trim();
+
+            if (string.IsNullOrEmpty(term))
+            {
+                LoadBookingCards();
+                return;
+            }
+
+            // Run the search logic
+            var filteredResults = db.SearchBookings(term, "Pending");
+            PopulateBookingList(filteredResults);
+        }
+
+
         // Render functions
         private void LoadBookingCards()
         {
@@ -83,6 +109,33 @@ namespace ClientManagementSubsystem
             catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
             CenterCards();
         }
+
+        // Change the signature to accept a list (optional)
+        private void PopulateBookingList(List<Booking> bookings)
+        {
+            bookingListPanel.Controls.Clear();
+
+            foreach (Booking booking in bookings)
+            {
+                BookingCard card = new BookingCard();
+                card.Populate(booking);
+                    
+                // IMPORTANT: Ensure the vehicle name is passed to the card UI
+                card.VehicleName = booking.VehicleName;
+
+                card.OnSelect += (s, e) => {
+                    BookingCard clickedCard = (BookingCard)s;
+                    originalBooking = clickedCard.BookingData;
+                    currentPendingInfo = MapToPendingInfo(originalBooking);
+                    DisplayBookingDetails(currentPendingInfo);
+                    UpdateOverlayState();
+                };
+
+                bookingListPanel.Controls.Add(card);
+            }
+            CenterCards();
+        }
+
         // DBLESS TEST PURPOSES!!
         // UNCOMMENT THE LoadBookingCards() CALL IN THE CONSTRUCTOR TO USE THIS
         public void LoadBookings()
@@ -205,6 +258,25 @@ namespace ClientManagementSubsystem
                 DailyRate = b.DailyRate,
                 ProjectedPrice = b.ProjectedPrice
             };
+        }
+        private (List<Booking> HardDirect, List<Booking> BufferOverlaps, List<Booking> Pending) ClassifyConflicts(PendingInfos pending, List<Booking> conflicts)
+        {
+            // Hard Block: requested start is BEFORE an active/reserved booking's return -> direct overlap
+            var hardDirect = conflicts
+                .Where(c => (c.Status == "Reserved" || c.Status == "Out") && pending.DateSchedOut < c.DateDue)
+                .ToList();
+
+            // Buffer Overlap: requested start falls within the 3-hour buffer after some booking's DateDue.
+            // We detect buffer overlaps for any status (Pending / Reserved / Out) so the user is warned even if it will be auto-rejected.
+            var bufferOverlaps = conflicts
+                .Where(c => pending.DateSchedOut >= c.DateDue
+                            && pending.DateSchedOut <= c.DateDue.AddHours(3))
+                .ToList();
+
+            // Pending requests (used for auto-reject count)
+            var pendingList = conflicts.Where(c => c.Status == "Pending").ToList();
+
+            return (hardDirect, bufferOverlaps, pendingList);
         }
         private string GetRequestDate(DateTime date)
         {
@@ -547,25 +619,13 @@ namespace ClientManagementSubsystem
             }
         }
 
-        // Add this helper in the bookingsUserControl class (below other private methods)
-        private (List<Booking> HardDirect, List<Booking> BufferOverlaps, List<Booking> Pending) ClassifyConflicts(PendingInfos pending, List<Booking> conflicts)
+        private void searchBarTextBox_TextChanged(object sender, EventArgs e)
         {
-            // Hard Block: requested start is BEFORE an active/reserved booking's return -> direct overlap
-            var hardDirect = conflicts
-                .Where(c => (c.Status == "Reserved" || c.Status == "Out") && pending.DateSchedOut < c.DateDue)
-                .ToList();
+            // Stop the timer if it's already running (user is still typing)
+            searchDebounceTimer.Stop();
 
-            // Buffer Overlap: requested start falls within the 3-hour buffer after some booking's DateDue.
-            // We detect buffer overlaps for any status (Pending / Reserved / Out) so the user is warned even if it will be auto-rejected.
-            var bufferOverlaps = conflicts
-                .Where(c => pending.DateSchedOut >= c.DateDue
-                            && pending.DateSchedOut <= c.DateDue.AddHours(3))
-                .ToList();
-
-            // Pending requests (used for auto-reject count)
-            var pendingList = conflicts.Where(c => c.Status == "Pending").ToList();
-
-            return (hardDirect, bufferOverlaps, pendingList);
+            // Start/Restart the timer
+            searchDebounceTimer.Start();
         }
 
         private void rejectBtn_Click(object sender, EventArgs e)
