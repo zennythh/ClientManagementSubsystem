@@ -83,6 +83,7 @@ namespace ClientManagementSubsystem
 
         private void DisplayBookingDetails(PendingInfos b)
         {
+            // Fill details section with booking info
             lblBookingIDValue.Text = b.BookingID.ToString();
             firstNameTextBox.Text = b.FirstName;
             lastNameTextBox.Text = b.LastName;
@@ -104,16 +105,52 @@ namespace ClientManagementSubsystem
 
             if (!string.IsNullOrEmpty(b.ImagePath) && System.IO.File.Exists(b.ImagePath))
             {
-                // Loading manually into the Image property preserves the Zoom mode better
                 vehiclePictureBox.Image = Image.FromFile(b.ImagePath);
             }
             else
             {
-                // Explicitly set the resource as the main Image
                 vehiclePictureBox.Image = Properties.Resources.defaultVehicle;
+            }
+
+            // Query for conflicts
+
+            conflictFlowPanel.Controls.Clear();
+            lblNoBookingConflicts.Visible = false;
+
+            var conflicts = BookingHandler.GetConflictingBookings(
+                            b.BookingID,
+                            b.VehicleVIN,
+                            rentalDateStartDTP.Value,
+                            rentalDateEndDTP.Value
+                            );
+
+            if (conflicts.Count > 0)
+            {
+                foreach (var conflict in conflicts)
+                {
+                    ConflictBookingCard miniCard = new ConflictBookingCard();
+
+                    miniCard.Populate(conflict);
+
+                    conflictFlowPanel.Controls.Add(miniCard);
+                }
+            }
+            else
+            {
+                lblBookingConflicts.Visible = true;
             }
         }
 
+        private void rentalDate_ValueChanged(object sender, EventArgs e)
+        {
+            if (currentPendingInfo != null)
+            {
+                currentPendingInfo.DateSchedOut = rentalDateStartDTP.Value;
+                currentPendingInfo.DateDue = rentalDateEndDTP.Value;
+
+                DisplayBookingDetails(currentPendingInfo);
+            }
+        }
         private string GetRequestDate(DateTime date)
         {
             DateTime now = DateTime.Now;

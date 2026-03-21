@@ -62,26 +62,25 @@ namespace ClientManagementSubsystem.classes
             return list;
         }
 
-        public static List<Booking> GetConflictingBookings(string vin, DateTime requestedStart, DateTime requestedEnd)
+        public static List<Booking> GetConflictingBookings(int currentBookingID, string vin, DateTime requestedStart, DateTime requestedEnd)
         {
             List<Booking> conflicts = new List<Booking>();
-
-            // Buffer time in hours to account for cleaning, maintenance, and unforeseen delays
             int bufferHours = 3;
 
             string query = @"SELECT b.*, CONCAT(v.Manufacturer, ' ', v.Model) AS VehicleName 
-                            FROM Bookings b
-                            JOIN Vehicles v ON b.VehicleVIN = v.VIN
-                            WHERE b.VehicleVIN = @vin 
-                            AND b.Status IN ('Pending', 'Reserved', 'Out')
-                            AND @RequestedStart < DATE_ADD(b.DateDue, INTERVAL @Buffer HOUR)
-                            AND @RequestedEnd > b.DateSchedOut
-                            AND b.BookingID != @CurrentBookingID 
-                            AND b.Deleted = 0";
+                    FROM Bookings b
+                    JOIN Vehicles v ON b.VehicleVIN = v.VIN
+                    WHERE b.VehicleVIN = @vin 
+                    AND b.Status IN ('Pending', 'Reserved', 'Out')
+                    AND @RequestedStart < DATE_ADD(b.DateDue, INTERVAL @Buffer HOUR)
+                    AND @RequestedEnd > b.DateSchedOut
+                    AND b.BookingID != @CurrentBookingID 
+                    AND b.Deleted = 0";
 
             using (var conn = new MySqlConnection(MySQLConnStr.ConnectionString))
             {
                 MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@CurrentBookingID", currentBookingID);
                 cmd.Parameters.AddWithValue("@vin", vin);
                 cmd.Parameters.AddWithValue("@RequestedStart", requestedStart);
                 cmd.Parameters.AddWithValue("@RequestedEnd", requestedEnd);
@@ -100,7 +99,8 @@ namespace ClientManagementSubsystem.classes
                             LastName = reader.GetString("LastName"),
                             VehicleName = reader.GetString("VehicleName"),
                             DateSchedOut = reader.GetDateTime("DateSchedOut"),
-                            DateDue = reader.GetDateTime("DateDue")
+                            DateDue = reader.GetDateTime("DateDue"),
+                            DateSubmitted = reader.GetDateTime("DateSubmitted")
                         });
                     }
                 }

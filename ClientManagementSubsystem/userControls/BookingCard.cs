@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using ClientManagementSubsystem.Models;
+using ClientManagementSubsystem.classes;
 
 namespace ClientManagementSubsystem.userControls
 {
@@ -27,22 +28,8 @@ namespace ClientManagementSubsystem.userControls
 
             lblDateOut.Text = booking.DateSchedOut.ToString("MMM dd, hh:mm tt");
             lblDateIn.Text = booking.DateDue.ToString("MMM dd, hh:mm tt");
-            lblTimeAgo.Text = GetTimeAgo(booking.DateSubmitted);
-        }
+            lblTimeAgo.Text = booking.DateSubmitted.ToTimeAgo();
 
-        private string GetTimeAgo(DateTime dateTime)
-        {
-            TimeSpan timeSpan = DateTime.Now - dateTime;
-
-            if (timeSpan.TotalMinutes < 1) return "Just now";
-            if (timeSpan.TotalMinutes < 2) return "a minute ago";
-            if (timeSpan.TotalMinutes < 60) return $"{(int)timeSpan.TotalMinutes} minutes ago";
-            if (timeSpan.TotalHours < 2) return "an hour ago";
-            if (timeSpan.TotalHours < 24) return $"{(int)timeSpan.TotalHours} hours ago";
-            if (timeSpan.TotalDays < 2) return "Yesterday";
-            if (timeSpan.TotalDays < 7) return $"{(int)timeSpan.TotalDays} days ago";
-
-            return dateTime.ToString("MMM dd");
         }
 
         private void WireAllControls(Control parent)
