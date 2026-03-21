@@ -115,6 +115,7 @@ namespace ClientManagementSubsystem
             // Query for conflicts
 
             conflictFlowPanel.Controls.Clear();
+            lblBookingConflicts.Visible = false;
             lblNoBookingConflicts.Visible = false;
 
             var conflicts = BookingHandler.GetConflictingBookings(
@@ -126,6 +127,7 @@ namespace ClientManagementSubsystem
 
             if (conflicts.Count > 0)
             {
+                lblBookingConflicts.Visible = true;
                 foreach (var conflict in conflicts)
                 {
                     ConflictBookingCard miniCard = new ConflictBookingCard();
@@ -134,10 +136,18 @@ namespace ClientManagementSubsystem
 
                     conflictFlowPanel.Controls.Add(miniCard);
                 }
+                CenterConflictCards();
             }
             else
             {
-                lblBookingConflicts.Visible = true;
+                lblBookingConflicts.Visible = false;
+
+                if (!conflictFlowPanel.Controls.Contains(lblNoBookingConflicts))
+                {
+                    conflictFlowPanel.Controls.Add(lblNoBookingConflicts);
+                }
+                lblNoBookingConflicts.Visible = true;
+                lblNoBookingConflicts.Margin = new Padding((conflictFlowPanel.Width - lblNoBookingConflicts.Width) / 2, 20, 0, 0);
             }
         }
 
@@ -210,6 +220,7 @@ namespace ClientManagementSubsystem
             CenterCards();
         }
 
+        // Centering the cards
         private void CenterCards()
         {
             if (bookingListPanel.Controls.Count == 0) return;
@@ -224,6 +235,34 @@ namespace ClientManagementSubsystem
             int lateralPadding = (bookingListPanel.ClientSize.Width - totalContentWidth) / 2;
 
             bookingListPanel.Padding = new Padding(Math.Max(0, lateralPadding), bookingListPanel.Padding.Top, 0, 0);
+        }
+
+        private void CenterConflictCards()
+        {
+            // 1. Calculate the total width of all cards + their margins
+            int totalCardsWidth = 0;
+            foreach (Control card in conflictFlowPanel.Controls)
+            {
+                // Width + Left/Right Margins
+                totalCardsWidth += card.Width + card.Margin.Horizontal;
+            }
+
+            // 2. Check if the cards are narrower than the panel
+            if (totalCardsWidth + 20 < conflictFlowPanel.Width)
+            {
+                // Calculate the necessary left padding to push them to the center
+                int offset = (conflictFlowPanel.Width - totalCardsWidth) / 2;
+                conflictFlowPanel.Padding = new Padding(offset, 0, 0, 0);
+
+                // Disable the scrollbar when centered (it's not needed)
+                conflictFlowPanel.AutoScroll = false;
+            }
+            else
+            {
+                // If they overflow, reset padding to 0 and enable the scrollbar
+                conflictFlowPanel.Padding = new Padding(0);
+                conflictFlowPanel.AutoScroll = true;
+            }
         }
 
         // Button clicks

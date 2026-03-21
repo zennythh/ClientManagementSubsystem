@@ -51,7 +51,7 @@
             // 
             this.lblBookingID.AutoSize = true;
             this.lblBookingID.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBookingID.Location = new System.Drawing.Point(158, 0);
+            this.lblBookingID.Location = new System.Drawing.Point(176, 0);
             this.lblBookingID.Name = "lblBookingID";
             this.lblBookingID.Size = new System.Drawing.Size(52, 25);
             this.lblBookingID.TabIndex = 5;
@@ -91,7 +91,7 @@
             // 
             this.lblTo.AutoSize = true;
             this.lblTo.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTo.Location = new System.Drawing.Point(145, 50);
+            this.lblTo.Location = new System.Drawing.Point(187, 50);
             this.lblTo.Name = "lblTo";
             this.lblTo.Size = new System.Drawing.Size(29, 25);
             this.lblTo.TabIndex = 10;
@@ -111,13 +111,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lblBookingID);
             this.Controls.Add(this.lblTimeAgo);
             this.Controls.Add(this.lblTo);
             this.Controls.Add(this.lblRentalEndDate);
             this.Controls.Add(this.lblRentalStartDate);
             this.Controls.Add(this.lblCustomerName);
             this.Controls.Add(this.lblBooking);
-            this.Controls.Add(this.lblBookingID);
             this.Name = "ConflictBookingCard";
             this.Size = new System.Drawing.Size(271, 115);
             this.ResumeLayout(false);

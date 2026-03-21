@@ -10,9 +10,9 @@ namespace ClientManagementSubsystem.classes
     {
         public static string ToTimeAgo(this DateTime dateTime)
         {
-            TimeSpan timeSpan = DateTime.Now - dateTime;
+            TimeSpan timeSpan = DateTime.UtcNow - dateTime;
 
-            if (timeSpan.TotalSeconds < 0) return "In the future";
+            if (timeSpan.TotalSeconds < 0) return "Just now";
 
             if (timeSpan.TotalMinutes < 1) return "Just now";
             if (timeSpan.TotalMinutes < 2) return "A minute ago";
@@ -22,6 +22,25 @@ namespace ClientManagementSubsystem.classes
             if (timeSpan.TotalHours < 24) return $"{(int)timeSpan.TotalHours} hours ago";
 
             if (timeSpan.TotalDays < 2) return "Yesterday";
+            if (timeSpan.TotalDays < 7) return $"{(int)timeSpan.TotalDays} days ago";
+
+            return dateTime.ToString("MMM dd, yyyy");
+        }
+
+        public static string ToTimeAgoMinimal(this DateTime dateTime)
+        {
+            TimeSpan timeSpan = DateTime.UtcNow - dateTime;
+
+            if (timeSpan.TotalSeconds < 0) return "Just now";
+
+            if (timeSpan.TotalMinutes < 1) return "Just now";
+            if (timeSpan.TotalMinutes < 2) return "1 min ago";
+            if (timeSpan.TotalMinutes < 60) return $"{(int)timeSpan.TotalMinutes} mins ago";
+
+            if (timeSpan.TotalHours < 2) return "1 hr ago";
+            if (timeSpan.TotalHours < 24) return $"{(int)timeSpan.TotalHours} hrs ago";
+
+            if (timeSpan.TotalDays < 2) return "1 day ago";
             if (timeSpan.TotalDays < 7) return $"{(int)timeSpan.TotalDays} days ago";
 
             return dateTime.ToString("MMM dd, yyyy");
