@@ -21,7 +21,8 @@ namespace ClientManagementSubsystem
         BookingHandler db = new BookingHandler();
         private Booking originalBooking;
         private PendingInfos currentPendingInfo;
-        private bool isSyncing = false; 
+        private bool isSyncing = false;
+        private Panel emptyStateOverlay;
 
         public bookingsUserControl()
         {
@@ -30,8 +31,31 @@ namespace ClientManagementSubsystem
             approvedSelected.Visible = false;
             LoadBookingCards();
             // LoadBookings(); for noDB test purposes
-        }
 
+            // Create the overlay panel
+            emptyStateOverlay = new Panel();
+            emptyStateOverlay.Dock = DockStyle.Fill;
+            emptyStateOverlay.BackColor = Color.White; // Or matches your UI background
+
+            // Add a nice message label in the center
+            Label lblMessage = new Label();
+            lblMessage.Text = "Select a booking from the list to view details";
+            lblMessage.AutoSize = false;
+            lblMessage.Dock = DockStyle.Fill;
+            lblMessage.TextAlign = ContentAlignment.MiddleCenter;
+            lblMessage.ForeColor = Color.Gray;
+            lblMessage.Font = new Font("Segoe UI", 24, FontStyle.Italic);
+
+            emptyStateOverlay.Controls.Add(lblMessage);
+
+            // Add it to the bookingDetailsPanel and bring it to front
+            bookingDetailsPanel.Controls.Add(emptyStateOverlay);
+            emptyStateOverlay.BringToFront();
+
+            LoadBookingCards();
+            UpdateOverlayState(); // Set initial state
+        }
+        // Render functions
         private void LoadBookingCards()
         {
             try
@@ -47,12 +71,10 @@ namespace ClientManagementSubsystem
                     card.OnSelect += (s, e) =>
                     {
                         BookingCard clickedCard = (BookingCard)s;
-
                         originalBooking = clickedCard.BookingData;
-
                         currentPendingInfo = MapToPendingInfo(originalBooking);
-
                         DisplayBookingDetails(currentPendingInfo);
+                        UpdateOverlayState(); 
                     };
 
                     bookingListPanel.Controls.Add(card);
@@ -86,29 +108,6 @@ namespace ClientManagementSubsystem
 
             bookingListPanel.ResumeLayout();
             CenterCards();
-        }
-
-        private PendingInfos MapToPendingInfo(Booking b)
-        {
-            return new PendingInfos
-            {
-                BookingID = b.BookingID,
-                FirstName = b.FirstName,
-                LastName = b.LastName,
-                LicenseNumber = b.LicenseNumber,
-                DateOfBirth = b.DateOfBirth,
-                Email = b.Email,
-                PhoneNumber = b.PhoneNumber,
-                VehicleVIN = b.VehicleVIN,
-                VehicleName = b.VehicleName,
-                LicensePlate = b.LicensePlate,
-                ImagePath = b.ImagePath,
-                DateSchedOut = b.DateSchedOut,
-                DateDue = b.DateDue,
-                DateSubmitted = b.DateSubmitted,
-                DailyRate = b.DailyRate,
-                ProjectedPrice = b.ProjectedPrice
-            };
         }
 
         private void DisplayBookingDetails(PendingInfos b)
@@ -184,6 +183,29 @@ namespace ClientManagementSubsystem
             }
         }
 
+        // Local helpers
+        private PendingInfos MapToPendingInfo(Booking b)
+        {
+            return new PendingInfos
+            {
+                BookingID = b.BookingID,
+                FirstName = b.FirstName,
+                LastName = b.LastName,
+                LicenseNumber = b.LicenseNumber,
+                DateOfBirth = b.DateOfBirth,
+                Email = b.Email,
+                PhoneNumber = b.PhoneNumber,
+                VehicleVIN = b.VehicleVIN,
+                VehicleName = b.VehicleName,
+                LicensePlate = b.LicensePlate,
+                ImagePath = b.ImagePath,
+                DateSchedOut = b.DateSchedOut,
+                DateDue = b.DateDue,
+                DateSubmitted = b.DateSubmitted,
+                DailyRate = b.DailyRate,
+                ProjectedPrice = b.ProjectedPrice
+            };
+        }
         private string GetRequestDate(DateTime date)
         {
             DateTime now = DateTime.Now;
@@ -317,6 +339,8 @@ namespace ClientManagementSubsystem
             lblBookingIDValue.Text = "---";
             conflictFlowPanel.Controls.Clear();
             vehiclePictureBox.Image = Properties.Resources.defaultVehicle;
+
+            UpdateOverlayState();
         }
 
         private decimal CalculateProjectedPrice(DateTime start, DateTime end, decimal dailyRate)
@@ -327,6 +351,20 @@ namespace ClientManagementSubsystem
             // Round up to the nearest full day (e.g., 25 hours = 2 days)
             int totalDays = (int)Math.Ceiling(duration.TotalHours / 24.0);
             return totalDays * dailyRate;
+        }
+
+        private void UpdateOverlayState()
+        {
+            if (currentPendingInfo == null)
+            {
+                emptyStateOverlay.Visible = true;
+                emptyStateOverlay.BringToFront();
+            }
+            else
+            {
+                emptyStateOverlay.Visible = false;
+                emptyStateOverlay.SendToBack();
+            }
         }
 
         // Centering the cards
