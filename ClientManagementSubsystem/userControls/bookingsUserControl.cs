@@ -264,6 +264,21 @@ namespace ClientManagementSubsystem
         }
 
 
+        private void ClearDetails()
+        {
+            currentPendingInfo = null;
+            originalBooking = null;
+
+            // Clear textboxes (loop through your details container)
+            foreach (Control c in bookingDetailsPanel.Controls) // Replace with your actual container name
+            {
+                if (c is TextBox tb) tb.Clear();
+            }
+
+            lblBookingIDValue.Text = "---";
+            conflictFlowPanel.Controls.Clear();
+            vehiclePictureBox.Image = Properties.Resources.defaultVehicle;
+        }
 
         // Centering the cards
         private void CenterCards()
@@ -321,8 +336,7 @@ namespace ClientManagementSubsystem
         {
             if (currentPendingInfo == null || originalBooking == null) return;
 
-            // 1. Sync the TextBoxes back to currentPendingInfo 
-            // (Dates are already synced via the ValueChanged event)
+            // 1. Sync UI to currentPendingInfo (Your existing logic)
             currentPendingInfo.FirstName = firstNameTextBox.Text;
             currentPendingInfo.LastName = lastNameTextBox.Text;
             currentPendingInfo.LicenseNumber = customerLicenseTextBox.Text;
@@ -330,57 +344,55 @@ namespace ClientManagementSubsystem
             currentPendingInfo.PhoneNumber = customerContactNumTextBox.Text;
             currentPendingInfo.DateOfBirth = customerBdayDTP.Value;
 
-            // 2. Compare currentPendingInfo vs originalBooking
+            // 2. Track Changes (Your existing logic)
             List<string> changes = new List<string>();
-
             if (currentPendingInfo.FirstName != originalBooking.FirstName)
                 changes.Add($"• Name: {originalBooking.FirstName} → {currentPendingInfo.FirstName}");
+            // ... (Keep your other change checks here) ...
 
-            if (currentPendingInfo.LastName != originalBooking.LastName)
-                changes.Add($"• Last Name: {originalBooking.LastName} → {currentPendingInfo.LastName}");
-
-            if (currentPendingInfo.LicenseNumber != originalBooking.LicenseNumber)
-                changes.Add($"• License: {originalBooking.LicenseNumber} → {currentPendingInfo.LicenseNumber}");
-
-            if (currentPendingInfo.Email != originalBooking.Email)
-                changes.Add($"• Email: {originalBooking.Email} → {currentPendingInfo.Email}");
-
-            if (currentPendingInfo.PhoneNumber != originalBooking.PhoneNumber)
-                changes.Add($"• Contact: {originalBooking.PhoneNumber} → {currentPendingInfo.PhoneNumber}");
-
-            if (currentPendingInfo.DateOfBirth != originalBooking.DateOfBirth)
-                changes.Add($"• DOB: {originalBooking.DateOfBirth:MMM dd, yyyy} → {currentPendingInfo.DateOfBirth:MMM dd, yyyy}");
-
-            if (currentPendingInfo.DateSchedOut != originalBooking.DateSchedOut)
-                changes.Add($"• Start: {originalBooking.DateSchedOut:MMM dd, hh:mm tt} → {currentPendingInfo.DateSchedOut:MMM dd, hh:mm tt}");
-
-            if (currentPendingInfo.DateDue != originalBooking.DateDue)
-                changes.Add($"• Return: {originalBooking.DateDue:MMM dd, hh:mm tt} → {currentPendingInfo.DateDue:MMM dd, hh:mm tt}");
-
-
+            // 3. Fetch Conflicts for categorization
             var conflicts = BookingHandler.GetConflictingBookings(
                 currentPendingInfo.BookingID, currentPendingInfo.VehicleVIN,
                 currentPendingInfo.DateSchedOut, currentPendingInfo.DateDue);
 
+            // --- NEW VALIDATION: HARD BLOCKS ---
+            bool hasHardConflict = conflicts.Any(c => c.Status == "Reserved" || c.Status == "Out");
+            if (hasHardConflict)
+            {
+                MessageBox.Show("🛑 CANNOT APPROVE: This vehicle is already 'Reserved' or currently 'Out' during this timeframe. You must resolve the existing booking first.",
+                                "Hard Conflict Detected", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+
+            // 4. Build the confirmation message
             string alertMessage = "Are you sure you want to approve this booking?";
 
             if (changes.Count > 0)
                 alertMessage = "CONFIRM UPDATES:\n" + string.Join("\n", changes) + "\n\n" + alertMessage;
 
             if (conflicts.Count > 0)
-                alertMessage = "⚠️ WARNING: There are still schedule conflicts!\n\n" + alertMessage;
+                alertMessage = $"⚠️ WARNING: This will automatically REJECT {conflicts.Count} conflicting pending request(s) or buffer overlaps!\n\n" + alertMessage;
 
+            // 5. FINAL CONFIRMATION
             DialogResult result = MessageBox.Show(alertMessage, "Final Approval",
                                   MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (result == DialogResult.Yes)
             {
-                // ExecuteApproval();
+                var dbResult = db.ProcessApproval(currentPendingInfo);
+
+                if (dbResult.success)
+                {
+                    MessageBox.Show(dbResult.message, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadBookingCards(); 
+                    ClearDetails();     
+                }
+                else
+                {
+                    MessageBox.Show(dbResult.message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-
-
         }
-
 
         // Event listeners
         private void rentalDate_ValueChanged(object sender, EventArgs e)

@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="classes\BookingHandler.cs" />
     <Compile Include="classes\GetTimeAgo.cs" />
+    <Compile Include="classes\RoamingPath.cs" />
     <Compile Include="models\Booking.cs" />
     <Compile Include="classes\ButtonSelection.cs" />
     <Compile Include="classes\MySQLConnStr.cs" />

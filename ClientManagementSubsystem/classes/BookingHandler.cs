@@ -1,11 +1,12 @@
-﻿using System;
+﻿using ClientManagementSubsystem.classes;
+using ClientManagementSubsystem.models;
+using ClientManagementSubsystem.Models;
+using MySql.Data.MySqlClient; 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient; 
-using ClientManagementSubsystem.Models;
-using ClientManagementSubsystem.classes;
 
 namespace ClientManagementSubsystem.classes
 {
@@ -100,12 +101,86 @@ namespace ClientManagementSubsystem.classes
                             VehicleName = reader.GetString("VehicleName"),
                             DateSchedOut = reader.GetDateTime("DateSchedOut"),
                             DateDue = reader.GetDateTime("DateDue"),
-                            DateSubmitted = reader.GetDateTime("DateSubmitted")
+                            DateSubmitted = reader.GetDateTime("DateSubmitted"),
+                            Status = reader.GetString("Status") 
                         });
                     }
                 }
             }
             return conflicts;
+        }
+
+        public (bool success, string message) ProcessApproval(PendingInfos info)
+        {
+            using (var connection = new MySqlConnection(MySQLConnStr.ConnectionString))
+            {
+                connection.Open();
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        // 1. Fetch details of all conflicting bookings for this vehicle and timeframe
+                        var conflicts = GetConflictingBookings(info.BookingID, info.VehicleVIN, info.DateSchedOut, info.DateDue);
+
+                        // 2. CATEGORY CHECK: Hard Block vs. Auto-Reject
+                        // We check if any conflict is 'Reserved' or 'Out' (Ongoing)
+                        bool hasHardConflict = conflicts.Any(c => c.Status == "Reserved" || c.Status == "Out");
+
+                        if (hasHardConflict)
+                        {
+                            return (false, "CANNOT APPROVE: This vehicle is already 'Reserved' or 'Out' for the selected timeframe. Resolve existing bookings first.");
+                        }
+
+                        // 3. AUTO-REJECT: If we reached here, conflicts are only 'Pending' or 'Buffer overlaps'
+                        if (conflicts.Count > 0)
+                        {
+                            string rejectQuery = "UPDATE Bookings SET Status = 'Rejected' WHERE BookingID IN (" +
+                                                 string.Join(",", conflicts.Select(c => c.BookingID)) + ")";
+
+                            using (var cmd = new MySqlCommand(rejectQuery, connection, transaction))
+                            {
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+
+                        // 4. APPROVE CURRENT BOOKING
+                        string updateBooking = @"UPDATE Bookings SET 
+                                                FirstName=@fn, LastName=@ln, LicenseNum=@lic, Email=@em, PhoneNumber=@ph, 
+                                                DateOfBirth=@dob, DateSchedOut=@start, DateDue=@due, Status='Approved' 
+                                                WHERE BookingID=@bid";
+                            
+                        using (var cmd = new MySqlCommand(updateBooking, connection, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@fn", info.FirstName);
+                            cmd.Parameters.AddWithValue("@ln", info.LastName);
+                            cmd.Parameters.AddWithValue("@lic", info.LicenseNumber);
+                            cmd.Parameters.AddWithValue("@em", info.Email);
+                            cmd.Parameters.AddWithValue("@ph", info.PhoneNumber);
+                            cmd.Parameters.AddWithValue("@dob", info.DateOfBirth);
+                            cmd.Parameters.AddWithValue("@start", info.DateSchedOut);
+                            cmd.Parameters.AddWithValue("@due", info.DateDue);
+                            cmd.Parameters.AddWithValue("@bid", info.BookingID);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // 5. UPDATE VEHICLE STATUS
+                        string updateVehicle = "UPDATE Vehicles SET CurrentStatus = 'Rented' WHERE VIN = @vin";
+                        using (var cmd = new MySqlCommand(updateVehicle, connection, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@vin", info.VehicleVIN);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        transaction.Commit();
+                        return (true, "Approval successful. Conflicting pending requests have been automatically rejected.");
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        return (false, $"Database Error: {ex.Message}");
+                    }
+                }
+            }
         }
     }
 }
