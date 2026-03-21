@@ -336,7 +336,7 @@ namespace ClientManagementSubsystem
         {
             if (currentPendingInfo == null || originalBooking == null) return;
 
-            // 1. Sync UI to currentPendingInfo (Your existing logic)
+            // 1. Sync UI to currentPendingInfo
             currentPendingInfo.FirstName = firstNameTextBox.Text;
             currentPendingInfo.LastName = lastNameTextBox.Text;
             currentPendingInfo.LicenseNumber = customerLicenseTextBox.Text;
@@ -344,48 +344,88 @@ namespace ClientManagementSubsystem
             currentPendingInfo.PhoneNumber = customerContactNumTextBox.Text;
             currentPendingInfo.DateOfBirth = customerBdayDTP.Value;
 
-            // 2. Track Changes (Your existing logic)
+            // 2. Track Changes 
             List<string> changes = new List<string>();
             if (currentPendingInfo.FirstName != originalBooking.FirstName)
                 changes.Add($"• Name: {originalBooking.FirstName} → {currentPendingInfo.FirstName}");
-            // ... (Keep your other change checks here) ...
 
-            // 3. Fetch Conflicts for categorization
+            if (currentPendingInfo.LastName != originalBooking.LastName)
+                changes.Add($"• Last Name: {originalBooking.LastName} → {currentPendingInfo.LastName}");
+
+            if (currentPendingInfo.LicenseNumber != originalBooking.LicenseNumber)
+                changes.Add($"• License: {originalBooking.LicenseNumber} → {currentPendingInfo.LicenseNumber}");
+
+            if (currentPendingInfo.Email != originalBooking.Email)
+                changes.Add($"• Email: {originalBooking.Email} → {currentPendingInfo.Email}");
+
+            if (currentPendingInfo.PhoneNumber != originalBooking.PhoneNumber)
+                changes.Add($"• Contact: {originalBooking.PhoneNumber} → {currentPendingInfo.PhoneNumber}");
+
+            if (currentPendingInfo.DateOfBirth != originalBooking.DateOfBirth)
+                changes.Add($"• DOB: {originalBooking.DateOfBirth:MMM dd, yyyy} → {currentPendingInfo.DateOfBirth:MMM dd, yyyy}");
+
+            if (currentPendingInfo.DateSchedOut != originalBooking.DateSchedOut)
+                changes.Add($"• Start: {originalBooking.DateSchedOut:MMM dd, hh:mm tt} → {currentPendingInfo.DateSchedOut:MMM dd, hh:mm tt}");
+
+            if (currentPendingInfo.DateDue != originalBooking.DateDue)
+                changes.Add($"• Return: {originalBooking.DateDue:MMM dd, hh:mm tt} → {currentPendingInfo.DateDue:MMM dd, hh:mm tt}");
+
+            // 3. Fetch Conflicts
             var conflicts = BookingHandler.GetConflictingBookings(
                 currentPendingInfo.BookingID, currentPendingInfo.VehicleVIN,
                 currentPendingInfo.DateSchedOut, currentPendingInfo.DateDue);
 
-            // --- NEW VALIDATION: HARD BLOCKS ---
-            bool hasHardConflict = conflicts.Any(c => c.Status == "Reserved" || c.Status == "Out");
-            if (hasHardConflict)
+            // 4. CATEGORIZE CONFLICTS (now delegated to helper)
+            var (hardDirectConflicts, bufferOverlapsWithActive, pendingConflicts) =
+                ClassifyConflicts(currentPendingInfo, conflicts);
+
+            // --- EXECUTE HARD BLOCK ---
+            if (hardDirectConflicts.Any())
             {
-                MessageBox.Show("🛑 CANNOT APPROVE: This vehicle is already 'Reserved' or currently 'Out' during this timeframe. You must resolve the existing booking first.",
+                MessageBox.Show("🛑 CANNOT APPROVE: This vehicle is already 'Reserved' or 'Out' during this exact timeframe. You must resolve the existing booking first.",
                                 "Hard Conflict Detected", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
 
-            // 4. Build the confirmation message
+            // 5. BUILD THE ALERT MESSAGE
             string alertMessage = "Are you sure you want to approve this booking?";
 
+            // Add changes to message
             if (changes.Count > 0)
                 alertMessage = "CONFIRM UPDATES:\n" + string.Join("\n", changes) + "\n\n" + alertMessage;
 
-            if (conflicts.Count > 0)
-                alertMessage = $"⚠️ WARNING: This will automatically REJECT {conflicts.Count} conflicting pending request(s) or buffer overlaps!\n\n" + alertMessage;
+            // Add Buffer/Pending warnings
+            string warnings = "";
 
-            // 5. FINAL CONFIRMATION
-            DialogResult result = MessageBox.Show(alertMessage, "Final Approval",
-                                  MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            // pendingConflicts are still used to indicate how many will be auto-rejected
+            if (pendingConflicts.Count > 0)
+                warnings += $"⚠️ WARNING: This will automatically REJECT {pendingConflicts.Count} other PENDING request(s).\n";
+
+            // Show buffer notice if ANY conflict falls within the 3-hour buffer window (regardless of status)
+            if (bufferOverlapsWithActive.Any())
+                warnings += "⏳ BUFFER NOTICE: This cuts into the 3-hour cleanup window of an existing reservSation. Ensure staff has time to prep the car!\n";
+            else if (bufferOverlapsWithActive.Count == 0 && bufferOverlapsWithActive != null)
+            {
+                // In case buffer overlaps list includes pending items (when the helper returned buffer overlaps),
+                // check the generic buffer list (rename or keep a reference depending on your ClassifyConflicts return usage).
+                // If using the helper as provided above, the variable from the tuple is named bufferOverlapsWithActive;
+                // it now contains ANY buffer overlap regardless of status, so the single check above covers both cases.
+            }
+
+            if (!string.IsNullOrEmpty(warnings))
+                alertMessage = warnings + "\n" + alertMessage;
+
+            // 6. FINAL CONFIRMATION
+            DialogResult result = MessageBox.Show(alertMessage, "Final Approval", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (result == DialogResult.Yes)
             {
                 var dbResult = db.ProcessApproval(currentPendingInfo);
-
                 if (dbResult.success)
                 {
                     MessageBox.Show(dbResult.message, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadBookingCards(); 
-                    ClearDetails();     
+                    LoadBookingCards();
+                    ClearDetails();
                 }
                 else
                 {
@@ -409,7 +449,26 @@ namespace ClientManagementSubsystem
 
             isSyncing = false; // Unlock
         }
-         
 
+        // Add this helper in the bookingsUserControl class (below other private methods)
+        private (List<Booking> HardDirect, List<Booking> BufferOverlaps, List<Booking> Pending) ClassifyConflicts(PendingInfos pending, List<Booking> conflicts)
+        {
+            // Hard Block: requested start is BEFORE an active/reserved booking's return -> direct overlap
+            var hardDirect = conflicts
+                .Where(c => (c.Status == "Reserved" || c.Status == "Out") && pending.DateSchedOut < c.DateDue)
+                .ToList();
+
+            // Buffer Overlap: requested start falls within the 3-hour buffer after some booking's DateDue.
+            // We detect buffer overlaps for any status (Pending / Reserved / Out) so the user is warned even if it will be auto-rejected.
+            var bufferOverlaps = conflicts
+                .Where(c => pending.DateSchedOut >= c.DateDue
+                            && pending.DateSchedOut <= c.DateDue.AddHours(3))
+                .ToList();
+
+            // Pending requests (used for auto-reject count)
+            var pendingList = conflicts.Where(c => c.Status == "Pending").ToList();
+
+            return (hardDirect, bufferOverlaps, pendingList);
+        }
     }
 }

@@ -119,23 +119,30 @@ namespace ClientManagementSubsystem.classes
                 {
                     try
                     {
-                        // 1. Fetch details of all conflicting bookings for this vehicle and timeframe
                         var conflicts = GetConflictingBookings(info.BookingID, info.VehicleVIN, info.DateSchedOut, info.DateDue);
 
-                        // 2. CATEGORY CHECK: Hard Block vs. Auto-Reject
-                        // We check if any conflict is 'Reserved' or 'Out' (Ongoing)
-                        bool hasHardConflict = conflicts.Any(c => c.Status == "Reserved" || c.Status == "Out");
+                        // --- THE SAFETY FILTER ---
+                        // We ONLY auto-reject bookings that are 'Pending'. 
+                        // 'Reserved' or 'Out' bookings are left alone (the staff handles the buffer manually).
+                        var bookingsToReject = conflicts.Where(c => c.Status == "Pending").ToList();
 
-                        if (hasHardConflict)
+                        // 2. CATEGORY CHECK: Hard Block
+                        // If there's a DIRECT overlap with Reserved/Out, we still block the approval.
+                        // Note: We only block if the overlap is REAL (requested start < their due date).
+                        bool hasHardDirectConflict = conflicts.Any(c =>
+                            (c.Status == "Reserved" || c.Status == "Out") &&
+                            info.DateSchedOut < c.DateDue);
+
+                        if (hasHardDirectConflict)
                         {
-                            return (false, "CANNOT APPROVE: This vehicle is already 'Reserved' or 'Out' for the selected timeframe. Resolve existing bookings first.");
+                            return (false, "🛑 CANNOT APPROVE: Direct overlap with an active/reserved booking.");
                         }
 
-                        // 3. AUTO-REJECT: If we reached here, conflicts are only 'Pending' or 'Buffer overlaps'
-                        if (conflicts.Count > 0)
+                        // 3. AUTO-REJECT: Only for PENDING conflicts
+                        if (bookingsToReject.Count > 0)
                         {
-                            string rejectQuery = "UPDATE Bookings SET Status = 'Rejected' WHERE BookingID IN (" +
-                                                 string.Join(",", conflicts.Select(c => c.BookingID)) + ")";
+                            string ids = string.Join(",", bookingsToReject.Select(c => c.BookingID));
+                            string rejectQuery = $"UPDATE Bookings SET Status = 'Rejected' WHERE BookingID IN ({ids})";
 
                             using (var cmd = new MySqlCommand(rejectQuery, connection, transaction))
                             {
@@ -146,7 +153,7 @@ namespace ClientManagementSubsystem.classes
                         // 4. APPROVE CURRENT BOOKING
                         string updateBooking = @"UPDATE Bookings SET 
                                                 FirstName=@fn, LastName=@ln, LicenseNum=@lic, Email=@em, PhoneNumber=@ph, 
-                                                DateOfBirth=@dob, DateSchedOut=@start, DateDue=@due, Status='Approved' 
+                                                DateOfBirth=@dob, DateSchedOut=@start, DateDue=@due, Status='Reserved' 
                                                 WHERE BookingID=@bid";
                             
                         using (var cmd = new MySqlCommand(updateBooking, connection, transaction))
