@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,7 +38,6 @@ namespace ClientManagementSubsystem
             {
                 List<Booking> bookings = db.GetBookingsByStatus("Pending");
                 bookingListPanel.Controls.Clear();
-
                 foreach (Booking booking in bookings)
                 {
                     BookingCard card = new BookingCard();
@@ -111,6 +111,8 @@ namespace ClientManagementSubsystem
 
         private void DisplayBookingDetails(PendingInfos b)
         {
+            string imagePath = Path.Combine(RoamingPath.roamingBase, "CarRentalApp");
+
             // Fill details section with booking info
             lblBookingIDValue.Text = b.BookingID.ToString();
             firstNameTextBox.Text = b.FirstName;
@@ -133,9 +135,9 @@ namespace ClientManagementSubsystem
 
             lblRentalTimeValue.Text = GetRentalDuration(b.DateSchedOut, b.DateDue);
 
-            if (!string.IsNullOrEmpty(b.ImagePath) && System.IO.File.Exists(b.ImagePath))
+            if (!string.IsNullOrEmpty(b.FullImagePath) && System.IO.File.Exists(b.FullImagePath))
             {
-                vehiclePictureBox.Image = Image.FromFile(b.ImagePath);
+                vehiclePictureBox.ImageLocation = b.FullImagePath;
             }
             else
             {
@@ -223,77 +225,40 @@ namespace ClientManagementSubsystem
         private void RefreshConflictSection()
 
         {
-
             if (currentPendingInfo == null) return;
-
-
-
             lblRentalTimeValue.Text = GetRentalDuration(rentalDateStartDTP.Value, rentalDateEndDTP.Value);
 
-
-
-
-
             conflictFlowPanel.Controls.Clear();
-
             lblBookingConflicts.Visible = false;
-
             lblNoBookingConflicts.Visible = false;
 
-
-
             var conflicts = BookingHandler.GetConflictingBookings(
-
                             currentPendingInfo.BookingID,
-
                             currentPendingInfo.VehicleVIN,
-
                             rentalDateStartDTP.Value,
-
                             rentalDateEndDTP.Value
-
                             );
-
-
-
             // Repopulate the panel
 
             if (conflicts.Count > 0)
-
             {
-
                 lblBookingConflicts.Visible = true;
-
                 foreach (var conflict in conflicts)
-
                 {
-
                     ConflictBookingCard miniCard = new ConflictBookingCard();
-
                     miniCard.Populate(conflict);
-
                     conflictFlowPanel.Controls.Add(miniCard);
-
                 }
-
                 CenterConflictCards();
-
             }
-
             else
-
             {
 
                 if (!conflictFlowPanel.Controls.Contains(lblNoBookingConflicts))
-
                 {
-
                     conflictFlowPanel.Controls.Add(lblNoBookingConflicts);
-
                 }
-
                 lblNoBookingConflicts.Visible = true;
-
                 lblNoBookingConflicts.Margin = new Padding((conflictFlowPanel.Width - lblNoBookingConflicts.Width) / 2, 20, 0, 0);
 
             }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClientManagementSubsystem.classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,7 @@ namespace ClientManagementSubsystem.models
         public string VehicleName { get; set; } 
         public string LicensePlate { get; set; }
         public string ImagePath { get; set; } 
+        public string FullImagePath  => System.IO.Path.Combine(RoamingPath.roamingBase, "CarRentalApp", ImagePath);
         // Schedule Details
         public DateTime DateSchedOut { get; set; }
         public DateTime DateDue { get; set; }
