@@ -221,45 +221,86 @@ namespace ClientManagementSubsystem
         }
 
         private void RefreshConflictSection()
+
         {
+
             if (currentPendingInfo == null) return;
+
+
 
             lblRentalTimeValue.Text = GetRentalDuration(rentalDateStartDTP.Value, rentalDateEndDTP.Value);
 
 
+
+
+
             conflictFlowPanel.Controls.Clear();
+
             lblBookingConflicts.Visible = false;
+
             lblNoBookingConflicts.Visible = false;
 
+
+
             var conflicts = BookingHandler.GetConflictingBookings(
-                            currentPendingInfo.BookingID, 
+
+                            currentPendingInfo.BookingID,
+
                             currentPendingInfo.VehicleVIN,
-                            rentalDateStartDTP.Value,     
-                            rentalDateEndDTP.Value        
+
+                            rentalDateStartDTP.Value,
+
+                            rentalDateEndDTP.Value
+
                             );
 
+
+
             // Repopulate the panel
+
             if (conflicts.Count > 0)
+
             {
+
                 lblBookingConflicts.Visible = true;
+
                 foreach (var conflict in conflicts)
+
                 {
+
                     ConflictBookingCard miniCard = new ConflictBookingCard();
+
                     miniCard.Populate(conflict);
+
                     conflictFlowPanel.Controls.Add(miniCard);
+
                 }
+
                 CenterConflictCards();
+
             }
+
             else
+
             {
+
                 if (!conflictFlowPanel.Controls.Contains(lblNoBookingConflicts))
+
                 {
+
                     conflictFlowPanel.Controls.Add(lblNoBookingConflicts);
+
                 }
+
                 lblNoBookingConflicts.Visible = true;
+
                 lblNoBookingConflicts.Margin = new Padding((conflictFlowPanel.Width - lblNoBookingConflicts.Width) / 2, 20, 0, 0);
+
             }
+
         }
+
+
 
         // Centering the cards
         private void CenterCards()

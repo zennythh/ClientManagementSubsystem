@@ -430,22 +430,22 @@
             // customerAgeTextBox
             // 
             this.customerAgeTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.customerAgeTextBox.DefaultText = "";
+            this.customerAgeTextBox.DefaultText = "32";
             this.customerAgeTextBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
             this.customerAgeTextBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.customerAgeTextBox.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
             this.customerAgeTextBox.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
             this.customerAgeTextBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.customerAgeTextBox.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customerAgeTextBox.Font = new System.Drawing.Font("Segoe UI Symbol", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customerAgeTextBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.customerAgeTextBox.Location = new System.Drawing.Point(269, 453);
-            this.customerAgeTextBox.Margin = new System.Windows.Forms.Padding(6, 10, 6, 10);
+            this.customerAgeTextBox.Location = new System.Drawing.Point(274, 453);
+            this.customerAgeTextBox.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
             this.customerAgeTextBox.Multiline = true;
             this.customerAgeTextBox.Name = "customerAgeTextBox";
             this.customerAgeTextBox.PlaceholderText = "";
             this.customerAgeTextBox.ReadOnly = true;
             this.customerAgeTextBox.SelectedText = "";
-            this.customerAgeTextBox.Size = new System.Drawing.Size(111, 33);
+            this.customerAgeTextBox.Size = new System.Drawing.Size(54, 34);
             this.customerAgeTextBox.TabIndex = 14;
             // 
             // lblto
@@ -453,7 +453,7 @@
             this.lblto.AutoSize = true;
             this.lblto.BackColor = System.Drawing.Color.Transparent;
             this.lblto.Font = new System.Drawing.Font("Segoe UI Semilight", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblto.Location = new System.Drawing.Point(635, 456);
+            this.lblto.Location = new System.Drawing.Point(652, 456);
             this.lblto.Name = "lblto";
             this.lblto.Size = new System.Drawing.Size(32, 30);
             this.lblto.TabIndex = 13;
@@ -722,38 +722,40 @@
             // 
             // rentalDateStartDTP
             // 
-            this.rentalDateStartDTP.CalendarFont = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rentalDateStartDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rentalDateStartDTP.CalendarTitleForeColor = System.Drawing.Color.Azure;
             this.rentalDateStartDTP.CustomFormat = " MM/dd/yyyy hh:mm tt";
-            this.rentalDateStartDTP.Font = new System.Drawing.Font("Segoe UI Semibold", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rentalDateStartDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rentalDateStartDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.rentalDateStartDTP.Location = new System.Drawing.Point(400, 454);
             this.rentalDateStartDTP.Name = "rentalDateStartDTP";
-            this.rentalDateStartDTP.Size = new System.Drawing.Size(227, 32);
+            this.rentalDateStartDTP.Size = new System.Drawing.Size(246, 33);
             this.rentalDateStartDTP.TabIndex = 42;
+            this.rentalDateStartDTP.ValueChanged += new System.EventHandler(this.rentalDate_ValueChanged);
             // 
             // rentalDateEndDTP
             // 
-            this.rentalDateEndDTP.CalendarFont = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rentalDateEndDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rentalDateEndDTP.CalendarTitleForeColor = System.Drawing.Color.Azure;
             this.rentalDateEndDTP.CustomFormat = " MM/dd/yyyy hh:mm tt";
-            this.rentalDateEndDTP.Font = new System.Drawing.Font("Segoe UI Semibold", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rentalDateEndDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rentalDateEndDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.rentalDateEndDTP.Location = new System.Drawing.Point(673, 454);
+            this.rentalDateEndDTP.Location = new System.Drawing.Point(690, 453);
             this.rentalDateEndDTP.Name = "rentalDateEndDTP";
-            this.rentalDateEndDTP.Size = new System.Drawing.Size(227, 32);
+            this.rentalDateEndDTP.Size = new System.Drawing.Size(246, 33);
             this.rentalDateEndDTP.TabIndex = 43;
+            this.rentalDateEndDTP.ValueChanged += new System.EventHandler(this.rentalDate_ValueChanged);
             // 
             // customerBdayDTP
             // 
-            this.customerBdayDTP.CalendarFont = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customerBdayDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customerBdayDTP.CalendarTitleForeColor = System.Drawing.Color.Azure;
             this.customerBdayDTP.CustomFormat = "MMMM dd, yyyy";
-            this.customerBdayDTP.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customerBdayDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customerBdayDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.customerBdayDTP.Location = new System.Drawing.Point(28, 453);
             this.customerBdayDTP.Name = "customerBdayDTP";
-            this.customerBdayDTP.Size = new System.Drawing.Size(210, 33);
+            this.customerBdayDTP.Size = new System.Drawing.Size(220, 33);
             this.customerBdayDTP.TabIndex = 44;
             this.customerBdayDTP.Value = new System.DateTime(2026, 11, 19, 0, 0, 0, 0);
             // 
