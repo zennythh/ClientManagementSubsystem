@@ -32,9 +32,9 @@
             this.bookingPanels = new System.Windows.Forms.TableLayoutPanel();
             this.bookingListPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.bookingDetailsPanel = new Guna.UI2.WinForms.Guna2Panel();
-            this.lblNoBookingConflicts = new System.Windows.Forms.Label();
-            this.conflictFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.lblBookingConflicts = new System.Windows.Forms.Label();
+            this.customerBdayDTP = new System.Windows.Forms.DateTimePicker();
+            this.rentalDateEndDTP = new System.Windows.Forms.DateTimePicker();
+            this.rentalDateStartDTP = new System.Windows.Forms.DateTimePicker();
             this.lblBookingIDValue = new System.Windows.Forms.Label();
             this.lblRentalTimeValue = new System.Windows.Forms.Label();
             this.lblRentalTime = new System.Windows.Forms.Label();
@@ -65,20 +65,20 @@
             this.rejectBtn = new FontAwesome.Sharp.IconButton();
             this.approveBtn = new FontAwesome.Sharp.IconButton();
             this.outerConflictPanel = new System.Windows.Forms.Panel();
+            this.conflictFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblNoBookingConflicts = new System.Windows.Forms.Label();
+            this.lblBookingConflicts = new System.Windows.Forms.Label();
             this.innerHeaderPanel = new Guna.UI2.WinForms.Guna2GradientPanel();
             this.pendingSelected = new Guna.UI2.WinForms.Guna2Shapes();
             this.approvedSelected = new Guna.UI2.WinForms.Guna2Shapes();
             this.approvedBtn = new Guna.UI2.WinForms.Guna2Button();
             this.pendingBtn = new Guna.UI2.WinForms.Guna2Button();
-            this.rentalDateStartDTP = new System.Windows.Forms.DateTimePicker();
-            this.rentalDateEndDTP = new System.Windows.Forms.DateTimePicker();
-            this.customerBdayDTP = new System.Windows.Forms.DateTimePicker();
             this.tableLayoutPanel.SuspendLayout();
             this.bookingPanels.SuspendLayout();
             this.bookingDetailsPanel.SuspendLayout();
-            this.conflictFlowPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.vehiclePictureBox)).BeginInit();
             this.outerConflictPanel.SuspendLayout();
+            this.conflictFlowPanel.SuspendLayout();
             this.innerHeaderPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -166,44 +166,44 @@
             this.bookingDetailsPanel.Size = new System.Drawing.Size(964, 790);
             this.bookingDetailsPanel.TabIndex = 2;
             // 
-            // lblNoBookingConflicts
+            // customerBdayDTP
             // 
-            this.lblNoBookingConflicts.BackColor = System.Drawing.Color.Transparent;
-            this.lblNoBookingConflicts.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNoBookingConflicts.ForeColor = System.Drawing.Color.Green;
-            this.lblNoBookingConflicts.Location = new System.Drawing.Point(3, 0);
-            this.lblNoBookingConflicts.Name = "lblNoBookingConflicts";
-            this.lblNoBookingConflicts.Size = new System.Drawing.Size(888, 68);
-            this.lblNoBookingConflicts.TabIndex = 39;
-            this.lblNoBookingConflicts.Text = "No Booking Conflicts!";
-            this.lblNoBookingConflicts.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblNoBookingConflicts.Visible = false;
+            this.customerBdayDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customerBdayDTP.CalendarTitleForeColor = System.Drawing.Color.Azure;
+            this.customerBdayDTP.CustomFormat = "MMMM dd, yyyy";
+            this.customerBdayDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customerBdayDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.customerBdayDTP.Location = new System.Drawing.Point(28, 453);
+            this.customerBdayDTP.Name = "customerBdayDTP";
+            this.customerBdayDTP.Size = new System.Drawing.Size(220, 33);
+            this.customerBdayDTP.TabIndex = 44;
+            this.customerBdayDTP.Value = new System.DateTime(2026, 11, 19, 0, 0, 0, 0);
             // 
-            // conflictFlowPanel
+            // rentalDateEndDTP
             // 
-            this.conflictFlowPanel.AutoScroll = true;
-            this.conflictFlowPanel.BackColor = System.Drawing.Color.Transparent;
-            this.conflictFlowPanel.Controls.Add(this.lblNoBookingConflicts);
-            this.conflictFlowPanel.Location = new System.Drawing.Point(33, 31);
-            this.conflictFlowPanel.Name = "conflictFlowPanel";
-            this.conflictFlowPanel.Size = new System.Drawing.Size(905, 147);
-            this.conflictFlowPanel.TabIndex = 39;
-            this.conflictFlowPanel.WrapContents = false;
+            this.rentalDateEndDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rentalDateEndDTP.CalendarTitleForeColor = System.Drawing.Color.Azure;
+            this.rentalDateEndDTP.CustomFormat = " MM/dd/yyyy hh:mm tt";
+            this.rentalDateEndDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rentalDateEndDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.rentalDateEndDTP.Location = new System.Drawing.Point(690, 453);
+            this.rentalDateEndDTP.Name = "rentalDateEndDTP";
+            this.rentalDateEndDTP.Size = new System.Drawing.Size(246, 33);
+            this.rentalDateEndDTP.TabIndex = 43;
+            this.rentalDateEndDTP.ValueChanged += new System.EventHandler(this.rentalDate_ValueChanged);
             // 
-            // lblBookingConflicts
+            // rentalDateStartDTP
             // 
-            this.lblBookingConflicts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblBookingConflicts.AutoSize = true;
-            this.lblBookingConflicts.BackColor = System.Drawing.Color.Transparent;
-            this.lblBookingConflicts.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBookingConflicts.Location = new System.Drawing.Point(382, -2);
-            this.lblBookingConflicts.Name = "lblBookingConflicts";
-            this.lblBookingConflicts.Size = new System.Drawing.Size(188, 30);
-            this.lblBookingConflicts.TabIndex = 38;
-            this.lblBookingConflicts.Text = "Booking Conflicts";
-            this.lblBookingConflicts.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rentalDateStartDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rentalDateStartDTP.CalendarTitleForeColor = System.Drawing.Color.Azure;
+            this.rentalDateStartDTP.CustomFormat = " MM/dd/yyyy hh:mm tt";
+            this.rentalDateStartDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rentalDateStartDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.rentalDateStartDTP.Location = new System.Drawing.Point(400, 454);
+            this.rentalDateStartDTP.Name = "rentalDateStartDTP";
+            this.rentalDateStartDTP.Size = new System.Drawing.Size(246, 33);
+            this.rentalDateStartDTP.TabIndex = 42;
+            this.rentalDateStartDTP.ValueChanged += new System.EventHandler(this.rentalDate_ValueChanged);
             // 
             // lblBookingIDValue
             // 
@@ -625,6 +625,45 @@
             this.outerConflictPanel.Size = new System.Drawing.Size(964, 257);
             this.outerConflictPanel.TabIndex = 40;
             // 
+            // conflictFlowPanel
+            // 
+            this.conflictFlowPanel.AutoScroll = true;
+            this.conflictFlowPanel.BackColor = System.Drawing.Color.Transparent;
+            this.conflictFlowPanel.Controls.Add(this.lblNoBookingConflicts);
+            this.conflictFlowPanel.Location = new System.Drawing.Point(33, 31);
+            this.conflictFlowPanel.Name = "conflictFlowPanel";
+            this.conflictFlowPanel.Size = new System.Drawing.Size(905, 147);
+            this.conflictFlowPanel.TabIndex = 39;
+            this.conflictFlowPanel.WrapContents = false;
+            // 
+            // lblNoBookingConflicts
+            // 
+            this.lblNoBookingConflicts.BackColor = System.Drawing.Color.Transparent;
+            this.lblNoBookingConflicts.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNoBookingConflicts.ForeColor = System.Drawing.Color.Green;
+            this.lblNoBookingConflicts.Location = new System.Drawing.Point(3, 0);
+            this.lblNoBookingConflicts.Name = "lblNoBookingConflicts";
+            this.lblNoBookingConflicts.Size = new System.Drawing.Size(888, 68);
+            this.lblNoBookingConflicts.TabIndex = 39;
+            this.lblNoBookingConflicts.Text = "No Booking Conflicts!";
+            this.lblNoBookingConflicts.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblNoBookingConflicts.Visible = false;
+            // 
+            // lblBookingConflicts
+            // 
+            this.lblBookingConflicts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblBookingConflicts.AutoSize = true;
+            this.lblBookingConflicts.BackColor = System.Drawing.Color.Transparent;
+            this.lblBookingConflicts.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBookingConflicts.Location = new System.Drawing.Point(382, -2);
+            this.lblBookingConflicts.Name = "lblBookingConflicts";
+            this.lblBookingConflicts.Size = new System.Drawing.Size(188, 30);
+            this.lblBookingConflicts.TabIndex = 38;
+            this.lblBookingConflicts.Text = "Booking Conflicts";
+            this.lblBookingConflicts.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // innerHeaderPanel
             // 
             this.innerHeaderPanel.BackColor = System.Drawing.Color.Transparent;
@@ -720,45 +759,6 @@
             this.pendingBtn.Text = "Pending";
             this.pendingBtn.Click += new System.EventHandler(this.pendingBtn_Click);
             // 
-            // rentalDateStartDTP
-            // 
-            this.rentalDateStartDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rentalDateStartDTP.CalendarTitleForeColor = System.Drawing.Color.Azure;
-            this.rentalDateStartDTP.CustomFormat = " MM/dd/yyyy hh:mm tt";
-            this.rentalDateStartDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rentalDateStartDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.rentalDateStartDTP.Location = new System.Drawing.Point(400, 454);
-            this.rentalDateStartDTP.Name = "rentalDateStartDTP";
-            this.rentalDateStartDTP.Size = new System.Drawing.Size(246, 33);
-            this.rentalDateStartDTP.TabIndex = 42;
-            this.rentalDateStartDTP.ValueChanged += new System.EventHandler(this.rentalDate_ValueChanged);
-            // 
-            // rentalDateEndDTP
-            // 
-            this.rentalDateEndDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rentalDateEndDTP.CalendarTitleForeColor = System.Drawing.Color.Azure;
-            this.rentalDateEndDTP.CustomFormat = " MM/dd/yyyy hh:mm tt";
-            this.rentalDateEndDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rentalDateEndDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.rentalDateEndDTP.Location = new System.Drawing.Point(690, 453);
-            this.rentalDateEndDTP.Name = "rentalDateEndDTP";
-            this.rentalDateEndDTP.Size = new System.Drawing.Size(246, 33);
-            this.rentalDateEndDTP.TabIndex = 43;
-            this.rentalDateEndDTP.ValueChanged += new System.EventHandler(this.rentalDate_ValueChanged);
-            // 
-            // customerBdayDTP
-            // 
-            this.customerBdayDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customerBdayDTP.CalendarTitleForeColor = System.Drawing.Color.Azure;
-            this.customerBdayDTP.CustomFormat = "MMMM dd, yyyy";
-            this.customerBdayDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customerBdayDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.customerBdayDTP.Location = new System.Drawing.Point(28, 453);
-            this.customerBdayDTP.Name = "customerBdayDTP";
-            this.customerBdayDTP.Size = new System.Drawing.Size(220, 33);
-            this.customerBdayDTP.TabIndex = 44;
-            this.customerBdayDTP.Value = new System.DateTime(2026, 11, 19, 0, 0, 0, 0);
-            // 
             // bookingsUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -773,10 +773,10 @@
             this.bookingPanels.ResumeLayout(false);
             this.bookingDetailsPanel.ResumeLayout(false);
             this.bookingDetailsPanel.PerformLayout();
-            this.conflictFlowPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.vehiclePictureBox)).EndInit();
             this.outerConflictPanel.ResumeLayout(false);
             this.outerConflictPanel.PerformLayout();
+            this.conflictFlowPanel.ResumeLayout(false);
             this.innerHeaderPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 

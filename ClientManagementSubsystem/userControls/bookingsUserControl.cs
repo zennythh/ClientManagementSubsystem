@@ -111,8 +111,6 @@ namespace ClientManagementSubsystem
 
         private void DisplayBookingDetails(PendingInfos b)
         {
-            string imagePath = Path.Combine(RoamingPath.roamingBase, "CarRentalApp");
-
             // Fill details section with booking info
             lblBookingIDValue.Text = b.BookingID.ToString();
             firstNameTextBox.Text = b.FirstName;
