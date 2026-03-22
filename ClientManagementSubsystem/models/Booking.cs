@@ -17,6 +17,7 @@ namespace ClientManagementSubsystem.Models
         public string VehicleName { get; set; }
         public string LicensePlate { get; set; }
         public string ImagePath { get; set; }
+        public string FullImagePath => System.IO.Path.Combine(ClientManagementSubsystem.classes.RoamingPath.roamingBase, "CarRentalApp", ImagePath);
         public string Status { get; set; }
         // Dates
         public DateTime DateSubmitted { get; set; }

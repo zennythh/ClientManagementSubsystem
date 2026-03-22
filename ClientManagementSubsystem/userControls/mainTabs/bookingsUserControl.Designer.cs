@@ -33,6 +33,9 @@
             this.bookingListPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.tabContentPanel = new System.Windows.Forms.Panel();
             this.innerHeaderPanel = new Guna.UI2.WinForms.Guna2GradientPanel();
+            this.refreshBtn = new Guna.UI2.WinForms.Guna2ImageButton();
+            this.clearSearchbarBtn = new Guna.UI2.WinForms.Guna2ImageButton();
+            this.searchBarTextBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.dismissedSelected = new Guna.UI2.WinForms.Guna2Shapes();
             this.completedSelected = new Guna.UI2.WinForms.Guna2Shapes();
             this.completedBtn = new Guna.UI2.WinForms.Guna2Button();
@@ -74,9 +77,6 @@
             this.conflictFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.lblNoBookingConflicts = new System.Windows.Forms.Label();
             this.lblBookingConflicts = new System.Windows.Forms.Label();
-            this.refreshBtn = new Guna.UI2.WinForms.Guna2ImageButton();
-            this.clearSearchbarBtn = new Guna.UI2.WinForms.Guna2ImageButton();
-            this.searchBarTextBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.vehiclePictureBox = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel.SuspendLayout();
             this.bookingPanels.SuspendLayout();
@@ -159,6 +159,65 @@
             this.innerHeaderPanel.Size = new System.Drawing.Size(1616, 135);
             this.innerHeaderPanel.TabIndex = 4;
             this.innerHeaderPanel.UseTransparentBackground = true;
+            // 
+            // refreshBtn
+            // 
+            this.refreshBtn.BackColor = System.Drawing.Color.Transparent;
+            this.refreshBtn.CheckedState.ImageSize = new System.Drawing.Size(40, 40);
+            this.refreshBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.refreshBtn.HoverState.ImageSize = new System.Drawing.Size(30, 30);
+            this.refreshBtn.Image = global::ClientManagementSubsystem.Properties.Resources.free_refresh_icon_3104_thumb;
+            this.refreshBtn.ImageOffset = new System.Drawing.Point(0, 0);
+            this.refreshBtn.ImageRotate = 0F;
+            this.refreshBtn.ImageSize = new System.Drawing.Size(30, 30);
+            this.refreshBtn.Location = new System.Drawing.Point(1175, 71);
+            this.refreshBtn.MaximumSize = new System.Drawing.Size(40, 40);
+            this.refreshBtn.Name = "refreshBtn";
+            this.refreshBtn.PressedState.ImageSize = new System.Drawing.Size(40, 40);
+            this.refreshBtn.Size = new System.Drawing.Size(35, 39);
+            this.refreshBtn.TabIndex = 11;
+            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
+            // 
+            // clearSearchbarBtn
+            // 
+            this.clearSearchbarBtn.BackColor = System.Drawing.Color.White;
+            this.clearSearchbarBtn.CheckedState.ImageSize = new System.Drawing.Size(40, 40);
+            this.clearSearchbarBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.clearSearchbarBtn.HoverState.ImageSize = new System.Drawing.Size(30, 30);
+            this.clearSearchbarBtn.Image = global::ClientManagementSubsystem.Properties.Resources.closeIcon;
+            this.clearSearchbarBtn.ImageOffset = new System.Drawing.Point(0, 0);
+            this.clearSearchbarBtn.ImageRotate = 0F;
+            this.clearSearchbarBtn.ImageSize = new System.Drawing.Size(30, 30);
+            this.clearSearchbarBtn.Location = new System.Drawing.Point(1546, 68);
+            this.clearSearchbarBtn.MaximumSize = new System.Drawing.Size(40, 40);
+            this.clearSearchbarBtn.Name = "clearSearchbarBtn";
+            this.clearSearchbarBtn.PressedState.ImageSize = new System.Drawing.Size(40, 40);
+            this.clearSearchbarBtn.Size = new System.Drawing.Size(29, 30);
+            this.clearSearchbarBtn.TabIndex = 10;
+            this.clearSearchbarBtn.Click += new System.EventHandler(this.clearSearchbarBtn_Click);
+            // 
+            // searchBarTextBox
+            // 
+            this.searchBarTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.searchBarTextBox.DefaultText = "";
+            this.searchBarTextBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.searchBarTextBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.searchBarTextBox.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.searchBarTextBox.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.searchBarTextBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.searchBarTextBox.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.searchBarTextBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.searchBarTextBox.IconLeft = global::ClientManagementSubsystem.Properties.Resources.search_bar_01;
+            this.searchBarTextBox.IconLeftSize = new System.Drawing.Size(35, 35);
+            this.searchBarTextBox.IconRightSize = new System.Drawing.Size(35, 35);
+            this.searchBarTextBox.Location = new System.Drawing.Point(1236, 55);
+            this.searchBarTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.searchBarTextBox.Name = "searchBarTextBox";
+            this.searchBarTextBox.PlaceholderText = "";
+            this.searchBarTextBox.SelectedText = "";
+            this.searchBarTextBox.Size = new System.Drawing.Size(349, 55);
+            this.searchBarTextBox.TabIndex = 9;
+            this.searchBarTextBox.TextChanged += new System.EventHandler(this.searchBarTextBox_TextChanged);
             // 
             // dismissedSelected
             // 
@@ -669,65 +728,6 @@
             this.lblBookingConflicts.TabIndex = 38;
             this.lblBookingConflicts.Text = "Booking Conflicts";
             this.lblBookingConflicts.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // refreshBtn
-            // 
-            this.refreshBtn.BackColor = System.Drawing.Color.Transparent;
-            this.refreshBtn.CheckedState.ImageSize = new System.Drawing.Size(40, 40);
-            this.refreshBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.refreshBtn.HoverState.ImageSize = new System.Drawing.Size(30, 30);
-            this.refreshBtn.Image = global::ClientManagementSubsystem.Properties.Resources.free_refresh_icon_3104_thumb;
-            this.refreshBtn.ImageOffset = new System.Drawing.Point(0, 0);
-            this.refreshBtn.ImageRotate = 0F;
-            this.refreshBtn.ImageSize = new System.Drawing.Size(30, 30);
-            this.refreshBtn.Location = new System.Drawing.Point(1175, 71);
-            this.refreshBtn.MaximumSize = new System.Drawing.Size(40, 40);
-            this.refreshBtn.Name = "refreshBtn";
-            this.refreshBtn.PressedState.ImageSize = new System.Drawing.Size(40, 40);
-            this.refreshBtn.Size = new System.Drawing.Size(35, 39);
-            this.refreshBtn.TabIndex = 11;
-            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
-            // 
-            // clearSearchbarBtn
-            // 
-            this.clearSearchbarBtn.BackColor = System.Drawing.Color.White;
-            this.clearSearchbarBtn.CheckedState.ImageSize = new System.Drawing.Size(40, 40);
-            this.clearSearchbarBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.clearSearchbarBtn.HoverState.ImageSize = new System.Drawing.Size(30, 30);
-            this.clearSearchbarBtn.Image = global::ClientManagementSubsystem.Properties.Resources.closeIcon;
-            this.clearSearchbarBtn.ImageOffset = new System.Drawing.Point(0, 0);
-            this.clearSearchbarBtn.ImageRotate = 0F;
-            this.clearSearchbarBtn.ImageSize = new System.Drawing.Size(30, 30);
-            this.clearSearchbarBtn.Location = new System.Drawing.Point(1546, 68);
-            this.clearSearchbarBtn.MaximumSize = new System.Drawing.Size(40, 40);
-            this.clearSearchbarBtn.Name = "clearSearchbarBtn";
-            this.clearSearchbarBtn.PressedState.ImageSize = new System.Drawing.Size(40, 40);
-            this.clearSearchbarBtn.Size = new System.Drawing.Size(29, 30);
-            this.clearSearchbarBtn.TabIndex = 10;
-            this.clearSearchbarBtn.Click += new System.EventHandler(this.clearSearchbarBtn_Click);
-            // 
-            // searchBarTextBox
-            // 
-            this.searchBarTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.searchBarTextBox.DefaultText = "";
-            this.searchBarTextBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.searchBarTextBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.searchBarTextBox.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.searchBarTextBox.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.searchBarTextBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.searchBarTextBox.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.searchBarTextBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.searchBarTextBox.IconLeft = global::ClientManagementSubsystem.Properties.Resources.search_bar_01;
-            this.searchBarTextBox.IconLeftSize = new System.Drawing.Size(35, 35);
-            this.searchBarTextBox.IconRightSize = new System.Drawing.Size(35, 35);
-            this.searchBarTextBox.Location = new System.Drawing.Point(1236, 55);
-            this.searchBarTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.searchBarTextBox.Name = "searchBarTextBox";
-            this.searchBarTextBox.PlaceholderText = "";
-            this.searchBarTextBox.SelectedText = "";
-            this.searchBarTextBox.Size = new System.Drawing.Size(349, 55);
-            this.searchBarTextBox.TabIndex = 9;
-            this.searchBarTextBox.TextChanged += new System.EventHandler(this.searchBarTextBox_TextChanged);
             // 
             // vehiclePictureBox
             // 

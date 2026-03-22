@@ -121,9 +121,8 @@ namespace ClientManagementSubsystem.userControls
                 lblSustainedDamage.ForeColor = Color.Green;
             }
 
-            // Image handling
-            if (!string.IsNullOrEmpty(b.ImagePath) && File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, b.ImagePath)))
-                vehiclePictureBox.ImageLocation = b.ImagePath;
+            if (!string.IsNullOrEmpty(currentBookingInfo.FullImagePath) && System.IO.File.Exists(currentBookingInfo.FullImagePath))
+                vehiclePictureBox.ImageLocation = currentBookingInfo.FullImagePath;
             else
                 vehiclePictureBox.Image = Properties.Resources.defaultVehicle;
 
