@@ -144,6 +144,12 @@
     <Compile Include="userControls\cards\ConflictBookingCard.Designer.cs">
       <DependentUpon>ConflictBookingCard.cs</DependentUpon>
     </Compile>
+    <Compile Include="userControls\cards\InspectionCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControls\cards\InspectionCard.Designer.cs">
+      <DependentUpon>InspectionCard.cs</DependentUpon>
+    </Compile>
     <Compile Include="userControls\mainTabs\outboundUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -193,6 +199,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="userControls\cards\BookingCard.resx">
       <DependentUpon>BookingCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControls\cards\InspectionCard.resx">
+      <DependentUpon>InspectionCard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="userControls\mainTabs\bookingsUserControl.resx">
       <DependentUpon>bookingsUserControl.cs</DependentUpon>
@@ -267,6 +276,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\free-refresh-icon-3104-thumb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\file-up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\file-up %281%29.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

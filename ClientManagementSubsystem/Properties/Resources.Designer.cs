@@ -83,6 +83,26 @@ namespace ClientManagementSubsystem.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap file_up {
+            get {
+                object obj = ResourceManager.GetObject("file-up", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap file_up__1_ {
+            get {
+                object obj = ResourceManager.GetObject("file-up (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap free_refresh_icon_3104_thumb {
             get {
                 object obj = ResourceManager.GetObject("free-refresh-icon-3104-thumb", resourceCulture);
