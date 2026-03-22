@@ -790,6 +790,7 @@
             this.inspectBtn.Text = "Start Inspection";
             this.inspectBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.inspectBtn.UseVisualStyleBackColor = false;
+            this.inspectBtn.Click += new System.EventHandler(this.btnStartInspection_Click);
             // 
             // vehiclePictureBox
             // 

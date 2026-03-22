@@ -1,13 +1,9 @@
 ﻿using ClientManagementSubsystem.classes;
 using ClientManagementSubsystem.Models;
+using ClientManagementSubsystem.userControls.cards; // Ensure this matches your InspectionCard namespace
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ClientManagementSubsystem.userControls
@@ -35,7 +31,7 @@ namespace ClientManagementSubsystem.userControls
             RefreshBookingList();
             UpdateOverlayState();
 
-            // Standard scrollbar behavior fix
+            // Force scrollbar behavior
             bookingListPanel.AutoScroll = false;
             bookingListPanel.VerticalScroll.Visible = true;
             bookingListPanel.AutoScroll = true;
@@ -70,6 +66,10 @@ namespace ClientManagementSubsystem.userControls
             lblPriceValue.Text = "₱" + b.ProjectedPrice.ToString("N2");
             lblRentalTimeValue.Text = GetRentalDuration(b.DateSchedOut, b.DateDue);
 
+            // Outbound State Info
+            fuelLevelOutTextBox.Text = b.FuelLevelOut ?? "---";
+            mileageOutTextBox.Text = b.MileageOut.HasValue ? b.MileageOut.Value.ToString() : "---";
+
             // Image Loading
             if (!string.IsNullOrEmpty(b.FullImagePath) && System.IO.File.Exists(b.FullImagePath))
                 vehiclePictureBox.ImageLocation = b.FullImagePath;
@@ -91,6 +91,8 @@ namespace ClientManagementSubsystem.userControls
             customerAgeTextBox.Clear();
             vehicleLicenseTextBox.Clear();
             vehicleNameTextBox.Clear();
+            fuelLevelOutTextBox.Text = "---";
+            mileageOutTextBox.Text = "---";
 
             lblBookingIDValue.Text = "---";
             lblDateofRequestValue.Text = "---";
@@ -102,11 +104,57 @@ namespace ClientManagementSubsystem.userControls
         }
         #endregion
 
+        #region Inspection Trigger (Option 1)
+        private void btnStartInspection_Click(object sender, EventArgs e)
+        {
+            if (currentSelectedBooking == null)
+            {
+                MessageBox.Show("Please select a booking from the list first.", "Selection Required", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // 1. Create the Popup Form
+            using (Form popup = new Form())
+            {
+                InspectionCard card = new InspectionCard();
+                card.Populate(currentSelectedBooking);
+                card.Dock = DockStyle.Fill;
+
+                card.DataChanged += (s, args) => {
+                    popup.DialogResult = DialogResult.OK;
+                    popup.Close();
+                };
+
+                // 2. Fix the "Windows Tab" look & Rendering size
+                // We set the FormBorderStyle to None if you want it borderless, 
+                // OR FixedSingle if you want a thin modern line.
+                popup.FormBorderStyle = FormBorderStyle.FixedSingle;
+                popup.Text = "Vehicle Inspection Process";
+                popup.ShowIcon = false;
+                popup.MaximizeBox = false;
+                popup.MinimizeBox = false;
+                popup.StartPosition = FormStartPosition.CenterParent;
+
+                // 3. IMPORTANT: Set the CLIENT SIZE to match your control exactly
+                // This ensures the 872x650 control isn't squeezed by the window borders
+                popup.ClientSize = new Size(872, 650);
+
+                popup.Controls.Add(card);
+
+                if (popup.ShowDialog() == DialogResult.OK)
+                {
+                    RefreshBookingList();
+                    ClearDetails();
+                }
+            }
+        }
+        #endregion
+
         #region List & Search Logic
         public void RefreshBookingList()
         {
             string term = searchBarTextBox.Text.Trim();
-            const string status = "Out"; // This control tracks units currently OUT
+            const string status = "Out";
 
             try
             {
@@ -139,7 +187,7 @@ namespace ClientManagementSubsystem.userControls
             {
                 BookingCard card = new BookingCard();
                 card.Populate(b);
-                card.OnSelect += (s, e) => DisplayBookingDetails(((BookingCard)s).BookingData);
+                card.OnSelect += (s, args) => DisplayBookingDetails(((BookingCard)s).BookingData);
                 bookingListPanel.Controls.Add(card);
             }
 

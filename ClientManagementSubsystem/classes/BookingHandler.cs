@@ -344,5 +344,86 @@ namespace ClientManagementSubsystem.classes
                 }
             }
         }
+
+        public bool SaveFullInspection(int bookingID, string vin, string notes, string damages, List<string> imagePaths)
+        {
+            using (var conn = new MySqlConnection(MySQLConnStr.ConnectionString))
+            {
+                conn.Open();
+                using (var trans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        // 1. Create the Parent Inspection Record
+                        string insertInspection = @"INSERT INTO VehicleInspections (VIN, BookingID, GeneralNotes, InspectedAt) 
+                                           VALUES (@vin, @bid, @notes, @at);
+                                           SELECT LAST_INSERT_ID();";
+
+                        int inspectionID;
+                        using (var cmd = new MySqlCommand(insertInspection, conn, trans))
+                        {
+                            cmd.Parameters.AddWithValue("@vin", vin);
+                            cmd.Parameters.AddWithValue("@bid", bookingID);
+                            cmd.Parameters.AddWithValue("@notes", string.IsNullOrWhiteSpace(notes) ? (object)DBNull.Value : notes);
+                            cmd.Parameters.AddWithValue("@at", DateTime.Now);
+                            inspectionID = Convert.ToInt32(cmd.ExecuteScalar());
+                        }
+
+                        // 2. Insert Damage Description (Only if there is text provided)
+                        if (!string.IsNullOrWhiteSpace(damages))
+                        {
+                            string insertDamage = "INSERT INTO VehicleDamages (InspectionID, Description) VALUES (@iid, @desc)";
+                            using (var cmd = new MySqlCommand(insertDamage, conn, trans))
+                            {
+                                cmd.Parameters.AddWithValue("@iid", inspectionID);
+                                cmd.Parameters.AddWithValue("@desc", damages);
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+
+                        // 3. Insert Multiple Images into InspectionImages table
+                        if (imagePaths != null && imagePaths.Count > 0)
+                        {
+                            string insertImg = "INSERT INTO InspectionImages (InspectionID, ImageFileName) VALUES (@iid, @file)";
+                            foreach (string path in imagePaths)
+                            {
+                                using (var cmd = new MySqlCommand(insertImg, conn, trans))
+                                {
+                                    cmd.Parameters.AddWithValue("@iid", inspectionID);
+                                    cmd.Parameters.AddWithValue("@file", path);
+                                    cmd.ExecuteNonQuery();
+                                }
+                            }
+                        }
+
+                        // 4. Update Booking Status to 'Completed' and set DateIn
+                        string updateBooking = "UPDATE Bookings SET Status = 'Completed', DateIn = @now WHERE BookingID = @bid";
+                        using (var cmd = new MySqlCommand(updateBooking, conn, trans))
+                        {
+                            cmd.Parameters.AddWithValue("@now", DateTime.Now);
+                            cmd.Parameters.AddWithValue("@bid", bookingID);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // 5. Release Vehicle back to 'Available'
+                        string updateVehicle = "UPDATE Vehicles SET CurrentStatus = 'Available' WHERE VIN = @vin";
+                        using (var cmd = new MySqlCommand(updateVehicle, conn, trans))
+                        {
+                            cmd.Parameters.AddWithValue("@vin", vin);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        trans.Commit();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                        // Optional: Log ex.Message for debugging
+                        return false;
+                    }
+                }
+            }
+        }
     }
 }
