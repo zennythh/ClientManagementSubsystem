@@ -55,22 +55,22 @@
             this.lblto = new System.Windows.Forms.Label();
             this.vehicleLicenseTextBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.lblLicenseNum = new System.Windows.Forms.Label();
-            this.vehiclePictureBox = new System.Windows.Forms.PictureBox();
             this.lblBookingid = new System.Windows.Forms.Label();
             this.vehicleNameTextBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.lblVehicleName = new System.Windows.Forms.Label();
             this.firstNameTextBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.lblFirstName = new System.Windows.Forms.Label();
-            this.rejectBtn = new FontAwesome.Sharp.IconButton();
-            this.approveBtn = new FontAwesome.Sharp.IconButton();
             this.outerConflictPanel = new System.Windows.Forms.Panel();
             this.conflictFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.lblNoBookingConflicts = new System.Windows.Forms.Label();
             this.lblBookingConflicts = new System.Windows.Forms.Label();
+            this.vehiclePictureBox = new System.Windows.Forms.PictureBox();
+            this.rejectBtn = new FontAwesome.Sharp.IconButton();
+            this.approveBtn = new FontAwesome.Sharp.IconButton();
             this.bookingDetailsPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.vehiclePictureBox)).BeginInit();
             this.outerConflictPanel.SuspendLayout();
             this.conflictFlowPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.vehiclePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // bookingDetailsPanel
@@ -124,7 +124,7 @@
             this.lblPriceValue.AutoSize = true;
             this.lblPriceValue.BackColor = System.Drawing.Color.Transparent;
             this.lblPriceValue.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPriceValue.Location = new System.Drawing.Point(483, 486);
+            this.lblPriceValue.Location = new System.Drawing.Point(778, 494);
             this.lblPriceValue.Name = "lblPriceValue";
             this.lblPriceValue.Size = new System.Drawing.Size(80, 30);
             this.lblPriceValue.TabIndex = 46;
@@ -135,7 +135,7 @@
             this.lblPrice.AutoSize = true;
             this.lblPrice.BackColor = System.Drawing.Color.Transparent;
             this.lblPrice.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPrice.Location = new System.Drawing.Point(418, 486);
+            this.lblPrice.Location = new System.Drawing.Point(713, 494);
             this.lblPrice.Name = "lblPrice";
             this.lblPrice.Size = new System.Drawing.Size(67, 30);
             this.lblPrice.TabIndex = 45;
@@ -148,7 +148,7 @@
             this.customerBdayDTP.CustomFormat = "MMMM dd, yyyy";
             this.customerBdayDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customerBdayDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.customerBdayDTP.Location = new System.Drawing.Point(117, 413);
+            this.customerBdayDTP.Location = new System.Drawing.Point(117, 415);
             this.customerBdayDTP.MaxDate = new System.DateTime(2026, 12, 31, 0, 0, 0, 0);
             this.customerBdayDTP.MinDate = new System.DateTime(1910, 12, 31, 0, 0, 0, 0);
             this.customerBdayDTP.Name = "customerBdayDTP";
@@ -163,7 +163,7 @@
             this.rentalDateEndDTP.CustomFormat = " MM/dd/yyyy hh:mm tt";
             this.rentalDateEndDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rentalDateEndDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.rentalDateEndDTP.Location = new System.Drawing.Point(669, 486);
+            this.rentalDateEndDTP.Location = new System.Drawing.Point(455, 472);
             this.rentalDateEndDTP.Name = "rentalDateEndDTP";
             this.rentalDateEndDTP.Size = new System.Drawing.Size(246, 33);
             this.rentalDateEndDTP.TabIndex = 43;
@@ -176,7 +176,7 @@
             this.rentalDateStartDTP.CustomFormat = " MM/dd/yyyy hh:mm tt";
             this.rentalDateStartDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rentalDateStartDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.rentalDateStartDTP.Location = new System.Drawing.Point(669, 447);
+            this.rentalDateStartDTP.Location = new System.Drawing.Point(164, 472);
             this.rentalDateStartDTP.Name = "rentalDateStartDTP";
             this.rentalDateStartDTP.Size = new System.Drawing.Size(246, 33);
             this.rentalDateStartDTP.TabIndex = 42;
@@ -198,7 +198,7 @@
             this.lblRentalTimeValue.AutoSize = true;
             this.lblRentalTimeValue.BackColor = System.Drawing.Color.Transparent;
             this.lblRentalTimeValue.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRentalTimeValue.Location = new System.Drawing.Point(516, 450);
+            this.lblRentalTimeValue.Location = new System.Drawing.Point(811, 458);
             this.lblRentalTimeValue.Name = "lblRentalTimeValue";
             this.lblRentalTimeValue.Size = new System.Drawing.Size(138, 30);
             this.lblRentalTimeValue.TabIndex = 33;
@@ -209,7 +209,7 @@
             this.lblRentalTime.AutoSize = true;
             this.lblRentalTime.BackColor = System.Drawing.Color.Transparent;
             this.lblRentalTime.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRentalTime.Location = new System.Drawing.Point(417, 450);
+            this.lblRentalTime.Location = new System.Drawing.Point(712, 458);
             this.lblRentalTime.Name = "lblRentalTime";
             this.lblRentalTime.Size = new System.Drawing.Size(106, 30);
             this.lblRentalTime.TabIndex = 32;
@@ -220,7 +220,7 @@
             this.lblDateofRequestValue.AutoSize = true;
             this.lblDateofRequestValue.BackColor = System.Drawing.Color.Transparent;
             this.lblDateofRequestValue.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDateofRequestValue.Location = new System.Drawing.Point(80, 489);
+            this.lblDateofRequestValue.Location = new System.Drawing.Point(676, 417);
             this.lblDateofRequestValue.Name = "lblDateofRequestValue";
             this.lblDateofRequestValue.Size = new System.Drawing.Size(211, 30);
             this.lblDateofRequestValue.TabIndex = 31;
@@ -231,7 +231,7 @@
             this.lblDateOfRequest.AutoSize = true;
             this.lblDateOfRequest.BackColor = System.Drawing.Color.Transparent;
             this.lblDateOfRequest.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDateOfRequest.Location = new System.Drawing.Point(97, 459);
+            this.lblDateOfRequest.Location = new System.Drawing.Point(500, 417);
             this.lblDateOfRequest.Name = "lblDateOfRequest";
             this.lblDateOfRequest.Size = new System.Drawing.Size(181, 30);
             this.lblDateOfRequest.TabIndex = 30;
@@ -242,7 +242,7 @@
             this.lblRentalPeriod.AutoSize = true;
             this.lblRentalPeriod.BackColor = System.Drawing.Color.Transparent;
             this.lblRentalPeriod.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRentalPeriod.Location = new System.Drawing.Point(664, 412);
+            this.lblRentalPeriod.Location = new System.Drawing.Point(14, 474);
             this.lblRentalPeriod.Name = "lblRentalPeriod";
             this.lblRentalPeriod.Size = new System.Drawing.Size(144, 30);
             this.lblRentalPeriod.TabIndex = 28;
@@ -253,7 +253,7 @@
             this.lblCustomerAge.AutoSize = true;
             this.lblCustomerAge.BackColor = System.Drawing.Color.Transparent;
             this.lblCustomerAge.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCustomerAge.Location = new System.Drawing.Point(360, 413);
+            this.lblCustomerAge.Location = new System.Drawing.Point(360, 417);
             this.lblCustomerAge.Name = "lblCustomerAge";
             this.lblCustomerAge.Size = new System.Drawing.Size(52, 30);
             this.lblCustomerAge.TabIndex = 26;
@@ -415,7 +415,7 @@
             this.customerAgeTextBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.customerAgeTextBox.Font = new System.Drawing.Font("Segoe UI Symbol", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customerAgeTextBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.customerAgeTextBox.Location = new System.Drawing.Point(418, 412);
+            this.customerAgeTextBox.Location = new System.Drawing.Point(418, 413);
             this.customerAgeTextBox.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
             this.customerAgeTextBox.Multiline = true;
             this.customerAgeTextBox.Name = "customerAgeTextBox";
@@ -430,7 +430,7 @@
             this.lblto.AutoSize = true;
             this.lblto.BackColor = System.Drawing.Color.Transparent;
             this.lblto.Font = new System.Drawing.Font("Segoe UI Semilight", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblto.Location = new System.Drawing.Point(921, 450);
+            this.lblto.Location = new System.Drawing.Point(417, 472);
             this.lblto.Name = "lblto";
             this.lblto.Size = new System.Drawing.Size(32, 30);
             this.lblto.TabIndex = 13;
@@ -467,18 +467,6 @@
             this.lblLicenseNum.Size = new System.Drawing.Size(139, 30);
             this.lblLicenseNum.TabIndex = 9;
             this.lblLicenseNum.Text = "License Plate";
-            // 
-            // vehiclePictureBox
-            // 
-            this.vehiclePictureBox.BackColor = System.Drawing.Color.Transparent;
-            this.vehiclePictureBox.ErrorImage = global::ClientManagementSubsystem.Properties.Resources.defaultVehicle;
-            this.vehiclePictureBox.Image = global::ClientManagementSubsystem.Properties.Resources.defaultVehicle;
-            this.vehiclePictureBox.Location = new System.Drawing.Point(466, 33);
-            this.vehiclePictureBox.Name = "vehiclePictureBox";
-            this.vehiclePictureBox.Size = new System.Drawing.Size(475, 268);
-            this.vehiclePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.vehiclePictureBox.TabIndex = 8;
-            this.vehiclePictureBox.TabStop = false;
             // 
             // lblBookingid
             // 
@@ -554,45 +542,6 @@
             this.lblFirstName.TabIndex = 2;
             this.lblFirstName.Text = "First Name";
             // 
-            // rejectBtn
-            // 
-            this.rejectBtn.BackColor = System.Drawing.Color.Tomato;
-            this.rejectBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.rejectBtn.Font = new System.Drawing.Font("Segoe UI Symbol", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rejectBtn.ForeColor = System.Drawing.Color.Black;
-            this.rejectBtn.IconChar = FontAwesome.Sharp.IconChar.X;
-            this.rejectBtn.IconColor = System.Drawing.Color.Black;
-            this.rejectBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.rejectBtn.IconSize = 40;
-            this.rejectBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.rejectBtn.Location = new System.Drawing.Point(529, 717);
-            this.rejectBtn.Name = "rejectBtn";
-            this.rejectBtn.Size = new System.Drawing.Size(184, 58);
-            this.rejectBtn.TabIndex = 1;
-            this.rejectBtn.Text = " Reject";
-            this.rejectBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.rejectBtn.UseVisualStyleBackColor = false;
-            this.rejectBtn.Click += new System.EventHandler(this.rejectBtn_Click);
-            // 
-            // approveBtn
-            // 
-            this.approveBtn.BackColor = System.Drawing.Color.LightGreen;
-            this.approveBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.approveBtn.Font = new System.Drawing.Font("Segoe UI Symbol", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.approveBtn.ForeColor = System.Drawing.Color.Black;
-            this.approveBtn.IconChar = FontAwesome.Sharp.IconChar.Check;
-            this.approveBtn.IconColor = System.Drawing.Color.Black;
-            this.approveBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.approveBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.approveBtn.Location = new System.Drawing.Point(252, 717);
-            this.approveBtn.Name = "approveBtn";
-            this.approveBtn.Size = new System.Drawing.Size(184, 58);
-            this.approveBtn.TabIndex = 0;
-            this.approveBtn.Text = "Approve";
-            this.approveBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.approveBtn.UseVisualStyleBackColor = false;
-            this.approveBtn.Click += new System.EventHandler(this.approveBtn_Click);
-            // 
             // outerConflictPanel
             // 
             this.outerConflictPanel.BackColor = System.Drawing.Color.Transparent;
@@ -642,19 +591,70 @@
             this.lblBookingConflicts.Text = "Booking Conflicts";
             this.lblBookingConflicts.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // PendingTabUserControl
+            // vehiclePictureBox
+            // 
+            this.vehiclePictureBox.BackColor = System.Drawing.Color.Transparent;
+            this.vehiclePictureBox.ErrorImage = global::ClientManagementSubsystem.Properties.Resources.defaultVehicle;
+            this.vehiclePictureBox.Image = global::ClientManagementSubsystem.Properties.Resources.defaultVehicle;
+            this.vehiclePictureBox.Location = new System.Drawing.Point(466, 33);
+            this.vehiclePictureBox.Name = "vehiclePictureBox";
+            this.vehiclePictureBox.Size = new System.Drawing.Size(475, 268);
+            this.vehiclePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.vehiclePictureBox.TabIndex = 8;
+            this.vehiclePictureBox.TabStop = false;
+            // 
+            // rejectBtn
+            // 
+            this.rejectBtn.BackColor = System.Drawing.Color.Tomato;
+            this.rejectBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rejectBtn.Font = new System.Drawing.Font("Segoe UI Symbol", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rejectBtn.ForeColor = System.Drawing.Color.Black;
+            this.rejectBtn.IconChar = FontAwesome.Sharp.IconChar.X;
+            this.rejectBtn.IconColor = System.Drawing.Color.Black;
+            this.rejectBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.rejectBtn.IconSize = 40;
+            this.rejectBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.rejectBtn.Location = new System.Drawing.Point(529, 717);
+            this.rejectBtn.Name = "rejectBtn";
+            this.rejectBtn.Size = new System.Drawing.Size(184, 58);
+            this.rejectBtn.TabIndex = 1;
+            this.rejectBtn.Text = " Reject";
+            this.rejectBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.rejectBtn.UseVisualStyleBackColor = false;
+            this.rejectBtn.Click += new System.EventHandler(this.rejectBtn_Click);
+            // 
+            // approveBtn
+            // 
+            this.approveBtn.BackColor = System.Drawing.Color.LightGreen;
+            this.approveBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.approveBtn.Font = new System.Drawing.Font("Segoe UI Symbol", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.approveBtn.ForeColor = System.Drawing.Color.Black;
+            this.approveBtn.IconChar = FontAwesome.Sharp.IconChar.Check;
+            this.approveBtn.IconColor = System.Drawing.Color.Black;
+            this.approveBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.approveBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.approveBtn.Location = new System.Drawing.Point(252, 717);
+            this.approveBtn.Name = "approveBtn";
+            this.approveBtn.Size = new System.Drawing.Size(184, 58);
+            this.approveBtn.TabIndex = 0;
+            this.approveBtn.Text = "Approve";
+            this.approveBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.approveBtn.UseVisualStyleBackColor = false;
+            this.approveBtn.Click += new System.EventHandler(this.approveBtn_Click);
+            // 
+            // PendingUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.bookingDetailsPanel);
-            this.Name = "PendingTabUserControl";
+            this.Name = "PendingUserControl";
             this.Size = new System.Drawing.Size(964, 790);
             this.bookingDetailsPanel.ResumeLayout(false);
             this.bookingDetailsPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.vehiclePictureBox)).EndInit();
             this.outerConflictPanel.ResumeLayout(false);
             this.outerConflictPanel.PerformLayout();
             this.conflictFlowPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.vehiclePictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }

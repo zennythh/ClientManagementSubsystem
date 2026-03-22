@@ -124,7 +124,6 @@ namespace ClientManagementSubsystem
 
             if (bookings == null || bookings.Count == 0)
             {
-                // Clear whatever details panel is currently visible
                 if (pendingTabUC.Visible) pendingTabUC.ClearDetails();
                 else if (approvedTabUC.Visible) approvedTabUC.ClearDetails();
                 bookingListPanel.ResumeLayout();
@@ -132,7 +131,6 @@ namespace ClientManagementSubsystem
                 return;
             }
 
-            // Use a wrapper panel per card so we can center fixed-width cards reliably inside the vertical flow
             foreach (var booking in bookings)
             {
                 BookingCard card = new BookingCard();
@@ -141,44 +139,17 @@ namespace ClientManagementSubsystem
 
                 card.OnSelect += (s, e) => {
                     BookingCard clickedCard = (BookingCard)s;
-
-                    if (pendingTabUC.Visible)
-                        pendingTabUC.DisplayBookingDetails(clickedCard.BookingData);
-                    else if (approvedTabUC.Visible)
-                        approvedTabUC.DisplayBookingDetails(clickedCard.BookingData);
-                    else if (dismissedTabUC.Visible)
-                        dismissedTabUC.DisplayBookingDetails(clickedCard.BookingData);
-                    else if (completedTabUC.Visible)
-                        dismissedTabUC.DisplayBookingDetails(clickedCard.BookingData);
+                    if (pendingTabUC.Visible) pendingTabUC.DisplayBookingDetails(clickedCard.BookingData);
+                    else if (approvedTabUC.Visible) approvedTabUC.DisplayBookingDetails(clickedCard.BookingData);
+                    else if (dismissedTabUC.Visible) dismissedTabUC.DisplayBookingDetails(clickedCard.BookingData);
+                    //else if (completedTabUC.Visible) completedTabUC.DisplayBookingDetails(clickedCard.BookingData);
                 };
 
-                // Create a transparent wrapper the full available width so the card can be centered inside it
-                Panel wrapper = new Panel();
-                wrapper.BackColor = Color.Transparent;
-                wrapper.AutoSize = false;
-
-                // Calculate available width immediately (account for possible scrollbar and panel padding)
-                int availableWidth = bookingListPanel.ClientSize.Width - bookingListPanel.Padding.Left - bookingListPanel.Padding.Right;
-                try { if (bookingListPanel.VerticalScroll.Visible) availableWidth -= SystemInformation.VerticalScrollBarWidth; } catch { }
-                wrapper.Width = Math.Max(availableWidth, card.Width);
-
-                // Height should include the card height plus its vertical margins
-                int verticalMargins = card.Margin.Top + card.Margin.Bottom;
-                wrapper.Height = card.Height + verticalMargins;
-
-                // Preserve vertical margins by applying them to the wrapper and clear card margins
-                wrapper.Margin = new Padding(0, card.Margin.Top, 0, card.Margin.Bottom);
-                card.Margin = new Padding(0);
-
-                // Place the card centered inside the wrapper
-                card.Location = new Point(Math.Max(0, (wrapper.ClientSize.Width - card.Width) / 2), 0);
-
-                // Ensure the card won't auto-dock or anchor to the wrapper edges
-                card.Anchor = AnchorStyles.None;
-
-                wrapper.Controls.Add(card);
-                bookingListPanel.Controls.Add(wrapper);
+                // Add the card directly. We will handle centering in CenterCards().
+                bookingListPanel.Controls.Add(card);
             }
+
+            bookingListPanel.ResumeLayout();
             CenterCards();
         }
 
@@ -187,58 +158,27 @@ namespace ClientManagementSubsystem
         {
             if (!IsHandleCreated || IsDisposed) return;
 
-            // Offload to UI thread if required and adjust margins so each card is centered
             BeginInvoke((MethodInvoker)delegate {
                 if (bookingListPanel.Controls.Count == 0) return;
 
                 bookingListPanel.SuspendLayout();
 
-                // When a vertical scrollbar is visible the effective width for controls is reduced.
-                int effectiveWidth = bookingListPanel.ClientSize.Width;
-                try
-                {
-                    if (bookingListPanel.VerticalScroll.Visible)
-                    {
-                        effectiveWidth -= SystemInformation.VerticalScrollBarWidth;
-                    }
-                }
-                catch
-                {
-                    // ignore if property not available during layout
-                }
+                // 1. Calculate usable width once
+                int scrollbarWidth = SystemInformation.VerticalScrollBarWidth;
+                int usableWidth = bookingListPanel.ClientSize.Width;
+
+                // Only subtract scrollbar if it's actually there to avoid the "tilt"
+                if (bookingListPanel.VerticalScroll.Visible)
+                    usableWidth -= scrollbarWidth;
 
                 foreach (Control card in bookingListPanel.Controls)
                 {
-                    // If this control is a wrapper panel (we create wrappers when adding cards),
-                    // resize it to the available width and center its child inside.
-                    if (card is Panel wrapper)
-                    {
-                        // Preserve vertical margins, reset horizontal margins
-                        int top = wrapper.Margin.Top;
-                        int bottom = wrapper.Margin.Bottom;
-                        wrapper.Margin = new Padding(0, top, 0, bottom);
+                    // 2. Calculate side margin to force center
+                    int sideMargin = (usableWidth - card.Width) / 2;
 
-                        // Update wrapper width to fill available space so scrollbar changes don't shift layout
-                        wrapper.Width = Math.Max(effectiveWidth, wrapper.Width);
-
-                        // Center any child control(s) horizontally inside the wrapper
-                        foreach (Control child in wrapper.Controls)
-                        {
-                            child.Anchor = AnchorStyles.None;
-                            child.Location = new Point(Math.Max(0, (wrapper.ClientSize.Width - child.Width) / 2), Math.Max(0, child.Location.Y));
-                        }
-                    }
-                    else
-                    {
-                        // Fallback for plain controls: center by setting symmetric horizontal margins
-                        card.Anchor = AnchorStyles.None;
-                        int sideMargin = Math.Max(0, (effectiveWidth - card.Width) / 2);
-                        card.Margin = new Padding(sideMargin, card.Margin.Top, sideMargin, card.Margin.Bottom);
-                    }
+                    // 3. Apply margin (keep vertical margins as they were)
+                    card.Margin = new Padding(Math.Max(0, sideMargin), card.Margin.Top, 0, card.Margin.Bottom);
                 }
-
-                // Reset horizontal padding to avoid additional offset
-                bookingListPanel.Padding = new Padding(0, bookingListPanel.Padding.Top, 0, bookingListPanel.Padding.Bottom);
 
                 bookingListPanel.ResumeLayout(true);
             });
