@@ -45,6 +45,7 @@
             // 
             // cardPanel
             // 
+            this.cardPanel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cardPanel.BackColor = System.Drawing.Color.Transparent;
             this.cardPanel.Controls.Add(this.lblTo);
             this.cardPanel.Controls.Add(this.lblTimeAgo);
@@ -54,7 +55,6 @@
             this.cardPanel.Controls.Add(this.lblBookingNum);
             this.cardPanel.Controls.Add(this.lblClient);
             this.cardPanel.Controls.Add(this.lblVehicle);
-            this.cardPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cardPanel.FillColor = System.Drawing.Color.White;
             this.cardPanel.Location = new System.Drawing.Point(0, 0);
             this.cardPanel.Name = "cardPanel";

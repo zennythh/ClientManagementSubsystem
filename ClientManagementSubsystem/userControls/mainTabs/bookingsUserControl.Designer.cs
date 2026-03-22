@@ -121,10 +121,12 @@
             // 
             this.bookingListPanel.AutoScroll = true;
             this.bookingListPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.bookingListPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.bookingListPanel.Location = new System.Drawing.Point(3, 3);
             this.bookingListPanel.Name = "bookingListPanel";
             this.bookingListPanel.Size = new System.Drawing.Size(640, 790);
             this.bookingListPanel.TabIndex = 1;
+            this.bookingListPanel.WrapContents = false;
             // 
             // tabContentPanel
             // 
@@ -749,6 +751,7 @@
             this.Controls.Add(this.tableLayoutPanel);
             this.Name = "bookingsUserControl";
             this.Size = new System.Drawing.Size(1622, 943);
+            this.Load += new System.EventHandler(this.bookingsUserControl_Load);
             this.tableLayoutPanel.ResumeLayout(false);
             this.bookingPanels.ResumeLayout(false);
             this.innerHeaderPanel.ResumeLayout(false);

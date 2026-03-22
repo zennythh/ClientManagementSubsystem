@@ -17,7 +17,7 @@ namespace ClientManagementSubsystem
         // Tab UserControls
         private PendingUserControl pendingTabUC;
         private ApprovedUserControl approvedTabUC;
-        private DismissedUserControl cancelledTabUC;
+        private DismissedUserControl dismissedTabUC;
         private CompletedUserControl completedTabUC;
 
         public bookingsUserControl()
@@ -26,30 +26,44 @@ namespace ClientManagementSubsystem
             SetupSearchTimer();
             InitializeTabs();
 
-            // Default View
+            //// Default View
+            //ShowTab("Pending");
+            //bookingListPanel.AutoScroll = false; 
+            //bookingListPanel.VerticalScroll.Visible = true;
+            //bookingListPanel.VerticalScroll.Enabled = true;
+            //bookingListPanel.AutoScroll = true;
+        }
+
+        private void bookingsUserControl_Load(object sender, EventArgs e)
+        {
+            // Now the window handle exists!
             ShowTab("Pending");
-            bookingListPanel.AutoScroll = false; 
+
+            // Force the scrollbar behavior after handle creation
+            bookingListPanel.AutoScroll = false;
             bookingListPanel.VerticalScroll.Visible = true;
             bookingListPanel.VerticalScroll.Enabled = true;
             bookingListPanel.AutoScroll = true;
         }
-
         private void InitializeTabs()
         {
             // Initialize all tabs
             pendingTabUC = new PendingUserControl { Dock = DockStyle.Fill, Visible = false };
             approvedTabUC = new ApprovedUserControl { Dock = DockStyle.Fill, Visible = false };
-            cancelledTabUC = new DismissedUserControl { Dock = DockStyle.Fill, Visible = false };
+            dismissedTabUC = new DismissedUserControl { Dock = DockStyle.Fill, Visible = false };
             completedTabUC = new CompletedUserControl { Dock = DockStyle.Fill, Visible = false };
 
             // Add them to the container
             tabContentPanel.Controls.AddRange(new Control[] {
-        pendingTabUC, approvedTabUC, cancelledTabUC, completedTabUC
+        pendingTabUC, approvedTabUC, dismissedTabUC, completedTabUC
     });
 
             // Wire up data change events so the list refreshes if an action is taken
             pendingTabUC.DataChanged += (s, e) => RefreshActiveTab();
             approvedTabUC.DataChanged += (s, e) => RefreshActiveTab();
+            dismissedTabUC.DataChanged  += (s, e) => RefreshActiveTab();
+            //completedTabUC.DataChanged += (s, e) => RefreshActiveTab();
+
 
             bookingListPanel.Resize += (s, e) => CenterCards();
         }
@@ -65,11 +79,12 @@ namespace ClientManagementSubsystem
             // 2. Update Detail Panel Visibility
             pendingTabUC.Visible = (tabName == "Pending");
             approvedTabUC.Visible = (tabName == "Approved");
-            cancelledTabUC.Visible = (tabName == "Cancelled");
+            dismissedTabUC.Visible = (tabName == "Cancelled");
             completedTabUC.Visible = (tabName == "Completed");
 
             // 3. Refresh the Shared List Panel
             RefreshActiveTab();
+            CenterCards();
         }
 
         // Single point of truth for refreshing whatever is on screen
@@ -104,6 +119,7 @@ namespace ClientManagementSubsystem
 
         private void PopulateBookingList(List<Booking> bookings)
         {
+            bookingListPanel.SuspendLayout();
             bookingListPanel.Controls.Clear();
 
             if (bookings == null || bookings.Count == 0)
@@ -111,9 +127,12 @@ namespace ClientManagementSubsystem
                 // Clear whatever details panel is currently visible
                 if (pendingTabUC.Visible) pendingTabUC.ClearDetails();
                 else if (approvedTabUC.Visible) approvedTabUC.ClearDetails();
+                bookingListPanel.ResumeLayout();
+                CenterCards();
                 return;
             }
 
+            // Use a wrapper panel per card so we can center fixed-width cards reliably inside the vertical flow
             foreach (var booking in bookings)
             {
                 BookingCard card = new BookingCard();
@@ -123,19 +142,42 @@ namespace ClientManagementSubsystem
                 card.OnSelect += (s, e) => {
                     BookingCard clickedCard = (BookingCard)s;
 
-                    // Send data to the ACTIVE details tab
-                    // Remove the brackets above when uncommenting the other tabs, they are just there to prevent compile errors until those tabs are implemented.
                     if (pendingTabUC.Visible)
                         pendingTabUC.DisplayBookingDetails(clickedCard.BookingData);
-                    else if (approvedTabUC.Visible) 
+                    else if (approvedTabUC.Visible)
                         approvedTabUC.DisplayBookingDetails(clickedCard.BookingData);
-                    else if (cancelledTabUC.Visible) { }
-                        //cancelledTabUC.DisplayBookingDetails(clickedCard.BookingData);
-                    else if (completedTabUC.Visible) { }
-                        //completedTabUC.DisplayBookingDetails(clickedCard.BookingData);
+                    else if (dismissedTabUC.Visible)
+                        dismissedTabUC.DisplayBookingDetails(clickedCard.BookingData);
+                    else if (completedTabUC.Visible)
+                        dismissedTabUC.DisplayBookingDetails(clickedCard.BookingData);
                 };
 
-                bookingListPanel.Controls.Add(card);
+                // Create a transparent wrapper the full available width so the card can be centered inside it
+                Panel wrapper = new Panel();
+                wrapper.BackColor = Color.Transparent;
+                wrapper.AutoSize = false;
+
+                // Calculate available width immediately (account for possible scrollbar and panel padding)
+                int availableWidth = bookingListPanel.ClientSize.Width - bookingListPanel.Padding.Left - bookingListPanel.Padding.Right;
+                try { if (bookingListPanel.VerticalScroll.Visible) availableWidth -= SystemInformation.VerticalScrollBarWidth; } catch { }
+                wrapper.Width = Math.Max(availableWidth, card.Width);
+
+                // Height should include the card height plus its vertical margins
+                int verticalMargins = card.Margin.Top + card.Margin.Bottom;
+                wrapper.Height = card.Height + verticalMargins;
+
+                // Preserve vertical margins by applying them to the wrapper and clear card margins
+                wrapper.Margin = new Padding(0, card.Margin.Top, 0, card.Margin.Bottom);
+                card.Margin = new Padding(0);
+
+                // Place the card centered inside the wrapper
+                card.Location = new Point(Math.Max(0, (wrapper.ClientSize.Width - card.Width) / 2), 0);
+
+                // Ensure the card won't auto-dock or anchor to the wrapper edges
+                card.Anchor = AnchorStyles.None;
+
+                wrapper.Controls.Add(card);
+                bookingListPanel.Controls.Add(wrapper);
             }
             CenterCards();
         }
@@ -143,26 +185,63 @@ namespace ClientManagementSubsystem
         #region Helpers
         private void CenterCards()
         {
-            if (bookingListPanel.Controls.Count == 0) return;
+            if (!IsHandleCreated || IsDisposed) return;
 
-            // Force a layout logic update to ensure ClientSize is accurate
-            bookingListPanel.PerformLayout();
+            // Offload to UI thread if required and adjust margins so each card is centered
+            BeginInvoke((MethodInvoker)delegate {
+                if (bookingListPanel.Controls.Count == 0) return;
 
-            Control firstCard = bookingListPanel.Controls[0];
-            int cardFullWidth = firstCard.Width + firstCard.Margin.Horizontal;
+                bookingListPanel.SuspendLayout();
 
-            // Subtract a small buffer (e.g., 25px) to account for the potential scrollbar 
-            // so the layout doesn't change when the scrollbar appears.
-            int availableWidth = bookingListPanel.ClientSize.Width - bookingListPanel.Padding.Horizontal - 20;
+                // When a vertical scrollbar is visible the effective width for controls is reduced.
+                int effectiveWidth = bookingListPanel.ClientSize.Width;
+                try
+                {
+                    if (bookingListPanel.VerticalScroll.Visible)
+                    {
+                        effectiveWidth -= SystemInformation.VerticalScrollBarWidth;
+                    }
+                }
+                catch
+                {
+                    // ignore if property not available during layout
+                }
 
-            int cardsPerRow = availableWidth / cardFullWidth;
-            if (cardsPerRow <= 0) cardsPerRow = 1;
+                foreach (Control card in bookingListPanel.Controls)
+                {
+                    // If this control is a wrapper panel (we create wrappers when adding cards),
+                    // resize it to the available width and center its child inside.
+                    if (card is Panel wrapper)
+                    {
+                        // Preserve vertical margins, reset horizontal margins
+                        int top = wrapper.Margin.Top;
+                        int bottom = wrapper.Margin.Bottom;
+                        wrapper.Margin = new Padding(0, top, 0, bottom);
 
-            int totalContentWidth = cardsPerRow * cardFullWidth;
-            int lateralPadding = (bookingListPanel.ClientSize.Width - totalContentWidth) / 2;
+                        // Update wrapper width to fill available space so scrollbar changes don't shift layout
+                        wrapper.Width = Math.Max(effectiveWidth, wrapper.Width);
 
-            // Reset padding but keep the Top padding you might have set in Designer
-            bookingListPanel.Padding = new Padding(Math.Max(0, lateralPadding), bookingListPanel.Padding.Top, 0, 0);
+                        // Center any child control(s) horizontally inside the wrapper
+                        foreach (Control child in wrapper.Controls)
+                        {
+                            child.Anchor = AnchorStyles.None;
+                            child.Location = new Point(Math.Max(0, (wrapper.ClientSize.Width - child.Width) / 2), Math.Max(0, child.Location.Y));
+                        }
+                    }
+                    else
+                    {
+                        // Fallback for plain controls: center by setting symmetric horizontal margins
+                        card.Anchor = AnchorStyles.None;
+                        int sideMargin = Math.Max(0, (effectiveWidth - card.Width) / 2);
+                        card.Margin = new Padding(sideMargin, card.Margin.Top, sideMargin, card.Margin.Bottom);
+                    }
+                }
+
+                // Reset horizontal padding to avoid additional offset
+                bookingListPanel.Padding = new Padding(0, bookingListPanel.Padding.Top, 0, bookingListPanel.Padding.Bottom);
+
+                bookingListPanel.ResumeLayout(true);
+            });
         }
 
         private void SetupSearchTimer()
