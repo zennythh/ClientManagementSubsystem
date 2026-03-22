@@ -17,7 +17,7 @@ namespace ClientManagementSubsystem
         // Tab UserControls
         private PendingUserControl pendingTabUC;
         private ApprovedUserControl approvedTabUC;
-        private CancelledUserControl cancelledTabUC;
+        private DismissedUserControl cancelledTabUC;
         private CompletedUserControl completedTabUC;
 
         public bookingsUserControl()
@@ -35,7 +35,7 @@ namespace ClientManagementSubsystem
             // Initialize all tabs
             pendingTabUC = new PendingUserControl { Dock = DockStyle.Fill, Visible = false };
             approvedTabUC = new ApprovedUserControl { Dock = DockStyle.Fill, Visible = false };
-            cancelledTabUC = new CancelledUserControl { Dock = DockStyle.Fill, Visible = false };
+            cancelledTabUC = new DismissedUserControl { Dock = DockStyle.Fill, Visible = false };
             completedTabUC = new CompletedUserControl { Dock = DockStyle.Fill, Visible = false };
 
             // Add them to the container
@@ -45,7 +45,7 @@ namespace ClientManagementSubsystem
 
             // Wire up data change events so the list refreshes if an action is taken
             pendingTabUC.DataChanged += (s, e) => RefreshActiveTab();
-            //approvedTabUC.DataChanged += (s, e) => RefreshActiveTab(); // Add as needed
+            approvedTabUC.DataChanged += (s, e) => RefreshActiveTab(); 
         }
 
         private void ShowTab(string tabName)
@@ -53,7 +53,7 @@ namespace ClientManagementSubsystem
             // 1. Update Indicator Visibility
             pendingSelected.Visible = (tabName == "Pending");
             approvedSelected.Visible = (tabName == "Approved");
-            cancelledSelected.Visible = (tabName == "Cancelled");
+            dismissedSelected.Visible = (tabName == "Cancelled");
             completedSelected.Visible = (tabName == "Completed");
 
             // 2. Update Detail Panel Visibility
@@ -75,7 +75,7 @@ namespace ClientManagementSubsystem
             // Map UI Tabs to Database Status Values
             if (pendingSelected.Visible) dbStatus = "Pending";
             else if (approvedSelected.Visible) dbStatus = "Reserved"; // Your DB use "Reserved"
-            else if (cancelledSelected.Visible) dbStatus = "Rejected"; // Your DB uses "Rejected"
+            else if (dismissedSelected.Visible) dbStatus = "Rejected"; // Your DB uses "Rejected"
             else if (completedSelected.Visible) dbStatus = "Completed";
 
             if (string.IsNullOrEmpty(dbStatus)) return;
@@ -121,8 +121,8 @@ namespace ClientManagementSubsystem
                     // Remove the brackets above when uncommenting the other tabs, they are just there to prevent compile errors until those tabs are implemented.
                     if (pendingTabUC.Visible)
                         pendingTabUC.DisplayBookingDetails(clickedCard.BookingData);
-                    else if (approvedTabUC.Visible) { }
-                        //approvedTabUC.DisplayBookingDetails(clickedCard.BookingData);
+                    else if (approvedTabUC.Visible) 
+                        approvedTabUC.DisplayBookingDetails(clickedCard.BookingData);
                     else if (cancelledTabUC.Visible) { }
                         //cancelledTabUC.DisplayBookingDetails(clickedCard.BookingData);
                     else if (completedTabUC.Visible) { }

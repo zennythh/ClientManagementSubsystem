@@ -126,11 +126,11 @@
     <Compile Include="userControls\cards\BookingCard.Designer.cs">
       <DependentUpon>BookingCard.cs</DependentUpon>
     </Compile>
-    <Compile Include="userControls\bookingTabs\CancelledUserControl.cs">
+    <Compile Include="userControls\bookingTabs\DismissedUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="userControls\bookingTabs\CancelledUserControl.Designer.cs">
-      <DependentUpon>CancelledUserControl.cs</DependentUpon>
+    <Compile Include="userControls\bookingTabs\DismissedUserControl.Designer.cs">
+      <DependentUpon>DismissedUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="userControls\bookingTabs\CompletedUserControl.cs">
       <SubType>UserControl</SubType>
@@ -203,8 +203,8 @@
     <EmbeddedResource Include="userControls\mainTabs\bookingsUserControl.resx">
       <DependentUpon>bookingsUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="userControls\bookingTabs\CancelledUserControl.resx">
-      <DependentUpon>CancelledUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="userControls\bookingTabs\DismissedUserControl.resx">
+      <DependentUpon>DismissedUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="userControls\bookingTabs\CompletedUserControl.resx">
       <DependentUpon>CompletedUserControl.cs</DependentUpon>
@@ -271,6 +271,8 @@
   <ItemGroup>
     <None Include="Resources\closeIcon.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\search-bar-01.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

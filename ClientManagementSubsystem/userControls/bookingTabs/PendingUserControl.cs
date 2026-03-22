@@ -412,7 +412,5 @@ namespace ClientManagementSubsystem.userControls
             }
         }
         #endregion
-
-        // List management is handled by the parent bookingsUserControl.
     }
 }

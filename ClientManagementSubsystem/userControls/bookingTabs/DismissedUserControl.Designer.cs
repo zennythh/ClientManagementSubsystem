@@ -1,6 +1,6 @@
 ﻿namespace ClientManagementSubsystem.userControls
 {
-    partial class CancelledUserControl
+    partial class DismissedUserControl
     {
         /// <summary> 
         /// Required designer variable.

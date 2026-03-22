@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace ClientManagementSubsystem.userControls
 {
-    public partial class CancelledUserControl : UserControl
+    public partial class DismissedUserControl : UserControl
     {
-        public CancelledUserControl()
+        public DismissedUserControl()
         {
             InitializeComponent();
         }
