@@ -1,6 +1,6 @@
 ﻿namespace ClientManagementSubsystem.userControls
 {
-    partial class PendingTabUserControl
+    partial class PendingUserControl
     {
         /// <summary> 
         /// Required designer variable.

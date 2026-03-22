@@ -15,7 +15,7 @@ namespace ClientManagementSubsystem
         private BookingHandler db = new BookingHandler();
 
         // Tab UserControls
-        private PendingTabUserControl pendingTabUC;
+        private PendingUserControl pendingTabUC;
         // private ApprovedTabUserControl approvedTabUC; // Placeholder for your next tab
 
         public bookingsUserControl()
@@ -30,7 +30,7 @@ namespace ClientManagementSubsystem
 
         private void InitializeTabs()
         {
-            pendingTabUC = new PendingTabUserControl();
+            pendingTabUC = new PendingUserControl();
             pendingTabUC.Dock = DockStyle.Fill;
             // The designer places the details container in `bookingDetailsPanel`.
             // Add the Pending tab content (details view) into that panel so the
@@ -70,6 +70,8 @@ namespace ClientManagementSubsystem
             // Update UI Indicators first
             pendingSelected.Visible = (tabName == "Pending");
             approvedSelected.Visible = (tabName == "Approved");
+            cancelledSelected.Visible = (tabName == "Cancelled");
+            completedSelected.Visible = (tabName == "Completed");
 
             // Handle Visibility and initial data load
             if (tabName == "Pending")
@@ -86,6 +88,18 @@ namespace ClientManagementSubsystem
                 pendingTabUC.Visible = false;
                 // approvedTabUC.Visible = true;
                 // RefreshActiveTab();
+            }
+
+            else if (tabName == "Cancelled")
+            {
+                pendingTabUC.Visible = false;
+                //RefreshActiveTab();
+            }
+
+            else if (tabName == "Completed")
+            {
+                pendingTabUC.Visible = false;
+                //RefreshActiveTab();
             }
         }
 
@@ -157,6 +171,8 @@ namespace ClientManagementSubsystem
         #region Navigation Buttons
         private void pendingBtn_Click(object sender, EventArgs e) => ShowTab("Pending");
         private void approvedBtn_Click(object sender, EventArgs e) => ShowTab("Approved");
+        private void cancelledBtn_Click(object sender, EventArgs e) => ShowTab("Cancelled");
+        private void completedBtn_Click(object sender, EventArgs e) => ShowTab("Completed");
 
         // Event handling is owned by the active tab UserControl (PendingTabUserControl).
         // No forwarding stubs are required here.

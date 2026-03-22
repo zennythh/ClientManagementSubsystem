@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace ClientManagementSubsystem.userControls
 {
-    public partial class PendingTabUserControl : UserControl
+    public partial class PendingUserControl : UserControl
     {
         private BookingHandler db = new BookingHandler();
         private Booking originalBooking;
@@ -20,7 +20,7 @@ namespace ClientManagementSubsystem.userControls
         // Parent will subscribe to this to refresh the list on the left
         public event EventHandler DataChanged;
 
-        public PendingTabUserControl()
+        public PendingUserControl()
         {
             InitializeComponent();
             SetupEmptyStateOverlay();

@@ -114,40 +114,58 @@
     <Compile Include="classes\ButtonSelection.cs" />
     <Compile Include="classes\MySQLConnStr.cs" />
     <Compile Include="models\PendingInfos.cs" />
-    <Compile Include="userControls\BookingCard.cs">
+    <Compile Include="userControls\bookingTabs\ApprovedUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="userControls\BookingCard.Designer.cs">
+    <Compile Include="userControls\bookingTabs\ApprovedUserControl.Designer.cs">
+      <DependentUpon>ApprovedUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControls\cards\BookingCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControls\cards\BookingCard.Designer.cs">
       <DependentUpon>BookingCard.cs</DependentUpon>
     </Compile>
-    <Compile Include="userControls\ConflictBookingCard.cs">
+    <Compile Include="userControls\bookingTabs\CancelledUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="userControls\ConflictBookingCard.Designer.cs">
+    <Compile Include="userControls\bookingTabs\CancelledUserControl.Designer.cs">
+      <DependentUpon>CancelledUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControls\bookingTabs\CompletedUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControls\bookingTabs\CompletedUserControl.Designer.cs">
+      <DependentUpon>CompletedUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="userControls\cards\ConflictBookingCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControls\cards\ConflictBookingCard.Designer.cs">
       <DependentUpon>ConflictBookingCard.cs</DependentUpon>
     </Compile>
-    <Compile Include="userControls\outboundUserControl.cs">
+    <Compile Include="userControls\mainTabs\outboundUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="userControls\outboundUserControl.Designer.cs">
+    <Compile Include="userControls\mainTabs\outboundUserControl.Designer.cs">
       <DependentUpon>outboundUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="userControls\bookingsUserControl.cs">
+    <Compile Include="userControls\mainTabs\bookingsUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="userControls\bookingsUserControl.Designer.cs">
+    <Compile Include="userControls\mainTabs\bookingsUserControl.Designer.cs">
       <DependentUpon>bookingsUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="userControls\damagesUserControl.cs">
+    <Compile Include="userControls\mainTabs\damagesUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="userControls\damagesUserControl.Designer.cs">
+    <Compile Include="userControls\mainTabs\damagesUserControl.Designer.cs">
       <DependentUpon>damagesUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="userControls\dashboardUserControl.cs">
+    <Compile Include="userControls\mainTabs\dashboardUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="userControls\dashboardUserControl.Designer.cs">
+    <Compile Include="userControls\mainTabs\dashboardUserControl.Designer.cs">
       <DependentUpon>dashboardUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Main.cs">
@@ -156,54 +174,63 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="userControls\PendingTabUserControl.cs">
+    <Compile Include="userControls\bookingTabs\PendingUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="userControls\PendingTabUserControl.Designer.cs">
-      <DependentUpon>PendingTabUserControl.cs</DependentUpon>
+    <Compile Include="userControls\bookingTabs\PendingUserControl.Designer.cs">
+      <DependentUpon>PendingUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="userControls\personalUserControl.cs">
+    <Compile Include="userControls\mainTabs\personalUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="userControls\personalUserControl.Designer.cs">
+    <Compile Include="userControls\mainTabs\personalUserControl.Designer.cs">
       <DependentUpon>personalUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="userControls\inboundUserControl.cs">
+    <Compile Include="userControls\mainTabs\inboundUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="userControls\inboundUserControl.Designer.cs">
+    <Compile Include="userControls\mainTabs\inboundUserControl.Designer.cs">
       <DependentUpon>inboundUserControl.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="userControls\BookingCard.resx">
+    <EmbeddedResource Include="userControls\bookingTabs\ApprovedUserControl.resx">
+      <DependentUpon>ApprovedUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControls\cards\BookingCard.resx">
       <DependentUpon>BookingCard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="userControls\bookingsUserControl.resx">
+    <EmbeddedResource Include="userControls\mainTabs\bookingsUserControl.resx">
       <DependentUpon>bookingsUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="userControls\ConflictBookingCard.resx">
+    <EmbeddedResource Include="userControls\bookingTabs\CancelledUserControl.resx">
+      <DependentUpon>CancelledUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControls\bookingTabs\CompletedUserControl.resx">
+      <DependentUpon>CompletedUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControls\cards\ConflictBookingCard.resx">
       <DependentUpon>ConflictBookingCard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="userControls\damagesUserControl.resx">
+    <EmbeddedResource Include="userControls\mainTabs\damagesUserControl.resx">
       <DependentUpon>damagesUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="userControls\dashboardUserControl.resx">
+    <EmbeddedResource Include="userControls\mainTabs\dashboardUserControl.resx">
       <DependentUpon>dashboardUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="userControls\inboundUserControl.resx">
+    <EmbeddedResource Include="userControls\mainTabs\inboundUserControl.resx">
       <DependentUpon>inboundUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="userControls\outboundUserControl.resx">
+    <EmbeddedResource Include="userControls\mainTabs\outboundUserControl.resx">
       <DependentUpon>outboundUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="userControls\PendingTabUserControl.resx">
-      <DependentUpon>PendingTabUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="userControls\bookingTabs\PendingUserControl.resx">
+      <DependentUpon>PendingUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="userControls\personalUserControl.resx">
+    <EmbeddedResource Include="userControls\mainTabs\personalUserControl.resx">
       <DependentUpon>personalUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -244,5 +271,6 @@
   <ItemGroup>
     <None Include="Resources\closeIcon.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
