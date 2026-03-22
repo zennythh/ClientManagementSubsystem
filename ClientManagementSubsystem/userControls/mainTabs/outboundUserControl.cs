@@ -25,6 +25,9 @@ namespace ClientManagementSubsystem.userControls
             bookingListPanel.Resize += (s, e) => CenterCards();
         }
 
+        // Add this line inside the class
+        public event EventHandler DataChanged;
+
         private void outboundUserControl_Load(object sender, EventArgs e)
         {
             RefreshBookingList();
@@ -72,8 +75,8 @@ namespace ClientManagementSubsystem.userControls
             lblRentalTimeValue.Text = GetRentalDuration(b.DateSchedOut, b.DateDue);
 
             // Image Loading
-            if (!string.IsNullOrEmpty(b.ImagePath) && File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, b.ImagePath)))
-                vehiclePictureBox.ImageLocation = b.ImagePath;
+            if (!string.IsNullOrEmpty(b.FullImagePath) && System.IO.File.Exists(b.FullImagePath))
+                vehiclePictureBox.ImageLocation = b.FullImagePath;
             else
                 vehiclePictureBox.Image = Properties.Resources.defaultVehicle;
 
@@ -224,8 +227,121 @@ namespace ClientManagementSubsystem.userControls
             customerAgeTextBox.Text = CalculateAge(customerBdayDTP.Value).ToString();
         }
 
+        private void mileageOutTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow digits (0-9) and the backspace key
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true; // This blocks the input
+            }
+
+            // Only allow one decimal point
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
         private void refreshBtn_Click(object sender, EventArgs e) => RefreshBookingList();
         private void clearSearchBarBtn_Click(object sender, EventArgs e) => searchBarTextBox.Clear();
         #endregion
+
+        private void releaseBtn_Click(object sender, EventArgs e)
+        {
+            // 1. Basic Selection Check
+            if (currentSelectedBooking == null)
+            {
+                MessageBox.Show("Please select a reserved booking first.", "Selection Required", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // 2. Validation: Mileage
+            if (!int.TryParse(mileageOutTextBox.Text, out int mOut) || mOut <= 0)
+            {
+                MessageBox.Show("Please enter a valid starting mileage.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                mileageOutTextBox.Focus();
+                return;
+            }
+
+            // 3. Validation: Fuel Level
+            string fOut = fuelLevelOutTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(fOut))
+            {
+                MessageBox.Show("Please indicate the starting fuel level (e.g., Full, 75%, etc.).", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                fuelLevelOutTextBox.Focus();
+                return;
+            }
+
+            if (currentSelectedBooking.DateSchedOut.Date != DateTime.Today)
+            {
+                string dateWarn = $"⚠️ DATE MISMATCH:\n\n" +
+                                  $"This booking is scheduled for: {currentSelectedBooking.DateSchedOut:MMM dd, yyyy}\n" +
+                                  $"Today's Date: {DateTime.Today:MMM dd, yyyy}\n\n" +
+                                  "Are you sure you want to release this unit early/late?";
+
+                DialogResult dateResult = MessageBox.Show(dateWarn, "Schedule Warning",
+                                          MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (dateResult == DialogResult.No) return;
+            }
+
+            // 4. Confirmation
+            string msg = $"Release vehicle {currentSelectedBooking.LicensePlate} to {currentSelectedBooking.FirstName}?\n" +
+                         $"Starting Mileage: {mOut} km\n" +
+                         $"Fuel Level: {fOut}";
+
+            if (MessageBox.Show(msg, "Confirm Release", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                var result = db.ProcessUnitRelease(
+                    currentSelectedBooking.BookingID,
+                    currentSelectedBooking.VehicleVIN,
+                    mOut,
+                    fOut
+                );
+
+                if (result.success)
+                {
+                    MessageBox.Show(result.message, "Unit Released", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ClearDetails(); // Clear UI
+                    DataChanged?.Invoke(this, EventArgs.Empty); // Refresh parent list
+                }
+                else
+                {
+                    MessageBox.Show(result.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void cancelBtn_Click(object sender, EventArgs e)
+        {
+            // 1. Check if a booking is actually selected
+            if (currentSelectedBooking == null)
+            {
+                MessageBox.Show("Please select a booking to cancel.", "Selection Required", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // 2. Double Confirmation
+            string msg = $"Are you sure you want to cancel the booking for {currentSelectedBooking.FirstName} {currentSelectedBooking.LastName}?\n\n" +
+                         "This will mark the status as 'Rejected'.";
+
+            if (MessageBox.Show(msg, "Confirm Cancellation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                // 3. Reuse your existing ProcessRejection method
+                var result = db.ProcessRejection(currentSelectedBooking.BookingID);
+
+                if (result.success)
+                {
+                    MessageBox.Show("Booking has been successfully cancelled.", "Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    ClearDetails(); // Reset the UI fields
+                    DataChanged?.Invoke(this, EventArgs.Empty); // Trigger refresh on the parent list
+                }
+                else
+                {
+                    MessageBox.Show(result.message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }

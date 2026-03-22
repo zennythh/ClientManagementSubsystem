@@ -276,12 +276,13 @@ namespace ClientManagementSubsystem.classes
                 try
                 {
                     connection.Open();
-                    string query = "UPDATE Bookings SET Status = 'Rejected' WHERE BookingID = @bid";
-
+                    string query = "UPDATE Bookings SET Status = 'Rejected' WHERE BookingID = @bid" +
+                                   "UPDATE Bookings SET Status = 'Rejected' WHERE BookingID = @bid; " +
+                                   "UPDATE Vehicles SET CurrentStatus = 'Available' WHERE VIN = (SELECT VehicleVIN FROM Bookings WHERE BookingID = @bid);";
                     using (var cmd = new MySqlCommand(query, connection))
                     {
                         cmd.Parameters.AddWithValue("@bid", bookingID);
-                        int rows = cmd.ExecuteNonQuery();
+                        int rows = cmd.ExecuteNonQuery();   
 
                         if (rows > 0)
                             return (true, "Booking has been rejected.");
@@ -292,6 +293,54 @@ namespace ClientManagementSubsystem.classes
                 catch (Exception ex)
                 {
                     return (false, $"Database Error: {ex.Message}");
+                }
+            }
+        }
+
+        public (bool success, string message) ProcessUnitRelease(int bookingID, string vin, int mileageOut, string fuelOut)
+        {
+            using (var connection = new MySqlConnection(MySQLConnStr.ConnectionString))
+            {
+                connection.Open();
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        // 1. Update Booking status and metrics
+                        string updateBooking = @"UPDATE Bookings SET 
+                                        Status = 'Out', 
+                                        DateOut = @dateOut, 
+                                        MileageOut = @mOut, 
+                                        FuelLevelOut = @fOut 
+                                        WHERE BookingID = @bid";
+
+                        using (var cmd = new MySqlCommand(updateBooking, connection, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@dateOut", DateTime.Now);
+                            cmd.Parameters.AddWithValue("@mOut", mileageOut);
+                            cmd.Parameters.AddWithValue("@fOut", fuelOut);
+                            cmd.Parameters.AddWithValue("@bid", bookingID);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // 2. Update Vehicle status to 'Out' 
+                        // (Optional: You might already have 'Rented' from the Approval stage, 
+                        // but 'Out' is more specific for active driving)
+                        string updateVehicle = "UPDATE Vehicles SET CurrentStatus = 'Out' WHERE VIN = @vin";
+                        using (var cmd = new MySqlCommand(updateVehicle, connection, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@vin", vin);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        transaction.Commit();
+                        return (true, "Vehicle successfully released!");
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        return (false, $"Database Error: {ex.Message}");
+                    }
                 }
             }
         }

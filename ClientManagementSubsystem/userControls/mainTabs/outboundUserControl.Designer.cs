@@ -279,10 +279,10 @@
             this.mileageOutTextBox.Multiline = true;
             this.mileageOutTextBox.Name = "mileageOutTextBox";
             this.mileageOutTextBox.PlaceholderText = "";
-            this.mileageOutTextBox.ReadOnly = true;
             this.mileageOutTextBox.SelectedText = "";
             this.mileageOutTextBox.Size = new System.Drawing.Size(110, 43);
             this.mileageOutTextBox.TabIndex = 59;
+            this.mileageOutTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mileageOutTextBox_KeyPress);
             // 
             // fuelLevelOutTextBox
             // 
@@ -300,7 +300,6 @@
             this.fuelLevelOutTextBox.Multiline = true;
             this.fuelLevelOutTextBox.Name = "fuelLevelOutTextBox";
             this.fuelLevelOutTextBox.PlaceholderText = "";
-            this.fuelLevelOutTextBox.ReadOnly = true;
             this.fuelLevelOutTextBox.SelectedText = "";
             this.fuelLevelOutTextBox.Size = new System.Drawing.Size(110, 43);
             this.fuelLevelOutTextBox.TabIndex = 58;
@@ -344,6 +343,7 @@
             this.releaseBtn.Text = "Release Unit";
             this.releaseBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.releaseBtn.UseVisualStyleBackColor = false;
+            this.releaseBtn.Click += new System.EventHandler(this.releaseBtn_Click);
             // 
             // cancelBtn
             // 
@@ -363,6 +363,7 @@
             this.cancelBtn.Text = " Cancel Reservation";
             this.cancelBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.cancelBtn.UseVisualStyleBackColor = false;
+            this.cancelBtn.Click += new System.EventHandler(this.cancelBtn_Click);
             // 
             // lblPriceValue
             // 
