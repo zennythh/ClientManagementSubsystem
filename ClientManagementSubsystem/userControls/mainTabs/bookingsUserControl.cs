@@ -16,7 +16,9 @@ namespace ClientManagementSubsystem
 
         // Tab UserControls
         private PendingUserControl pendingTabUC;
-        // private ApprovedTabUserControl approvedTabUC; // Placeholder for your next tab
+        private ApprovedUserControl approvedTabUC;
+        private CancelledUserControl cancelledTabUC;
+        private CompletedUserControl completedTabUC;
 
         public bookingsUserControl()
         {
@@ -30,19 +32,109 @@ namespace ClientManagementSubsystem
 
         private void InitializeTabs()
         {
-            pendingTabUC = new PendingUserControl();
-            pendingTabUC.Dock = DockStyle.Fill;
-            // The designer places the details container in `bookingDetailsPanel`.
-            // Add the Pending tab content (details view) into that panel so the
-            // parent retains ownership of the bookingListPanel and search logic.
-            tabContentPanel.Controls.Add(pendingTabUC);
+            // Initialize all tabs
+            pendingTabUC = new PendingUserControl { Dock = DockStyle.Fill, Visible = false };
+            approvedTabUC = new ApprovedUserControl { Dock = DockStyle.Fill, Visible = false };
+            cancelledTabUC = new CancelledUserControl { Dock = DockStyle.Fill, Visible = false };
+            completedTabUC = new CompletedUserControl { Dock = DockStyle.Fill, Visible = false };
 
-            // When the child notifies that data changed (approve/reject), refresh list
+            // Add them to the container
+            tabContentPanel.Controls.AddRange(new Control[] {
+        pendingTabUC, approvedTabUC, cancelledTabUC, completedTabUC
+    });
+
+            // Wire up data change events so the list refreshes if an action is taken
             pendingTabUC.DataChanged += (s, e) => RefreshActiveTab();
-
-            // if (approvedTabUC == null) { ... }
+            //approvedTabUC.DataChanged += (s, e) => RefreshActiveTab(); // Add as needed
         }
 
+        private void ShowTab(string tabName)
+        {
+            // 1. Update Indicator Visibility
+            pendingSelected.Visible = (tabName == "Pending");
+            approvedSelected.Visible = (tabName == "Approved");
+            cancelledSelected.Visible = (tabName == "Cancelled");
+            completedSelected.Visible = (tabName == "Completed");
+
+            // 2. Update Detail Panel Visibility
+            pendingTabUC.Visible = (tabName == "Pending");
+            approvedTabUC.Visible = (tabName == "Approved");
+            cancelledTabUC.Visible = (tabName == "Cancelled");
+            completedTabUC.Visible = (tabName == "Completed");
+
+            // 3. Refresh the Shared List Panel
+            RefreshActiveTab();
+        }
+
+        // Single point of truth for refreshing whatever is on screen
+        private void RefreshActiveTab()
+        {
+            string term = searchBarTextBox.Text.Trim();
+            string dbStatus = "";
+
+            // Map UI Tabs to Database Status Values
+            if (pendingSelected.Visible) dbStatus = "Pending";
+            else if (approvedSelected.Visible) dbStatus = "Reserved"; // Your DB use "Reserved"
+            else if (cancelledSelected.Visible) dbStatus = "Rejected"; // Your DB uses "Rejected"
+            else if (completedSelected.Visible) dbStatus = "Completed";
+
+            if (string.IsNullOrEmpty(dbStatus)) return;
+
+            try
+            {
+                List<Booking> bookings;
+                if (string.IsNullOrWhiteSpace(term))
+                    bookings = db.GetBookingsByStatus(dbStatus);
+                else
+                    bookings = db.SearchBookings(term, dbStatus);
+
+                PopulateBookingList(bookings);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error refreshing list: " + ex.Message);
+            }
+        }
+
+        private void PopulateBookingList(List<Booking> bookings)
+        {
+            bookingListPanel.Controls.Clear();
+
+            if (bookings == null || bookings.Count == 0)
+            {
+                // Clear whatever details panel is currently visible
+                if (pendingTabUC.Visible) pendingTabUC.ClearDetails();
+                // else if (approvedTabUC.Visible) approvedTabUC.ClearDetails();
+                return;
+            }
+
+            foreach (var booking in bookings)
+            {
+                BookingCard card = new BookingCard();
+                card.Populate(booking);
+                card.VehicleName = booking.VehicleName;
+
+                card.OnSelect += (s, e) => {
+                    BookingCard clickedCard = (BookingCard)s;
+
+                    // Send data to the ACTIVE details tab
+                    // Remove the brackets above when uncommenting the other tabs, they are just there to prevent compile errors until those tabs are implemented.
+                    if (pendingTabUC.Visible)
+                        pendingTabUC.DisplayBookingDetails(clickedCard.BookingData);
+                    else if (approvedTabUC.Visible) { }
+                        //approvedTabUC.DisplayBookingDetails(clickedCard.BookingData);
+                    else if (cancelledTabUC.Visible) { }
+                        //cancelledTabUC.DisplayBookingDetails(clickedCard.BookingData);
+                    else if (completedTabUC.Visible) { }
+                        //completedTabUC.DisplayBookingDetails(clickedCard.BookingData);
+                };
+
+                bookingListPanel.Controls.Add(card);
+            }
+            CenterCards();
+        }
+
+        #region Helpers
         private void CenterCards()
         {
             if (bookingListPanel.Controls.Count == 0) return;
@@ -58,99 +150,14 @@ namespace ClientManagementSubsystem
 
             bookingListPanel.Padding = new Padding(Math.Max(0, lateralPadding), bookingListPanel.Padding.Top, 0, 0);
         }
+
         private void SetupSearchTimer()
         {
             searchDebounceTimer = new Timer();
             searchDebounceTimer.Interval = 350;
             searchDebounceTimer.Tick += SearchDebounceTimer_Tick;
         }
-
-        private void ShowTab(string tabName)
-        {
-            // Update UI Indicators first
-            pendingSelected.Visible = (tabName == "Pending");
-            approvedSelected.Visible = (tabName == "Approved");
-            cancelledSelected.Visible = (tabName == "Cancelled");
-            completedSelected.Visible = (tabName == "Completed");
-
-            // Handle Visibility and initial data load
-            if (tabName == "Pending")
-            {
-                pendingTabUC.Visible = true;
-                pendingTabUC.BringToFront();
-
-                // Instead of LoadData(), we use the Search logic with the current text
-                // This ensures if there's text in the search bar, the tab opens filtered
-                RefreshActiveTab();
-            }
-            else if (tabName == "Approved")
-            {
-                pendingTabUC.Visible = false;
-                // approvedTabUC.Visible = true;
-                // RefreshActiveTab();
-            }
-
-            else if (tabName == "Cancelled")
-            {
-                pendingTabUC.Visible = false;
-                //RefreshActiveTab();
-            }
-
-            else if (tabName == "Completed")
-            {
-                pendingTabUC.Visible = false;
-                //RefreshActiveTab();
-            }
-        }
-
-        // Single point of truth for refreshing whatever is on screen
-        private void RefreshActiveTab()
-        {
-            string term = searchBarTextBox.Text.Trim();
-
-            try
-            {
-                List<Booking> bookings;
-                if (string.IsNullOrWhiteSpace(term))
-                    bookings = db.GetBookingsByStatus("Pending");
-                else
-                    bookings = db.SearchBookings(term, "Pending");
-
-                PopulateBookingList(bookings);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error refreshing list: " + ex.Message);
-            }
-            // else if (approvedTabUC.Visible) { approvedTabUC.RefreshList(term); }
-        }
-
-        private void PopulateBookingList(List<Booking> bookings)
-        {
-            bookingListPanel.Controls.Clear();
-
-            if (bookings == null || bookings.Count == 0)
-            {
-                // Clear details if no bookings
-                pendingTabUC.ClearDetails();
-                return;
-            }
-
-            foreach (var booking in bookings)
-            {
-                BookingCard card = new BookingCard();
-                card.Populate(booking);
-                card.VehicleName = booking.VehicleName;
-
-                card.OnSelect += (s, e) => {
-                    BookingCard clickedCard = (BookingCard)s;
-                    pendingTabUC.DisplayBookingDetails(clickedCard.BookingData);
-                };
-
-                bookingListPanel.Controls.Add(card);
-            }
-            CenterCards();
-        }
+        #endregion
 
         #region Search Logic & Debounce Check
         private void searchBarTextBox_TextChanged(object sender, EventArgs e)
