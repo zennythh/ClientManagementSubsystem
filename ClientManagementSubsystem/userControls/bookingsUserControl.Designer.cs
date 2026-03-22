@@ -31,7 +31,8 @@
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.bookingPanels = new System.Windows.Forms.TableLayoutPanel();
             this.bookingListPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.bookingDetailsPanel = new Guna.UI2.WinForms.Guna2Panel();
+            this.tabContentPanel = new System.Windows.Forms.Panel();
+            // tabContentPanel currently does not host child controls in Designer. Resume will be called later.
             this.customerBdayDTP = new System.Windows.Forms.DateTimePicker();
             this.rentalDateEndDTP = new System.Windows.Forms.DateTimePicker();
             this.rentalDateStartDTP = new System.Windows.Forms.DateTimePicker();
@@ -56,6 +57,7 @@
             this.lblto = new System.Windows.Forms.Label();
             this.vehicleLicenseTextBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.lblLicenseNum = new System.Windows.Forms.Label();
+            this.vehiclePictureBox = new System.Windows.Forms.PictureBox();
             this.lblBookingid = new System.Windows.Forms.Label();
             this.vehicleNameTextBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.lblVehicleName = new System.Windows.Forms.Label();
@@ -66,27 +68,21 @@
             this.lblNoBookingConflicts = new System.Windows.Forms.Label();
             this.lblBookingConflicts = new System.Windows.Forms.Label();
             this.innerHeaderPanel = new Guna.UI2.WinForms.Guna2GradientPanel();
+            this.searchBarTextBox = new Guna.UI2.WinForms.Guna2TextBox();
+            this.cancelledSelected = new Guna.UI2.WinForms.Guna2Shapes();
+            this.completedSelected = new Guna.UI2.WinForms.Guna2Shapes();
+            this.completedBtn = new Guna.UI2.WinForms.Guna2Button();
+            this.cancelledBtn = new Guna.UI2.WinForms.Guna2Button();
             this.pendingSelected = new Guna.UI2.WinForms.Guna2Shapes();
             this.approvedSelected = new Guna.UI2.WinForms.Guna2Shapes();
             this.approvedBtn = new Guna.UI2.WinForms.Guna2Button();
             this.pendingBtn = new Guna.UI2.WinForms.Guna2Button();
-            this.lblPriceValue = new System.Windows.Forms.Label();
-            this.lblPrice = new System.Windows.Forms.Label();
-            this.completedSelected = new Guna.UI2.WinForms.Guna2Shapes();
-            this.completedBtn = new Guna.UI2.WinForms.Guna2Button();
-            this.cancelledBtn = new Guna.UI2.WinForms.Guna2Button();
-            this.cancelledSelected = new Guna.UI2.WinForms.Guna2Shapes();
-            this.vehiclePictureBox = new System.Windows.Forms.PictureBox();
-            this.rejectBtn = new FontAwesome.Sharp.IconButton();
-            this.approveBtn = new FontAwesome.Sharp.IconButton();
-            this.searchBarTextBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.tableLayoutPanel.SuspendLayout();
             this.bookingPanels.SuspendLayout();
-            this.bookingDetailsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.vehiclePictureBox)).BeginInit();
             this.outerConflictPanel.SuspendLayout();
             this.conflictFlowPanel.SuspendLayout();
             this.innerHeaderPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.vehiclePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel
@@ -111,7 +107,7 @@
             this.bookingPanels.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.bookingPanels.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.bookingPanels.Controls.Add(this.bookingListPanel, 0, 0);
-            this.bookingPanels.Controls.Add(this.bookingDetailsPanel, 1, 0);
+            this.bookingPanels.Controls.Add(this.tabContentPanel, 1, 0);
             this.bookingPanels.Dock = System.Windows.Forms.DockStyle.Fill;
             this.bookingPanels.Location = new System.Drawing.Point(3, 144);
             this.bookingPanels.Name = "bookingPanels";
@@ -129,303 +125,28 @@
             this.bookingListPanel.Size = new System.Drawing.Size(640, 790);
             this.bookingListPanel.TabIndex = 1;
             // 
-            // bookingDetailsPanel
+            // tabContentPanel
             // 
-            this.bookingDetailsPanel.BorderRadius = 5;
-            this.bookingDetailsPanel.Controls.Add(this.lblPriceValue);
-            this.bookingDetailsPanel.Controls.Add(this.lblPrice);
-            this.bookingDetailsPanel.Controls.Add(this.customerBdayDTP);
-            this.bookingDetailsPanel.Controls.Add(this.rentalDateEndDTP);
-            this.bookingDetailsPanel.Controls.Add(this.rentalDateStartDTP);
-            this.bookingDetailsPanel.Controls.Add(this.lblBookingIDValue);
-            this.bookingDetailsPanel.Controls.Add(this.lblRentalTimeValue);
-            this.bookingDetailsPanel.Controls.Add(this.lblRentalTime);
-            this.bookingDetailsPanel.Controls.Add(this.lblDateofRequestValue);
-            this.bookingDetailsPanel.Controls.Add(this.lblDateOfRequest);
-            this.bookingDetailsPanel.Controls.Add(this.lblRentalPeriod);
-            this.bookingDetailsPanel.Controls.Add(this.lblCustomerAge);
-            this.bookingDetailsPanel.Controls.Add(this.lblCustomerBirthday);
-            this.bookingDetailsPanel.Controls.Add(this.customerContactNumTextBox);
-            this.bookingDetailsPanel.Controls.Add(this.lblCustomerContactNum);
-            this.bookingDetailsPanel.Controls.Add(this.customerEmailTextBox);
-            this.bookingDetailsPanel.Controls.Add(this.lblCustomerEmail);
-            this.bookingDetailsPanel.Controls.Add(this.lblCustomerInfo);
-            this.bookingDetailsPanel.Controls.Add(this.lastNameTextBox);
-            this.bookingDetailsPanel.Controls.Add(this.lblLastName);
-            this.bookingDetailsPanel.Controls.Add(this.customerLicenseTextBox);
-            this.bookingDetailsPanel.Controls.Add(this.lblCustomerLicense);
-            this.bookingDetailsPanel.Controls.Add(this.customerAgeTextBox);
-            this.bookingDetailsPanel.Controls.Add(this.lblto);
-            this.bookingDetailsPanel.Controls.Add(this.vehicleLicenseTextBox);
-            this.bookingDetailsPanel.Controls.Add(this.lblLicenseNum);
-            this.bookingDetailsPanel.Controls.Add(this.vehiclePictureBox);
-            this.bookingDetailsPanel.Controls.Add(this.lblBookingid);
-            this.bookingDetailsPanel.Controls.Add(this.vehicleNameTextBox);
-            this.bookingDetailsPanel.Controls.Add(this.lblVehicleName);
-            this.bookingDetailsPanel.Controls.Add(this.firstNameTextBox);
-            this.bookingDetailsPanel.Controls.Add(this.lblFirstName);
-            this.bookingDetailsPanel.Controls.Add(this.rejectBtn);
-            this.bookingDetailsPanel.Controls.Add(this.approveBtn);
-            this.bookingDetailsPanel.Controls.Add(this.outerConflictPanel);
-            this.bookingDetailsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bookingDetailsPanel.FillColor = System.Drawing.Color.White;
-            this.bookingDetailsPanel.Location = new System.Drawing.Point(649, 3);
-            this.bookingDetailsPanel.Name = "bookingDetailsPanel";
-            this.bookingDetailsPanel.Padding = new System.Windows.Forms.Padding(20);
-            this.bookingDetailsPanel.Size = new System.Drawing.Size(964, 790);
-            this.bookingDetailsPanel.TabIndex = 2;
+            this.tabContentPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabContentPanel.Location = new System.Drawing.Point(649, 3);
+            this.tabContentPanel.Name = "tabContentPanel";
+            this.tabContentPanel.Size = new System.Drawing.Size(964, 790);
+            this.tabContentPanel.TabIndex = 99;
             // 
-            // customerBdayDTP
+            // tabContentPanel
             // 
-            this.customerBdayDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customerBdayDTP.CalendarTitleForeColor = System.Drawing.Color.Azure;
-            this.customerBdayDTP.CustomFormat = "MMMM dd, yyyy";
-            this.customerBdayDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customerBdayDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.customerBdayDTP.Location = new System.Drawing.Point(117, 413);
-            this.customerBdayDTP.MaxDate = new System.DateTime(2026, 12, 31, 0, 0, 0, 0);
-            this.customerBdayDTP.MinDate = new System.DateTime(1910, 12, 31, 0, 0, 0, 0);
-            this.customerBdayDTP.Name = "customerBdayDTP";
-            this.customerBdayDTP.Size = new System.Drawing.Size(220, 33);
-            this.customerBdayDTP.TabIndex = 44;
-            this.customerBdayDTP.Value = new System.DateTime(2026, 11, 19, 0, 0, 0, 0);
+            // The tabContentPanel is intentionally left empty in the Designer. The bookingsUserControl
+            // will dynamically add the active tab UserControl (for example PendingTabUserControl)
+            this.tabContentPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabContentPanel.Location = new System.Drawing.Point(649, 3);
+            this.tabContentPanel.Name = "tabContentPanel";
+            this.tabContentPanel.Padding = new System.Windows.Forms.Padding(0);
+            this.tabContentPanel.Size = new System.Drawing.Size(964, 790);
+            this.tabContentPanel.TabIndex = 2;
             // 
-            // rentalDateEndDTP
-            // 
-            this.rentalDateEndDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rentalDateEndDTP.CalendarTitleForeColor = System.Drawing.Color.Azure;
-            this.rentalDateEndDTP.CustomFormat = " MM/dd/yyyy hh:mm tt";
-            this.rentalDateEndDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rentalDateEndDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.rentalDateEndDTP.Location = new System.Drawing.Point(669, 486);
-            this.rentalDateEndDTP.Name = "rentalDateEndDTP";
-            this.rentalDateEndDTP.Size = new System.Drawing.Size(246, 33);
-            this.rentalDateEndDTP.TabIndex = 43;
-            this.rentalDateEndDTP.ValueChanged += new System.EventHandler(this.rentalDate_ValueChanged);
-            // 
-            // rentalDateStartDTP
-            // 
-            this.rentalDateStartDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rentalDateStartDTP.CalendarTitleForeColor = System.Drawing.Color.Azure;
-            this.rentalDateStartDTP.CustomFormat = " MM/dd/yyyy hh:mm tt";
-            this.rentalDateStartDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rentalDateStartDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.rentalDateStartDTP.Location = new System.Drawing.Point(669, 447);
-            this.rentalDateStartDTP.Name = "rentalDateStartDTP";
-            this.rentalDateStartDTP.Size = new System.Drawing.Size(246, 33);
-            this.rentalDateStartDTP.TabIndex = 42;
-            this.rentalDateStartDTP.ValueChanged += new System.EventHandler(this.rentalDate_ValueChanged);
-            // 
-            // lblBookingIDValue
-            // 
-            this.lblBookingIDValue.AutoSize = true;
-            this.lblBookingIDValue.BackColor = System.Drawing.Color.Transparent;
-            this.lblBookingIDValue.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBookingIDValue.Location = new System.Drawing.Point(159, 20);
-            this.lblBookingIDValue.Name = "lblBookingIDValue";
-            this.lblBookingIDValue.Size = new System.Drawing.Size(121, 30);
-            this.lblBookingIDValue.TabIndex = 34;
-            this.lblBookingIDValue.Text = "321312312";
-            // 
-            // lblRentalTimeValue
-            // 
-            this.lblRentalTimeValue.AutoSize = true;
-            this.lblRentalTimeValue.BackColor = System.Drawing.Color.Transparent;
-            this.lblRentalTimeValue.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRentalTimeValue.Location = new System.Drawing.Point(516, 450);
-            this.lblRentalTimeValue.Name = "lblRentalTimeValue";
-            this.lblRentalTimeValue.Size = new System.Drawing.Size(138, 30);
-            this.lblRentalTimeValue.TabIndex = 33;
-            this.lblRentalTimeValue.Text = "0 day 2 hours";
-            // 
-            // lblRentalTime
-            // 
-            this.lblRentalTime.AutoSize = true;
-            this.lblRentalTime.BackColor = System.Drawing.Color.Transparent;
-            this.lblRentalTime.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRentalTime.Location = new System.Drawing.Point(417, 450);
-            this.lblRentalTime.Name = "lblRentalTime";
-            this.lblRentalTime.Size = new System.Drawing.Size(106, 30);
-            this.lblRentalTime.TabIndex = 32;
-            this.lblRentalTime.Text = "Duration:";
-            // 
-            // lblDateofRequestValue
-            // 
-            this.lblDateofRequestValue.AutoSize = true;
-            this.lblDateofRequestValue.BackColor = System.Drawing.Color.Transparent;
-            this.lblDateofRequestValue.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDateofRequestValue.Location = new System.Drawing.Point(80, 489);
-            this.lblDateofRequestValue.Name = "lblDateofRequestValue";
-            this.lblDateofRequestValue.Size = new System.Drawing.Size(211, 30);
-            this.lblDateofRequestValue.TabIndex = 31;
-            this.lblDateofRequestValue.Text = "02/02/2022 02:02 AM";
-            // 
-            // lblDateOfRequest
-            // 
-            this.lblDateOfRequest.AutoSize = true;
-            this.lblDateOfRequest.BackColor = System.Drawing.Color.Transparent;
-            this.lblDateOfRequest.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDateOfRequest.Location = new System.Drawing.Point(97, 459);
-            this.lblDateOfRequest.Name = "lblDateOfRequest";
-            this.lblDateOfRequest.Size = new System.Drawing.Size(181, 30);
-            this.lblDateOfRequest.TabIndex = 30;
-            this.lblDateOfRequest.Text = "Date of Request: ";
-            // 
-            // lblRentalPeriod
-            // 
-            this.lblRentalPeriod.AutoSize = true;
-            this.lblRentalPeriod.BackColor = System.Drawing.Color.Transparent;
-            this.lblRentalPeriod.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRentalPeriod.Location = new System.Drawing.Point(664, 412);
-            this.lblRentalPeriod.Name = "lblRentalPeriod";
-            this.lblRentalPeriod.Size = new System.Drawing.Size(144, 30);
-            this.lblRentalPeriod.TabIndex = 28;
-            this.lblRentalPeriod.Text = "Rental Period";
-            // 
-            // lblCustomerAge
-            // 
-            this.lblCustomerAge.AutoSize = true;
-            this.lblCustomerAge.BackColor = System.Drawing.Color.Transparent;
-            this.lblCustomerAge.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCustomerAge.Location = new System.Drawing.Point(360, 413);
-            this.lblCustomerAge.Name = "lblCustomerAge";
-            this.lblCustomerAge.Size = new System.Drawing.Size(52, 30);
-            this.lblCustomerAge.TabIndex = 26;
-            this.lblCustomerAge.Text = "Age";
-            // 
-            // lblCustomerBirthday
-            // 
-            this.lblCustomerBirthday.AutoSize = true;
-            this.lblCustomerBirthday.BackColor = System.Drawing.Color.Transparent;
-            this.lblCustomerBirthday.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCustomerBirthday.Location = new System.Drawing.Point(14, 417);
-            this.lblCustomerBirthday.Name = "lblCustomerBirthday";
-            this.lblCustomerBirthday.Size = new System.Drawing.Size(97, 30);
-            this.lblCustomerBirthday.TabIndex = 24;
-            this.lblCustomerBirthday.Text = "Birthday";
-            // 
-            // customerContactNumTextBox
-            // 
-            this.customerContactNumTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.customerContactNumTextBox.DefaultText = "";
-            this.customerContactNumTextBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.customerContactNumTextBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.customerContactNumTextBox.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.customerContactNumTextBox.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.customerContactNumTextBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.customerContactNumTextBox.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customerContactNumTextBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.customerContactNumTextBox.Location = new System.Drawing.Point(242, 257);
-            this.customerContactNumTextBox.Margin = new System.Windows.Forms.Padding(6, 10, 6, 10);
-            this.customerContactNumTextBox.Multiline = true;
-            this.customerContactNumTextBox.Name = "customerContactNumTextBox";
-            this.customerContactNumTextBox.PlaceholderText = "";
-            this.customerContactNumTextBox.SelectedText = "";
-            this.customerContactNumTextBox.Size = new System.Drawing.Size(171, 43);
-            this.customerContactNumTextBox.TabIndex = 23;
-            // 
-            // lblCustomerContactNum
-            // 
-            this.lblCustomerContactNum.AutoSize = true;
-            this.lblCustomerContactNum.BackColor = System.Drawing.Color.Transparent;
-            this.lblCustomerContactNum.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCustomerContactNum.Location = new System.Drawing.Point(242, 221);
-            this.lblCustomerContactNum.Name = "lblCustomerContactNum";
-            this.lblCustomerContactNum.Size = new System.Drawing.Size(176, 30);
-            this.lblCustomerContactNum.TabIndex = 22;
-            this.lblCustomerContactNum.Text = "Contact Number";
-            // 
-            // customerEmailTextBox
-            // 
-            this.customerEmailTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.customerEmailTextBox.DefaultText = "";
-            this.customerEmailTextBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.customerEmailTextBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.customerEmailTextBox.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.customerEmailTextBox.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.customerEmailTextBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.customerEmailTextBox.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customerEmailTextBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.customerEmailTextBox.Location = new System.Drawing.Point(28, 350);
-            this.customerEmailTextBox.Margin = new System.Windows.Forms.Padding(6, 10, 6, 10);
-            this.customerEmailTextBox.Multiline = true;
-            this.customerEmailTextBox.Name = "customerEmailTextBox";
-            this.customerEmailTextBox.PlaceholderText = "";
-            this.customerEmailTextBox.SelectedText = "";
-            this.customerEmailTextBox.Size = new System.Drawing.Size(385, 43);
-            this.customerEmailTextBox.TabIndex = 21;
-            // 
-            // lblCustomerEmail
-            // 
-            this.lblCustomerEmail.AutoSize = true;
-            this.lblCustomerEmail.BackColor = System.Drawing.Color.Transparent;
-            this.lblCustomerEmail.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCustomerEmail.Location = new System.Drawing.Point(28, 310);
-            this.lblCustomerEmail.Name = "lblCustomerEmail";
-            this.lblCustomerEmail.Size = new System.Drawing.Size(150, 30);
-            this.lblCustomerEmail.TabIndex = 20;
-            this.lblCustomerEmail.Text = "Email Address";
-            // 
-            // lblCustomerInfo
-            // 
-            this.lblCustomerInfo.AutoSize = true;
-            this.lblCustomerInfo.BackColor = System.Drawing.Color.Transparent;
-            this.lblCustomerInfo.Font = new System.Drawing.Font("Segoe UI", 20.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCustomerInfo.Location = new System.Drawing.Point(21, 73);
-            this.lblCustomerInfo.Name = "lblCustomerInfo";
-            this.lblCustomerInfo.Size = new System.Drawing.Size(196, 37);
-            this.lblCustomerInfo.TabIndex = 19;
-            this.lblCustomerInfo.Text = "Customer Info";
-            // 
-            // lastNameTextBox
-            // 
-            this.lastNameTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.lastNameTextBox.DefaultText = "fs";
-            this.lastNameTextBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.lastNameTextBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.lastNameTextBox.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.lastNameTextBox.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.lastNameTextBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.lastNameTextBox.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lastNameTextBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.lastNameTextBox.Location = new System.Drawing.Point(242, 168);
-            this.lastNameTextBox.Margin = new System.Windows.Forms.Padding(6, 10, 6, 10);
-            this.lastNameTextBox.Name = "lastNameTextBox";
-            this.lastNameTextBox.PlaceholderText = "";
-            this.lastNameTextBox.SelectedText = "";
-            this.lastNameTextBox.Size = new System.Drawing.Size(171, 43);
-            this.lastNameTextBox.TabIndex = 18;
-            // 
-            // lblLastName
-            // 
-            this.lblLastName.AutoSize = true;
-            this.lblLastName.BackColor = System.Drawing.Color.Transparent;
-            this.lblLastName.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLastName.Location = new System.Drawing.Point(242, 128);
-            this.lblLastName.Name = "lblLastName";
-            this.lblLastName.Size = new System.Drawing.Size(116, 30);
-            this.lblLastName.TabIndex = 17;
-            this.lblLastName.Text = "Last Name";
-            // 
-            // customerLicenseTextBox
-            // 
-            this.customerLicenseTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.customerLicenseTextBox.DefaultText = "";
-            this.customerLicenseTextBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.customerLicenseTextBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.customerLicenseTextBox.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.customerLicenseTextBox.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.customerLicenseTextBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.customerLicenseTextBox.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customerLicenseTextBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.customerLicenseTextBox.Location = new System.Drawing.Point(28, 257);
-            this.customerLicenseTextBox.Margin = new System.Windows.Forms.Padding(6, 10, 6, 10);
-            this.customerLicenseTextBox.Multiline = true;
-            this.customerLicenseTextBox.Name = "customerLicenseTextBox";
-            this.customerLicenseTextBox.PlaceholderText = "";
-            this.customerLicenseTextBox.SelectedText = "";
-            this.customerLicenseTextBox.Size = new System.Drawing.Size(171, 43);
-            this.customerLicenseTextBox.TabIndex = 16;
+            // Note: controls that belong to the PendingTabUserControl were removed from this Designer
+            // so that tabContentPanel remains an empty container. The PendingTabUserControl will be
+            // added at runtime and contains its own Designer-managed controls.
             // 
             // lblCustomerLicense
             // 
@@ -501,6 +222,18 @@
             this.lblLicenseNum.Size = new System.Drawing.Size(139, 30);
             this.lblLicenseNum.TabIndex = 9;
             this.lblLicenseNum.Text = "License Plate";
+            // 
+            // vehiclePictureBox
+            // 
+            this.vehiclePictureBox.BackColor = System.Drawing.Color.Transparent;
+            this.vehiclePictureBox.ErrorImage = global::ClientManagementSubsystem.Properties.Resources.defaultVehicle;
+            this.vehiclePictureBox.Image = global::ClientManagementSubsystem.Properties.Resources.defaultVehicle;
+            this.vehiclePictureBox.Location = new System.Drawing.Point(466, 33);
+            this.vehiclePictureBox.Name = "vehiclePictureBox";
+            this.vehiclePictureBox.Size = new System.Drawing.Size(475, 268);
+            this.vehiclePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.vehiclePictureBox.TabIndex = 8;
+            this.vehiclePictureBox.TabStop = false;
             // 
             // lblBookingid
             // 
@@ -647,6 +380,105 @@
             this.innerHeaderPanel.TabIndex = 4;
             this.innerHeaderPanel.UseTransparentBackground = true;
             // 
+            // searchBarTextBox
+            // 
+            this.searchBarTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.searchBarTextBox.DefaultText = "";
+            this.searchBarTextBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.searchBarTextBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.searchBarTextBox.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.searchBarTextBox.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.searchBarTextBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.searchBarTextBox.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.searchBarTextBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.searchBarTextBox.IconRight = global::ClientManagementSubsystem.Properties.Resources.closeIcon;
+            this.searchBarTextBox.Location = new System.Drawing.Point(1241, 44);
+            this.searchBarTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.searchBarTextBox.Name = "searchBarTextBox";
+            this.searchBarTextBox.PlaceholderText = "";
+            this.searchBarTextBox.SelectedText = "";
+            this.searchBarTextBox.Size = new System.Drawing.Size(349, 55);
+            this.searchBarTextBox.TabIndex = 9;
+            this.searchBarTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.searchBarTextBox.TextChanged += new System.EventHandler(this.searchBarTextBox_TextChanged);
+            // 
+            // cancelledSelected
+            // 
+            this.cancelledSelected.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
+            this.cancelledSelected.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
+            this.cancelledSelected.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(245)))), ((int)(((byte)(225)))));
+            this.cancelledSelected.Location = new System.Drawing.Point(424, 105);
+            this.cancelledSelected.Name = "cancelledSelected";
+            this.cancelledSelected.PolygonSkip = 1;
+            this.cancelledSelected.Rotate = 0F;
+            this.cancelledSelected.Shape = Guna.UI2.WinForms.Enums.ShapeType.Rectangle;
+            this.cancelledSelected.Size = new System.Drawing.Size(210, 5);
+            this.cancelledSelected.TabIndex = 8;
+            this.cancelledSelected.Text = "guna2Shapes2";
+            this.cancelledSelected.Zoom = 100;
+            // 
+            // completedSelected
+            // 
+            this.completedSelected.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
+            this.completedSelected.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
+            this.completedSelected.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(245)))), ((int)(((byte)(225)))));
+            this.completedSelected.Location = new System.Drawing.Point(640, 105);
+            this.completedSelected.Name = "completedSelected";
+            this.completedSelected.PolygonSkip = 1;
+            this.completedSelected.Rotate = 0F;
+            this.completedSelected.Shape = Guna.UI2.WinForms.Enums.ShapeType.Rectangle;
+            this.completedSelected.Size = new System.Drawing.Size(234, 5);
+            this.completedSelected.TabIndex = 7;
+            this.completedSelected.Text = "guna2Shapes2";
+            this.completedSelected.Zoom = 100;
+            // 
+            // completedBtn
+            // 
+            this.completedBtn.BackColor = System.Drawing.Color.Transparent;
+            this.completedBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.completedBtn.DefaultAutoSize = true;
+            this.completedBtn.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.completedBtn.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.completedBtn.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.completedBtn.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.completedBtn.FillColor = System.Drawing.Color.Transparent;
+            this.completedBtn.Font = new System.Drawing.Font("Segoe UI", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.completedBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
+            this.completedBtn.HoverState.BorderColor = System.Drawing.Color.Transparent;
+            this.completedBtn.HoverState.CustomBorderColor = System.Drawing.Color.Transparent;
+            this.completedBtn.HoverState.FillColor = System.Drawing.Color.Transparent;
+            this.completedBtn.HoverState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
+            this.completedBtn.Location = new System.Drawing.Point(640, 36);
+            this.completedBtn.Name = "completedBtn";
+            this.completedBtn.PressedColor = System.Drawing.Color.Transparent;
+            this.completedBtn.Size = new System.Drawing.Size(234, 63);
+            this.completedBtn.TabIndex = 5;
+            this.completedBtn.Text = "Completed";
+            // 
+            // cancelledBtn
+            // 
+            this.cancelledBtn.BackColor = System.Drawing.Color.Transparent;
+            this.cancelledBtn.BorderColor = System.Drawing.Color.Transparent;
+            this.cancelledBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cancelledBtn.DefaultAutoSize = true;
+            this.cancelledBtn.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.cancelledBtn.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.cancelledBtn.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.cancelledBtn.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.cancelledBtn.FillColor = System.Drawing.Color.Transparent;
+            this.cancelledBtn.Font = new System.Drawing.Font("Segoe UI", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cancelledBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
+            this.cancelledBtn.HoverState.BorderColor = System.Drawing.Color.Transparent;
+            this.cancelledBtn.HoverState.CustomBorderColor = System.Drawing.Color.Transparent;
+            this.cancelledBtn.HoverState.FillColor = System.Drawing.Color.Transparent;
+            this.cancelledBtn.HoverState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
+            this.cancelledBtn.Location = new System.Drawing.Point(424, 36);
+            this.cancelledBtn.Name = "cancelledBtn";
+            this.cancelledBtn.PressedColor = System.Drawing.Color.Transparent;
+            this.cancelledBtn.Size = new System.Drawing.Size(210, 63);
+            this.cancelledBtn.TabIndex = 4;
+            this.cancelledBtn.Text = "Cancelled";
+            // 
             // pendingSelected
             // 
             this.pendingSelected.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
@@ -727,177 +559,9 @@
             this.pendingBtn.Text = "Pending";
             this.pendingBtn.Click += new System.EventHandler(this.pendingBtn_Click);
             // 
-            // lblPriceValue
-            // 
-            this.lblPriceValue.AutoSize = true;
-            this.lblPriceValue.BackColor = System.Drawing.Color.Transparent;
-            this.lblPriceValue.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPriceValue.Location = new System.Drawing.Point(483, 486);
-            this.lblPriceValue.Name = "lblPriceValue";
-            this.lblPriceValue.Size = new System.Drawing.Size(80, 30);
-            this.lblPriceValue.TabIndex = 46;
-            this.lblPriceValue.Text = "P20002";
-            // 
-            // lblPrice
-            // 
-            this.lblPrice.AutoSize = true;
-            this.lblPrice.BackColor = System.Drawing.Color.Transparent;
-            this.lblPrice.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPrice.Location = new System.Drawing.Point(418, 486);
-            this.lblPrice.Name = "lblPrice";
-            this.lblPrice.Size = new System.Drawing.Size(67, 30);
-            this.lblPrice.TabIndex = 45;
-            this.lblPrice.Text = "Price:";
-            // 
-            // completedSelected
-            // 
-            this.completedSelected.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
-            this.completedSelected.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
-            this.completedSelected.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(245)))), ((int)(((byte)(225)))));
-            this.completedSelected.Location = new System.Drawing.Point(640, 105);
-            this.completedSelected.Name = "completedSelected";
-            this.completedSelected.PolygonSkip = 1;
-            this.completedSelected.Rotate = 0F;
-            this.completedSelected.Shape = Guna.UI2.WinForms.Enums.ShapeType.Rectangle;
-            this.completedSelected.Size = new System.Drawing.Size(234, 5);
-            this.completedSelected.TabIndex = 7;
-            this.completedSelected.Text = "guna2Shapes2";
-            this.completedSelected.Zoom = 100;
-            // 
-            // completedBtn
-            // 
-            this.completedBtn.BackColor = System.Drawing.Color.Transparent;
-            this.completedBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.completedBtn.DefaultAutoSize = true;
-            this.completedBtn.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.completedBtn.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.completedBtn.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.completedBtn.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.completedBtn.FillColor = System.Drawing.Color.Transparent;
-            this.completedBtn.Font = new System.Drawing.Font("Segoe UI", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.completedBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
-            this.completedBtn.HoverState.BorderColor = System.Drawing.Color.Transparent;
-            this.completedBtn.HoverState.CustomBorderColor = System.Drawing.Color.Transparent;
-            this.completedBtn.HoverState.FillColor = System.Drawing.Color.Transparent;
-            this.completedBtn.HoverState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
-            this.completedBtn.Location = new System.Drawing.Point(640, 36);
-            this.completedBtn.Name = "completedBtn";
-            this.completedBtn.PressedColor = System.Drawing.Color.Transparent;
-            this.completedBtn.Size = new System.Drawing.Size(234, 63);
-            this.completedBtn.TabIndex = 5;
-            this.completedBtn.Text = "Completed";
-            // 
-            // cancelledBtn
-            // 
-            this.cancelledBtn.BackColor = System.Drawing.Color.Transparent;
-            this.cancelledBtn.BorderColor = System.Drawing.Color.Transparent;
-            this.cancelledBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cancelledBtn.DefaultAutoSize = true;
-            this.cancelledBtn.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.cancelledBtn.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.cancelledBtn.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.cancelledBtn.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.cancelledBtn.FillColor = System.Drawing.Color.Transparent;
-            this.cancelledBtn.Font = new System.Drawing.Font("Segoe UI", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cancelledBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
-            this.cancelledBtn.HoverState.BorderColor = System.Drawing.Color.Transparent;
-            this.cancelledBtn.HoverState.CustomBorderColor = System.Drawing.Color.Transparent;
-            this.cancelledBtn.HoverState.FillColor = System.Drawing.Color.Transparent;
-            this.cancelledBtn.HoverState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
-            this.cancelledBtn.Location = new System.Drawing.Point(424, 36);
-            this.cancelledBtn.Name = "cancelledBtn";
-            this.cancelledBtn.PressedColor = System.Drawing.Color.Transparent;
-            this.cancelledBtn.Size = new System.Drawing.Size(210, 63);
-            this.cancelledBtn.TabIndex = 4;
-            this.cancelledBtn.Text = "Cancelled";
-            // 
-            // cancelledSelected
-            // 
-            this.cancelledSelected.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
-            this.cancelledSelected.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
-            this.cancelledSelected.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(245)))), ((int)(((byte)(225)))));
-            this.cancelledSelected.Location = new System.Drawing.Point(424, 105);
-            this.cancelledSelected.Name = "cancelledSelected";
-            this.cancelledSelected.PolygonSkip = 1;
-            this.cancelledSelected.Rotate = 0F;
-            this.cancelledSelected.Shape = Guna.UI2.WinForms.Enums.ShapeType.Rectangle;
-            this.cancelledSelected.Size = new System.Drawing.Size(210, 5);
-            this.cancelledSelected.TabIndex = 8;
-            this.cancelledSelected.Text = "guna2Shapes2";
-            this.cancelledSelected.Zoom = 100;
-            // 
-            // vehiclePictureBox
-            // 
-            this.vehiclePictureBox.BackColor = System.Drawing.Color.Transparent;
-            this.vehiclePictureBox.ErrorImage = global::ClientManagementSubsystem.Properties.Resources.defaultVehicle;
-            this.vehiclePictureBox.Image = global::ClientManagementSubsystem.Properties.Resources.defaultVehicle;
-            this.vehiclePictureBox.Location = new System.Drawing.Point(466, 33);
-            this.vehiclePictureBox.Name = "vehiclePictureBox";
-            this.vehiclePictureBox.Size = new System.Drawing.Size(475, 268);
-            this.vehiclePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.vehiclePictureBox.TabIndex = 8;
-            this.vehiclePictureBox.TabStop = false;
-            // 
             // rejectBtn
             // 
-            this.rejectBtn.BackColor = System.Drawing.Color.Tomato;
-            this.rejectBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.rejectBtn.Font = new System.Drawing.Font("Segoe UI Symbol", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rejectBtn.ForeColor = System.Drawing.Color.Black;
-            this.rejectBtn.IconChar = FontAwesome.Sharp.IconChar.X;
-            this.rejectBtn.IconColor = System.Drawing.Color.Black;
-            this.rejectBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.rejectBtn.IconSize = 40;
-            this.rejectBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.rejectBtn.Location = new System.Drawing.Point(529, 717);
-            this.rejectBtn.Name = "rejectBtn";
-            this.rejectBtn.Size = new System.Drawing.Size(184, 58);
-            this.rejectBtn.TabIndex = 1;
-            this.rejectBtn.Text = " Reject";
-            this.rejectBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.rejectBtn.UseVisualStyleBackColor = false;
-            this.rejectBtn.Click += new System.EventHandler(this.rejectBtn_Click);
-            // 
-            // approveBtn
-            // 
-            this.approveBtn.BackColor = System.Drawing.Color.LightGreen;
-            this.approveBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.approveBtn.Font = new System.Drawing.Font("Segoe UI Symbol", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.approveBtn.ForeColor = System.Drawing.Color.Black;
-            this.approveBtn.IconChar = FontAwesome.Sharp.IconChar.Check;
-            this.approveBtn.IconColor = System.Drawing.Color.Black;
-            this.approveBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.approveBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.approveBtn.Location = new System.Drawing.Point(252, 717);
-            this.approveBtn.Name = "approveBtn";
-            this.approveBtn.Size = new System.Drawing.Size(184, 58);
-            this.approveBtn.TabIndex = 0;
-            this.approveBtn.Text = "Approve";
-            this.approveBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.approveBtn.UseVisualStyleBackColor = false;
-            this.approveBtn.Click += new System.EventHandler(this.approveBtn_Click);
-            // 
-            // searchBarTextBox
-            // 
-            this.searchBarTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.searchBarTextBox.DefaultText = "";
-            this.searchBarTextBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.searchBarTextBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.searchBarTextBox.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.searchBarTextBox.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.searchBarTextBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.searchBarTextBox.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.searchBarTextBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.searchBarTextBox.IconRight = global::ClientManagementSubsystem.Properties.Resources.closeIcon;
-            this.searchBarTextBox.Location = new System.Drawing.Point(1241, 44);
-            this.searchBarTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.searchBarTextBox.Name = "searchBarTextBox";
-            this.searchBarTextBox.PlaceholderText = "";
-            this.searchBarTextBox.SelectedText = "";
-            this.searchBarTextBox.Size = new System.Drawing.Size(349, 55);
-            this.searchBarTextBox.TabIndex = 9;
-            this.searchBarTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.searchBarTextBox.TextChanged += new System.EventHandler(this.searchBarTextBox_TextChanged);
+            // approve/reject placeholder controls removed; PendingTabUserControl owns them now
             // 
             // bookingsUserControl
             // 
@@ -911,14 +575,13 @@
             this.Size = new System.Drawing.Size(1622, 943);
             this.tableLayoutPanel.ResumeLayout(false);
             this.bookingPanels.ResumeLayout(false);
-            this.bookingDetailsPanel.ResumeLayout(false);
-            this.bookingDetailsPanel.PerformLayout();
+            // tabContentPanel left empty for runtime children
+            ((System.ComponentModel.ISupportInitialize)(this.vehiclePictureBox)).EndInit();
             this.outerConflictPanel.ResumeLayout(false);
             this.outerConflictPanel.PerformLayout();
             this.conflictFlowPanel.ResumeLayout(false);
             this.innerHeaderPanel.ResumeLayout(false);
             this.innerHeaderPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.vehiclePictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -933,7 +596,7 @@
         private System.Windows.Forms.FlowLayoutPanel bookingListPanel;
         private Guna.UI2.WinForms.Guna2GradientPanel innerHeaderPanel;
         private System.Windows.Forms.TableLayoutPanel bookingPanels;
-        private Guna.UI2.WinForms.Guna2Panel bookingDetailsPanel;
+        private System.Windows.Forms.Panel tabContentPanel;
         private System.Windows.Forms.Label lblBookingIDValue;
         private System.Windows.Forms.Label lblRentalTimeValue;
         private System.Windows.Forms.Label lblRentalTime;
@@ -961,8 +624,7 @@
         private System.Windows.Forms.Label lblVehicleName;
         private Guna.UI2.WinForms.Guna2TextBox firstNameTextBox;
         private System.Windows.Forms.Label lblFirstName;
-        private FontAwesome.Sharp.IconButton rejectBtn;
-        private FontAwesome.Sharp.IconButton approveBtn;
+        // approve/reject controls moved into PendingTabUserControl
         private System.Windows.Forms.Label lblBookingConflicts;
         private System.Windows.Forms.FlowLayoutPanel conflictFlowPanel;
         private System.Windows.Forms.Label lblNoBookingConflicts;

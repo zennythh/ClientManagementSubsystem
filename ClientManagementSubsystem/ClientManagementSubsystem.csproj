@@ -156,6 +156,12 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="userControls\PendingTabUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="userControls\PendingTabUserControl.Designer.cs">
+      <DependentUpon>PendingTabUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="userControls\personalUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -193,6 +199,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="userControls\outboundUserControl.resx">
       <DependentUpon>outboundUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="userControls\PendingTabUserControl.resx">
+      <DependentUpon>PendingTabUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="userControls\personalUserControl.resx">
       <DependentUpon>personalUserControl.cs</DependentUpon>
