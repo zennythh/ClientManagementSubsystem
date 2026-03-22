@@ -104,7 +104,7 @@ namespace ClientManagementSubsystem
             {
                 // Clear whatever details panel is currently visible
                 if (pendingTabUC.Visible) pendingTabUC.ClearDetails();
-                // else if (approvedTabUC.Visible) approvedTabUC.ClearDetails();
+                else if (approvedTabUC.Visible) approvedTabUC.ClearDetails();
                 return;
             }
 
@@ -184,5 +184,15 @@ namespace ClientManagementSubsystem
         // Event handling is owned by the active tab UserControl (PendingTabUserControl).
         // No forwarding stubs are required here.
         #endregion
+
+        private void clearSearchbarBtn_Click(object sender, EventArgs e)
+        {
+            searchBarTextBox.Clear();
+        }
+
+        private void refreshBtn_Click(object sender, EventArgs e)
+        {
+            RefreshActiveTab();
+        }
     }
 }

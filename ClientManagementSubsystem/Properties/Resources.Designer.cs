@@ -83,6 +83,16 @@ namespace ClientManagementSubsystem.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap free_refresh_icon_3104_thumb {
+            get {
+                object obj = ResourceManager.GetObject("free-refresh-icon-3104-thumb", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap LogoutIcon {
             get {
                 object obj = ResourceManager.GetObject("LogoutIcon", resourceCulture);

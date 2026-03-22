@@ -274,5 +274,8 @@
   <ItemGroup>
     <None Include="Resources\search-bar-01.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\free-refresh-icon-3104-thumb.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -74,6 +74,8 @@
             this.conflictFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.lblNoBookingConflicts = new System.Windows.Forms.Label();
             this.lblBookingConflicts = new System.Windows.Forms.Label();
+            this.refreshBtn = new Guna.UI2.WinForms.Guna2ImageButton();
+            this.clearSearchbarBtn = new Guna.UI2.WinForms.Guna2ImageButton();
             this.searchBarTextBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.vehiclePictureBox = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel.SuspendLayout();
@@ -136,6 +138,8 @@
             // 
             this.innerHeaderPanel.BackColor = System.Drawing.Color.Transparent;
             this.innerHeaderPanel.BorderRadius = 25;
+            this.innerHeaderPanel.Controls.Add(this.refreshBtn);
+            this.innerHeaderPanel.Controls.Add(this.clearSearchbarBtn);
             this.innerHeaderPanel.Controls.Add(this.searchBarTextBox);
             this.innerHeaderPanel.Controls.Add(this.dismissedSelected);
             this.innerHeaderPanel.Controls.Add(this.completedSelected);
@@ -159,7 +163,7 @@
             this.dismissedSelected.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
             this.dismissedSelected.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
             this.dismissedSelected.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(245)))), ((int)(((byte)(225)))));
-            this.dismissedSelected.Location = new System.Drawing.Point(424, 105);
+            this.dismissedSelected.Location = new System.Drawing.Point(447, 105);
             this.dismissedSelected.Name = "dismissedSelected";
             this.dismissedSelected.PolygonSkip = 1;
             this.dismissedSelected.Rotate = 0F;
@@ -174,7 +178,7 @@
             this.completedSelected.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
             this.completedSelected.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
             this.completedSelected.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(245)))), ((int)(((byte)(225)))));
-            this.completedSelected.Location = new System.Drawing.Point(640, 105);
+            this.completedSelected.Location = new System.Drawing.Point(663, 105);
             this.completedSelected.Name = "completedSelected";
             this.completedSelected.PolygonSkip = 1;
             this.completedSelected.Rotate = 0F;
@@ -200,7 +204,7 @@
             this.completedBtn.HoverState.CustomBorderColor = System.Drawing.Color.Transparent;
             this.completedBtn.HoverState.FillColor = System.Drawing.Color.Transparent;
             this.completedBtn.HoverState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
-            this.completedBtn.Location = new System.Drawing.Point(640, 36);
+            this.completedBtn.Location = new System.Drawing.Point(663, 36);
             this.completedBtn.Name = "completedBtn";
             this.completedBtn.PressedColor = System.Drawing.Color.Transparent;
             this.completedBtn.Size = new System.Drawing.Size(234, 63);
@@ -225,7 +229,7 @@
             this.dismissedBtn.HoverState.CustomBorderColor = System.Drawing.Color.Transparent;
             this.dismissedBtn.HoverState.FillColor = System.Drawing.Color.Transparent;
             this.dismissedBtn.HoverState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
-            this.dismissedBtn.Location = new System.Drawing.Point(424, 36);
+            this.dismissedBtn.Location = new System.Drawing.Point(447, 36);
             this.dismissedBtn.Name = "dismissedBtn";
             this.dismissedBtn.PressedColor = System.Drawing.Color.Transparent;
             this.dismissedBtn.Size = new System.Drawing.Size(217, 63);
@@ -238,7 +242,7 @@
             this.pendingSelected.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
             this.pendingSelected.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
             this.pendingSelected.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(245)))), ((int)(((byte)(225)))));
-            this.pendingSelected.Location = new System.Drawing.Point(11, 105);
+            this.pendingSelected.Location = new System.Drawing.Point(34, 105);
             this.pendingSelected.Margin = new System.Windows.Forms.Padding(0);
             this.pendingSelected.Name = "pendingSelected";
             this.pendingSelected.PolygonSkip = 1;
@@ -254,7 +258,7 @@
             this.approvedSelected.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
             this.approvedSelected.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
             this.approvedSelected.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(245)))), ((int)(((byte)(225)))));
-            this.approvedSelected.Location = new System.Drawing.Point(203, 105);
+            this.approvedSelected.Location = new System.Drawing.Point(226, 105);
             this.approvedSelected.Name = "approvedSelected";
             this.approvedSelected.PolygonSkip = 1;
             this.approvedSelected.Rotate = 0F;
@@ -280,7 +284,7 @@
             this.approvedBtn.HoverState.CustomBorderColor = System.Drawing.Color.Transparent;
             this.approvedBtn.HoverState.FillColor = System.Drawing.Color.Transparent;
             this.approvedBtn.HoverState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
-            this.approvedBtn.Location = new System.Drawing.Point(203, 36);
+            this.approvedBtn.Location = new System.Drawing.Point(226, 36);
             this.approvedBtn.Name = "approvedBtn";
             this.approvedBtn.PressedColor = System.Drawing.Color.Transparent;
             this.approvedBtn.Size = new System.Drawing.Size(215, 63);
@@ -305,7 +309,7 @@
             this.pendingBtn.HoverState.CustomBorderColor = System.Drawing.Color.Transparent;
             this.pendingBtn.HoverState.FillColor = System.Drawing.Color.Transparent;
             this.pendingBtn.HoverState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(76)))), ((int)(((byte)(117)))));
-            this.pendingBtn.Location = new System.Drawing.Point(11, 36);
+            this.pendingBtn.Location = new System.Drawing.Point(34, 36);
             this.pendingBtn.Name = "pendingBtn";
             this.pendingBtn.PressedColor = System.Drawing.Color.Transparent;
             this.pendingBtn.Size = new System.Drawing.Size(186, 63);
@@ -664,6 +668,42 @@
             this.lblBookingConflicts.Text = "Booking Conflicts";
             this.lblBookingConflicts.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // refreshBtn
+            // 
+            this.refreshBtn.BackColor = System.Drawing.Color.Transparent;
+            this.refreshBtn.CheckedState.ImageSize = new System.Drawing.Size(40, 40);
+            this.refreshBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.refreshBtn.HoverState.ImageSize = new System.Drawing.Size(30, 30);
+            this.refreshBtn.Image = global::ClientManagementSubsystem.Properties.Resources.free_refresh_icon_3104_thumb;
+            this.refreshBtn.ImageOffset = new System.Drawing.Point(0, 0);
+            this.refreshBtn.ImageRotate = 0F;
+            this.refreshBtn.ImageSize = new System.Drawing.Size(30, 30);
+            this.refreshBtn.Location = new System.Drawing.Point(1175, 71);
+            this.refreshBtn.MaximumSize = new System.Drawing.Size(40, 40);
+            this.refreshBtn.Name = "refreshBtn";
+            this.refreshBtn.PressedState.ImageSize = new System.Drawing.Size(40, 40);
+            this.refreshBtn.Size = new System.Drawing.Size(35, 39);
+            this.refreshBtn.TabIndex = 11;
+            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
+            // 
+            // clearSearchbarBtn
+            // 
+            this.clearSearchbarBtn.BackColor = System.Drawing.Color.White;
+            this.clearSearchbarBtn.CheckedState.ImageSize = new System.Drawing.Size(40, 40);
+            this.clearSearchbarBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.clearSearchbarBtn.HoverState.ImageSize = new System.Drawing.Size(30, 30);
+            this.clearSearchbarBtn.Image = global::ClientManagementSubsystem.Properties.Resources.closeIcon;
+            this.clearSearchbarBtn.ImageOffset = new System.Drawing.Point(0, 0);
+            this.clearSearchbarBtn.ImageRotate = 0F;
+            this.clearSearchbarBtn.ImageSize = new System.Drawing.Size(30, 30);
+            this.clearSearchbarBtn.Location = new System.Drawing.Point(1546, 68);
+            this.clearSearchbarBtn.MaximumSize = new System.Drawing.Size(40, 40);
+            this.clearSearchbarBtn.Name = "clearSearchbarBtn";
+            this.clearSearchbarBtn.PressedState.ImageSize = new System.Drawing.Size(40, 40);
+            this.clearSearchbarBtn.Size = new System.Drawing.Size(29, 30);
+            this.clearSearchbarBtn.TabIndex = 10;
+            this.clearSearchbarBtn.Click += new System.EventHandler(this.clearSearchbarBtn_Click);
+            // 
             // searchBarTextBox
             // 
             this.searchBarTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
@@ -675,9 +715,10 @@
             this.searchBarTextBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.searchBarTextBox.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.searchBarTextBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.searchBarTextBox.IconRight = global::ClientManagementSubsystem.Properties.Resources.search_bar_01;
+            this.searchBarTextBox.IconLeft = global::ClientManagementSubsystem.Properties.Resources.search_bar_01;
+            this.searchBarTextBox.IconLeftSize = new System.Drawing.Size(35, 35);
             this.searchBarTextBox.IconRightSize = new System.Drawing.Size(35, 35);
-            this.searchBarTextBox.Location = new System.Drawing.Point(1241, 44);
+            this.searchBarTextBox.Location = new System.Drawing.Point(1236, 55);
             this.searchBarTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.searchBarTextBox.Name = "searchBarTextBox";
             this.searchBarTextBox.PlaceholderText = "";
@@ -723,12 +764,7 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
-        private Guna.UI2.WinForms.Guna2Button pendingBtn;
-        private Guna.UI2.WinForms.Guna2Button approvedBtn;
-        private Guna.UI2.WinForms.Guna2Shapes pendingSelected;
-        private Guna.UI2.WinForms.Guna2Shapes approvedSelected;
         private System.Windows.Forms.FlowLayoutPanel bookingListPanel;
-        private Guna.UI2.WinForms.Guna2GradientPanel innerHeaderPanel;
         private System.Windows.Forms.TableLayoutPanel bookingPanels;
         private System.Windows.Forms.Panel tabContentPanel;
         private System.Windows.Forms.Label lblBookingIDValue;
@@ -768,10 +804,17 @@
         private System.Windows.Forms.DateTimePicker customerBdayDTP;
         private System.Windows.Forms.Label lblPriceValue;
         private System.Windows.Forms.Label lblPrice;
+        private Guna.UI2.WinForms.Guna2GradientPanel innerHeaderPanel;
+        private Guna.UI2.WinForms.Guna2TextBox searchBarTextBox;
         private Guna.UI2.WinForms.Guna2Shapes dismissedSelected;
         private Guna.UI2.WinForms.Guna2Shapes completedSelected;
         private Guna.UI2.WinForms.Guna2Button completedBtn;
         private Guna.UI2.WinForms.Guna2Button dismissedBtn;
-        private Guna.UI2.WinForms.Guna2TextBox searchBarTextBox;
+        private Guna.UI2.WinForms.Guna2Shapes pendingSelected;
+        private Guna.UI2.WinForms.Guna2Shapes approvedSelected;
+        private Guna.UI2.WinForms.Guna2Button approvedBtn;
+        private Guna.UI2.WinForms.Guna2Button pendingBtn;
+        private Guna.UI2.WinForms.Guna2ImageButton refreshBtn;
+        private Guna.UI2.WinForms.Guna2ImageButton clearSearchbarBtn;
     }
 }
