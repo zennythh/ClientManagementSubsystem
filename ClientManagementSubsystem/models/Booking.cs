@@ -35,6 +35,9 @@ namespace ClientManagementSubsystem.Models
         public decimal? AdditionalFees { get; set; }
         public decimal? TotalPrice { get; set ; }
 
+        // Add this to your Booking model
+        public bool HasDamage { get; set; }
+
         public string FullName => $"{FirstName} {LastName}";
 
         public string DisplayDates => Status == "Out"

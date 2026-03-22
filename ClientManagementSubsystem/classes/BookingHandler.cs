@@ -10,16 +10,13 @@ namespace ClientManagementSubsystem.classes
 {
     internal class BookingHandler
     {
-        // --- THE MAPPING HELPER ---
         private Booking MapReaderToBooking(MySqlDataReader reader)
         {
-            // First, identify columns that might have different names depending on the JOIN
-            // In some queries you use 'FullVehicleName', in others 'VehicleName'
             string vehicleNameCol = "FullVehicleName";
             if (reader.GetSchemaTable().Select("ColumnName = 'VehicleName'").Length > 0)
                 vehicleNameCol = "VehicleName";
 
-            return new Booking
+            var booking = new Booking
             {
                 BookingID = reader.GetInt32("BookingID"),
                 FirstName = reader.GetString("FirstName"),
@@ -39,26 +36,56 @@ namespace ClientManagementSubsystem.classes
                 DailyRate = reader.GetDecimal("DailyRate"),
                 ProjectedPrice = reader.GetDecimal("ProjectedPrice"),
 
-                // Nullables
+                // Nullable Dates
                 DateOut = reader.IsDBNull(reader.GetOrdinal("DateOut")) ? (DateTime?)null : reader.GetDateTime("DateOut"),
                 DateIn = reader.IsDBNull(reader.GetOrdinal("DateIn")) ? (DateTime?)null : reader.GetDateTime("DateIn"),
+
+                // Usage Metrics
                 MileageOut = reader.IsDBNull(reader.GetOrdinal("MileageOut")) ? (int?)null : reader.GetInt32("MileageOut"),
                 MileageIn = reader.IsDBNull(reader.GetOrdinal("MileageIn")) ? (int?)null : reader.GetInt32("MileageIn"),
                 FuelLevelOut = reader.IsDBNull(reader.GetOrdinal("FuelLevelOut")) ? null : reader.GetString("FuelLevelOut"),
                 FuelLevelIn = reader.IsDBNull(reader.GetOrdinal("FuelLevelIn")) ? null : reader.GetString("FuelLevelIn"),
+
+                // Prices
                 AdditionalFees = reader.IsDBNull(reader.GetOrdinal("AdditionalFees")) ? (decimal?)null : reader.GetDecimal("AdditionalFees"),
                 TotalPrice = reader.IsDBNull(reader.GetOrdinal("TotalPrice")) ? (decimal?)null : reader.GetDecimal("TotalPrice")
             };
+
+            // --- DAMAGE DETECTION LOGIC ---
+            // Check if our query included the DamageCount column (only exists for Completed status)
+            if (reader.GetSchemaTable().Select("ColumnName = 'DamageCount'").Length > 0)
+            {
+                int damageCount = reader.IsDBNull(reader.GetOrdinal("DamageCount")) ? 0 : Convert.ToInt32(reader["DamageCount"]);
+                booking.HasDamage = damageCount > 0;
+            }
+
+            return booking;
         }
 
         public List<Booking> GetBookingsByStatus(string status)
         {
             List<Booking> list = new List<Booking>();
+
+            // Base query for basic status checks
             string query = @"SELECT b.*, CONCAT(v.Manufacturer, ' ', v.Model) AS FullVehicleName, v.LicensePlate, v.ImagePath, v.DailyRate
-                            FROM Bookings b
-                            JOIN Vehicles v ON b.VehicleVIN = v.VIN
-                            WHERE b.Status = @status AND b.Deleted = 0
-                            ORDER BY b.DateSubmitted DESC";
+                             FROM Bookings b
+                             JOIN Vehicles v ON b.VehicleVIN = v.VIN
+                             WHERE b.Status = @status AND b.Deleted = 0";
+
+            // If we are looking for Completed bookings, we subquery the damage table
+            if (status == "Completed")
+            {
+                query = @"SELECT b.*, CONCAT(v.Manufacturer, ' ', v.Model) AS FullVehicleName, v.LicensePlate, v.ImagePath, v.DailyRate,
+                          (SELECT COUNT(*) 
+                           FROM VehicleDamages vd 
+                           JOIN VehicleInspections vi ON vd.InspectionID = vi.InspectionID 
+                           WHERE vi.BookingID = b.BookingID) AS DamageCount
+                          FROM Bookings b
+                          JOIN Vehicles v ON b.VehicleVIN = v.VIN
+                          WHERE b.Status = @status AND b.Deleted = 0";
+            }
+
+            query += " ORDER BY b.DateIn DESC, b.DateSubmitted DESC";
 
             using (var conn = new MySqlConnection(MySQLConnStr.ConnectionString))
             {

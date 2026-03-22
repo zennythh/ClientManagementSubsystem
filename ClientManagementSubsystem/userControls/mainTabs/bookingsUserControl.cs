@@ -62,7 +62,7 @@ namespace ClientManagementSubsystem
             pendingTabUC.DataChanged += (s, e) => RefreshActiveTab();
             approvedTabUC.DataChanged += (s, e) => RefreshActiveTab();
             dismissedTabUC.DataChanged  += (s, e) => RefreshActiveTab();
-            //completedTabUC.DataChanged += (s, e) => RefreshActiveTab();
+            completedTabUC.DataChanged += (s, e) => RefreshActiveTab();
 
 
             bookingListPanel.Resize += (s, e) => CenterCards();
@@ -142,7 +142,7 @@ namespace ClientManagementSubsystem
                     if (pendingTabUC.Visible) pendingTabUC.DisplayBookingDetails(clickedCard.BookingData);
                     else if (approvedTabUC.Visible) approvedTabUC.DisplayBookingDetails(clickedCard.BookingData);
                     else if (dismissedTabUC.Visible) dismissedTabUC.DisplayBookingDetails(clickedCard.BookingData);
-                    //else if (completedTabUC.Visible) completedTabUC.DisplayBookingDetails(clickedCard.BookingData);
+                    else if (completedTabUC.Visible) completedTabUC.DisplayBookingDetails(clickedCard.BookingData);
                 };
 
                 // Add the card directly. We will handle centering in CenterCards().

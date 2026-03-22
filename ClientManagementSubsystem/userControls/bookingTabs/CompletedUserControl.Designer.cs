@@ -29,6 +29,16 @@
         private void InitializeComponent()
         {
             this.bookingDetailsPanel = new Guna.UI2.WinForms.Guna2Panel();
+            this.lblSustainedDamage = new System.Windows.Forms.Label();
+            this.lblPostRent = new System.Windows.Forms.Label();
+            this.lblMileageInValue = new System.Windows.Forms.Label();
+            this.lblMileageOutValue = new System.Windows.Forms.Label();
+            this.lblMileageIn = new System.Windows.Forms.Label();
+            this.lblMileageOut = new System.Windows.Forms.Label();
+            this.lblFuelLevelInValue = new System.Windows.Forms.Label();
+            this.lblFuelLevelOutValue = new System.Windows.Forms.Label();
+            this.lblFuelLevelIn = new System.Windows.Forms.Label();
+            this.lblFuelLevelOut = new System.Windows.Forms.Label();
             this.lblPriceValue = new System.Windows.Forms.Label();
             this.lblPrice = new System.Windows.Forms.Label();
             this.customerBdayDTP = new System.Windows.Forms.DateTimePicker();
@@ -61,6 +71,10 @@
             this.lblVehicleName = new System.Windows.Forms.Label();
             this.firstNameTextBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.lblFirstName = new System.Windows.Forms.Label();
+            this.dateInDTP = new System.Windows.Forms.DateTimePicker();
+            this.dateOutDTP = new System.Windows.Forms.DateTimePicker();
+            this.lblReleasedOn = new System.Windows.Forms.Label();
+            this.lblReturnedOn = new System.Windows.Forms.Label();
             this.bookingDetailsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.vehiclePictureBox)).BeginInit();
             this.SuspendLayout();
@@ -68,6 +82,20 @@
             // bookingDetailsPanel
             // 
             this.bookingDetailsPanel.BorderRadius = 5;
+            this.bookingDetailsPanel.Controls.Add(this.lblReturnedOn);
+            this.bookingDetailsPanel.Controls.Add(this.lblReleasedOn);
+            this.bookingDetailsPanel.Controls.Add(this.dateInDTP);
+            this.bookingDetailsPanel.Controls.Add(this.dateOutDTP);
+            this.bookingDetailsPanel.Controls.Add(this.lblSustainedDamage);
+            this.bookingDetailsPanel.Controls.Add(this.lblPostRent);
+            this.bookingDetailsPanel.Controls.Add(this.lblMileageInValue);
+            this.bookingDetailsPanel.Controls.Add(this.lblMileageOutValue);
+            this.bookingDetailsPanel.Controls.Add(this.lblMileageIn);
+            this.bookingDetailsPanel.Controls.Add(this.lblMileageOut);
+            this.bookingDetailsPanel.Controls.Add(this.lblFuelLevelInValue);
+            this.bookingDetailsPanel.Controls.Add(this.lblFuelLevelOutValue);
+            this.bookingDetailsPanel.Controls.Add(this.lblFuelLevelIn);
+            this.bookingDetailsPanel.Controls.Add(this.lblFuelLevelOut);
             this.bookingDetailsPanel.Controls.Add(this.lblPriceValue);
             this.bookingDetailsPanel.Controls.Add(this.lblPrice);
             this.bookingDetailsPanel.Controls.Add(this.customerBdayDTP);
@@ -108,12 +136,122 @@
             this.bookingDetailsPanel.Size = new System.Drawing.Size(964, 790);
             this.bookingDetailsPanel.TabIndex = 5;
             // 
+            // lblSustainedDamage
+            // 
+            this.lblSustainedDamage.AutoSize = true;
+            this.lblSustainedDamage.BackColor = System.Drawing.Color.Transparent;
+            this.lblSustainedDamage.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSustainedDamage.Location = new System.Drawing.Point(694, 677);
+            this.lblSustainedDamage.Name = "lblSustainedDamage";
+            this.lblSustainedDamage.Size = new System.Drawing.Size(211, 30);
+            this.lblSustainedDamage.TabIndex = 56;
+            this.lblSustainedDamage.Text = "Sustained Damages!";
+            // 
+            // lblPostRent
+            // 
+            this.lblPostRent.AutoSize = true;
+            this.lblPostRent.BackColor = System.Drawing.Color.Transparent;
+            this.lblPostRent.Font = new System.Drawing.Font("Segoe UI", 20.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPostRent.Location = new System.Drawing.Point(359, 599);
+            this.lblPostRent.Name = "lblPostRent";
+            this.lblPostRent.Size = new System.Drawing.Size(302, 37);
+            this.lblPostRent.TabIndex = 55;
+            this.lblPostRent.Text = "Post-Rental Inspection";
+            // 
+            // lblMileageInValue
+            // 
+            this.lblMileageInValue.AutoSize = true;
+            this.lblMileageInValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblMileageInValue.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMileageInValue.Location = new System.Drawing.Point(593, 699);
+            this.lblMileageInValue.Name = "lblMileageInValue";
+            this.lblMileageInValue.Size = new System.Drawing.Size(75, 30);
+            this.lblMileageInValue.TabIndex = 54;
+            this.lblMileageInValue.Text = "1200m";
+            // 
+            // lblMileageOutValue
+            // 
+            this.lblMileageOutValue.AutoSize = true;
+            this.lblMileageOutValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblMileageOutValue.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMileageOutValue.Location = new System.Drawing.Point(593, 655);
+            this.lblMileageOutValue.Name = "lblMileageOutValue";
+            this.lblMileageOutValue.Size = new System.Drawing.Size(75, 30);
+            this.lblMileageOutValue.TabIndex = 53;
+            this.lblMileageOutValue.Text = "1000m";
+            // 
+            // lblMileageIn
+            // 
+            this.lblMileageIn.AutoSize = true;
+            this.lblMileageIn.BackColor = System.Drawing.Color.Transparent;
+            this.lblMileageIn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMileageIn.Location = new System.Drawing.Point(370, 699);
+            this.lblMileageIn.Name = "lblMileageIn";
+            this.lblMileageIn.Size = new System.Drawing.Size(201, 30);
+            this.lblMileageIn.TabIndex = 52;
+            this.lblMileageIn.Text = "Mileage on Return:";
+            // 
+            // lblMileageOut
+            // 
+            this.lblMileageOut.AutoSize = true;
+            this.lblMileageOut.BackColor = System.Drawing.Color.Transparent;
+            this.lblMileageOut.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMileageOut.Location = new System.Drawing.Point(370, 655);
+            this.lblMileageOut.Name = "lblMileageOut";
+            this.lblMileageOut.Size = new System.Drawing.Size(207, 30);
+            this.lblMileageOut.TabIndex = 51;
+            this.lblMileageOut.Text = "Mileage on Release:";
+            // 
+            // lblFuelLevelInValue
+            // 
+            this.lblFuelLevelInValue.AutoSize = true;
+            this.lblFuelLevelInValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblFuelLevelInValue.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFuelLevelInValue.Location = new System.Drawing.Point(284, 699);
+            this.lblFuelLevelInValue.Name = "lblFuelLevelInValue";
+            this.lblFuelLevelInValue.Size = new System.Drawing.Size(63, 30);
+            this.lblFuelLevelInValue.TabIndex = 50;
+            this.lblFuelLevelInValue.Text = "100%";
+            // 
+            // lblFuelLevelOutValue
+            // 
+            this.lblFuelLevelOutValue.AutoSize = true;
+            this.lblFuelLevelOutValue.BackColor = System.Drawing.Color.Transparent;
+            this.lblFuelLevelOutValue.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFuelLevelOutValue.Location = new System.Drawing.Point(284, 655);
+            this.lblFuelLevelOutValue.Name = "lblFuelLevelOutValue";
+            this.lblFuelLevelOutValue.Size = new System.Drawing.Size(63, 30);
+            this.lblFuelLevelOutValue.TabIndex = 49;
+            this.lblFuelLevelOutValue.Text = "100%";
+            // 
+            // lblFuelLevelIn
+            // 
+            this.lblFuelLevelIn.AutoSize = true;
+            this.lblFuelLevelIn.BackColor = System.Drawing.Color.Transparent;
+            this.lblFuelLevelIn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFuelLevelIn.Location = new System.Drawing.Point(61, 699);
+            this.lblFuelLevelIn.Name = "lblFuelLevelIn";
+            this.lblFuelLevelIn.Size = new System.Drawing.Size(220, 30);
+            this.lblFuelLevelIn.TabIndex = 48;
+            this.lblFuelLevelIn.Text = "Fuel Level on Return:";
+            // 
+            // lblFuelLevelOut
+            // 
+            this.lblFuelLevelOut.AutoSize = true;
+            this.lblFuelLevelOut.BackColor = System.Drawing.Color.Transparent;
+            this.lblFuelLevelOut.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFuelLevelOut.Location = new System.Drawing.Point(61, 655);
+            this.lblFuelLevelOut.Name = "lblFuelLevelOut";
+            this.lblFuelLevelOut.Size = new System.Drawing.Size(226, 30);
+            this.lblFuelLevelOut.TabIndex = 47;
+            this.lblFuelLevelOut.Text = "Fuel Level on Release:";
+            // 
             // lblPriceValue
             // 
             this.lblPriceValue.AutoSize = true;
             this.lblPriceValue.BackColor = System.Drawing.Color.Transparent;
             this.lblPriceValue.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPriceValue.Location = new System.Drawing.Point(709, 502);
+            this.lblPriceValue.Location = new System.Drawing.Point(827, 533);
             this.lblPriceValue.Name = "lblPriceValue";
             this.lblPriceValue.Size = new System.Drawing.Size(80, 30);
             this.lblPriceValue.TabIndex = 46;
@@ -124,7 +262,7 @@
             this.lblPrice.AutoSize = true;
             this.lblPrice.BackColor = System.Drawing.Color.Transparent;
             this.lblPrice.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPrice.Location = new System.Drawing.Point(590, 502);
+            this.lblPrice.Location = new System.Drawing.Point(708, 533);
             this.lblPrice.Name = "lblPrice";
             this.lblPrice.Size = new System.Drawing.Size(121, 30);
             this.lblPrice.TabIndex = 45;
@@ -154,7 +292,7 @@
             this.rentalDateEndDTP.Enabled = false;
             this.rentalDateEndDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rentalDateEndDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.rentalDateEndDTP.Location = new System.Drawing.Point(333, 510);
+            this.rentalDateEndDTP.Location = new System.Drawing.Point(47, 536);
             this.rentalDateEndDTP.Name = "rentalDateEndDTP";
             this.rentalDateEndDTP.Size = new System.Drawing.Size(246, 33);
             this.rentalDateEndDTP.TabIndex = 43;
@@ -167,7 +305,7 @@
             this.rentalDateStartDTP.Enabled = false;
             this.rentalDateStartDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rentalDateStartDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.rentalDateStartDTP.Location = new System.Drawing.Point(333, 460);
+            this.rentalDateStartDTP.Location = new System.Drawing.Point(47, 486);
             this.rentalDateStartDTP.Name = "rentalDateStartDTP";
             this.rentalDateStartDTP.Size = new System.Drawing.Size(246, 33);
             this.rentalDateStartDTP.TabIndex = 42;
@@ -188,7 +326,7 @@
             this.lblRentalTimeValue.AutoSize = true;
             this.lblRentalTimeValue.BackColor = System.Drawing.Color.Transparent;
             this.lblRentalTimeValue.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRentalTimeValue.Location = new System.Drawing.Point(689, 466);
+            this.lblRentalTimeValue.Location = new System.Drawing.Point(807, 497);
             this.lblRentalTimeValue.Name = "lblRentalTimeValue";
             this.lblRentalTimeValue.Size = new System.Drawing.Size(138, 30);
             this.lblRentalTimeValue.TabIndex = 33;
@@ -199,7 +337,7 @@
             this.lblRentalTime.AutoSize = true;
             this.lblRentalTime.BackColor = System.Drawing.Color.Transparent;
             this.lblRentalTime.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRentalTime.Location = new System.Drawing.Point(590, 466);
+            this.lblRentalTime.Location = new System.Drawing.Point(708, 497);
             this.lblRentalTime.Name = "lblRentalTime";
             this.lblRentalTime.Size = new System.Drawing.Size(106, 30);
             this.lblRentalTime.TabIndex = 32;
@@ -232,7 +370,7 @@
             this.lblRentalPeriod.AutoSize = true;
             this.lblRentalPeriod.BackColor = System.Drawing.Color.Transparent;
             this.lblRentalPeriod.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRentalPeriod.Location = new System.Drawing.Point(183, 481);
+            this.lblRentalPeriod.Location = new System.Drawing.Point(99, 450);
             this.lblRentalPeriod.Name = "lblRentalPeriod";
             this.lblRentalPeriod.Size = new System.Drawing.Size(144, 30);
             this.lblRentalPeriod.TabIndex = 28;
@@ -424,7 +562,7 @@
             this.lblto.AutoSize = true;
             this.lblto.BackColor = System.Drawing.Color.Transparent;
             this.lblto.Font = new System.Drawing.Font("Segoe UI Semilight", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblto.Location = new System.Drawing.Point(446, 494);
+            this.lblto.Location = new System.Drawing.Point(160, 521);
             this.lblto.Name = "lblto";
             this.lblto.Size = new System.Drawing.Size(16, 13);
             this.lblto.TabIndex = 13;
@@ -549,6 +687,54 @@
             this.lblFirstName.TabIndex = 2;
             this.lblFirstName.Text = "First Name";
             // 
+            // dateInDTP
+            // 
+            this.dateInDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateInDTP.CalendarTitleForeColor = System.Drawing.Color.Azure;
+            this.dateInDTP.CustomFormat = " MM/dd/yyyy hh:mm tt";
+            this.dateInDTP.Enabled = false;
+            this.dateInDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateInDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateInDTP.Location = new System.Drawing.Point(455, 536);
+            this.dateInDTP.Name = "dateInDTP";
+            this.dateInDTP.Size = new System.Drawing.Size(246, 33);
+            this.dateInDTP.TabIndex = 60;
+            // 
+            // dateOutDTP
+            // 
+            this.dateOutDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateOutDTP.CalendarTitleForeColor = System.Drawing.Color.Azure;
+            this.dateOutDTP.CustomFormat = " MM/dd/yyyy hh:mm tt";
+            this.dateOutDTP.Enabled = false;
+            this.dateOutDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateOutDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateOutDTP.Location = new System.Drawing.Point(455, 486);
+            this.dateOutDTP.Name = "dateOutDTP";
+            this.dateOutDTP.Size = new System.Drawing.Size(246, 33);
+            this.dateOutDTP.TabIndex = 59;
+            // 
+            // lblReleasedOn
+            // 
+            this.lblReleasedOn.AutoSize = true;
+            this.lblReleasedOn.BackColor = System.Drawing.Color.Transparent;
+            this.lblReleasedOn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblReleasedOn.Location = new System.Drawing.Point(319, 488);
+            this.lblReleasedOn.Name = "lblReleasedOn";
+            this.lblReleasedOn.Size = new System.Drawing.Size(130, 30);
+            this.lblReleasedOn.TabIndex = 61;
+            this.lblReleasedOn.Text = "Released on";
+            // 
+            // lblReturnedOn
+            // 
+            this.lblReturnedOn.AutoSize = true;
+            this.lblReturnedOn.BackColor = System.Drawing.Color.Transparent;
+            this.lblReturnedOn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblReturnedOn.Location = new System.Drawing.Point(319, 538);
+            this.lblReturnedOn.Name = "lblReturnedOn";
+            this.lblReturnedOn.Size = new System.Drawing.Size(135, 30);
+            this.lblReturnedOn.TabIndex = 62;
+            this.lblReturnedOn.Text = "Returned on";
+            // 
             // CompletedUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -598,5 +784,19 @@
         private System.Windows.Forms.Label lblVehicleName;
         private Guna.UI2.WinForms.Guna2TextBox firstNameTextBox;
         private System.Windows.Forms.Label lblFirstName;
+        private System.Windows.Forms.Label lblFuelLevelOutValue;
+        private System.Windows.Forms.Label lblFuelLevelIn;
+        private System.Windows.Forms.Label lblFuelLevelOut;
+        private System.Windows.Forms.Label lblFuelLevelInValue;
+        private System.Windows.Forms.Label lblMileageInValue;
+        private System.Windows.Forms.Label lblMileageOutValue;
+        private System.Windows.Forms.Label lblMileageIn;
+        private System.Windows.Forms.Label lblMileageOut;
+        private System.Windows.Forms.Label lblPostRent;
+        private System.Windows.Forms.Label lblSustainedDamage;
+        private System.Windows.Forms.DateTimePicker dateInDTP;
+        private System.Windows.Forms.DateTimePicker dateOutDTP;
+        private System.Windows.Forms.Label lblReturnedOn;
+        private System.Windows.Forms.Label lblReleasedOn;
     }
 }

@@ -46,7 +46,6 @@ namespace ClientManagementSubsystem
             btnSelection.RegisterButton(outboundBtn, outboundSelected);
             btnSelection.RegisterButton(inboundBtn, inboundSelected);
             btnSelection.RegisterButton(damagesBtn, damagesSelected);
-            btnSelection.RegisterButton(personalBtn, personalSelected);
 
             showControl(new dashboardUserControl());
             btnSelection.ActivateButton(dashboardBtn);
