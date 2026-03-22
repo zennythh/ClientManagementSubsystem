@@ -137,6 +137,7 @@
             this.customerBdayDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customerBdayDTP.CalendarTitleForeColor = System.Drawing.Color.Azure;
             this.customerBdayDTP.CustomFormat = "MMMM dd, yyyy";
+            this.customerBdayDTP.Enabled = false;
             this.customerBdayDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customerBdayDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.customerBdayDTP.Location = new System.Drawing.Point(117, 413);
@@ -152,6 +153,7 @@
             this.rentalDateEndDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rentalDateEndDTP.CalendarTitleForeColor = System.Drawing.Color.Azure;
             this.rentalDateEndDTP.CustomFormat = " MM/dd/yyyy hh:mm tt";
+            this.rentalDateEndDTP.Enabled = false;
             this.rentalDateEndDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rentalDateEndDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.rentalDateEndDTP.Location = new System.Drawing.Point(669, 502);
@@ -164,6 +166,7 @@
             this.rentalDateStartDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rentalDateStartDTP.CalendarTitleForeColor = System.Drawing.Color.Azure;
             this.rentalDateStartDTP.CustomFormat = " MM/dd/yyyy hh:mm tt";
+            this.rentalDateStartDTP.Enabled = false;
             this.rentalDateStartDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rentalDateStartDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.rentalDateStartDTP.Location = new System.Drawing.Point(669, 463);

@@ -28,6 +28,10 @@ namespace ClientManagementSubsystem
 
             // Default View
             ShowTab("Pending");
+            bookingListPanel.AutoScroll = false; 
+            bookingListPanel.VerticalScroll.Visible = true;
+            bookingListPanel.VerticalScroll.Enabled = true;
+            bookingListPanel.AutoScroll = true;
         }
 
         private void InitializeTabs()
@@ -45,7 +49,9 @@ namespace ClientManagementSubsystem
 
             // Wire up data change events so the list refreshes if an action is taken
             pendingTabUC.DataChanged += (s, e) => RefreshActiveTab();
-            approvedTabUC.DataChanged += (s, e) => RefreshActiveTab(); 
+            approvedTabUC.DataChanged += (s, e) => RefreshActiveTab();
+
+            bookingListPanel.Resize += (s, e) => CenterCards();
         }
 
         private void ShowTab(string tabName)
@@ -139,15 +145,23 @@ namespace ClientManagementSubsystem
         {
             if (bookingListPanel.Controls.Count == 0) return;
 
-            Control firstCard = bookingListPanel.Controls[0];
+            // Force a layout logic update to ensure ClientSize is accurate
+            bookingListPanel.PerformLayout();
 
+            Control firstCard = bookingListPanel.Controls[0];
             int cardFullWidth = firstCard.Width + firstCard.Margin.Horizontal;
-            int availableWidth = bookingListPanel.ClientSize.Width - bookingListPanel.Padding.Horizontal;
+
+            // Subtract a small buffer (e.g., 25px) to account for the potential scrollbar 
+            // so the layout doesn't change when the scrollbar appears.
+            int availableWidth = bookingListPanel.ClientSize.Width - bookingListPanel.Padding.Horizontal - 20;
+
             int cardsPerRow = availableWidth / cardFullWidth;
             if (cardsPerRow <= 0) cardsPerRow = 1;
+
             int totalContentWidth = cardsPerRow * cardFullWidth;
             int lateralPadding = (bookingListPanel.ClientSize.Width - totalContentWidth) / 2;
 
+            // Reset padding but keep the Top padding you might have set in Designer
             bookingListPanel.Padding = new Padding(Math.Max(0, lateralPadding), bookingListPanel.Padding.Top, 0, 0);
         }
 
