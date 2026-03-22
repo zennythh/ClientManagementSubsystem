@@ -87,7 +87,7 @@
             // 
             this.lblDateOut.AutoSize = true;
             this.lblDateOut.Font = new System.Drawing.Font("Segoe UI Symbol", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDateOut.Location = new System.Drawing.Point(316, 84);
+            this.lblDateOut.Location = new System.Drawing.Point(316, 54);
             this.lblDateOut.Name = "lblDateOut";
             this.lblDateOut.Size = new System.Drawing.Size(111, 30);
             this.lblDateOut.TabIndex = 6;
@@ -97,7 +97,7 @@
             // 
             this.lblDateIn.AutoSize = true;
             this.lblDateIn.Font = new System.Drawing.Font("Segoe UI Symbol", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDateIn.Location = new System.Drawing.Point(316, 54);
+            this.lblDateIn.Location = new System.Drawing.Point(316, 84);
             this.lblDateIn.Name = "lblDateIn";
             this.lblDateIn.Size = new System.Drawing.Size(92, 30);
             this.lblDateIn.TabIndex = 5;

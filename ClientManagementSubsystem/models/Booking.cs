@@ -41,6 +41,8 @@ namespace ClientManagementSubsystem.Models
 
         public string FullName => $"{FirstName} {LastName}";
 
+        public int Age {  get; set; }
+
         public string DisplayDates => Status == "Out"
             ? $"Due: {DateDue:MMM dd, yyyy}"
             : $"Scheduled: {DateSchedOut:MMM dd, yyyy}";

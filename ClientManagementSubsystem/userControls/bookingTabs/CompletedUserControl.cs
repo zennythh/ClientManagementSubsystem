@@ -82,8 +82,8 @@ namespace ClientManagementSubsystem.userControls
             // 2. Usage Metrics (Out vs In)
             lblFuelLevelOutValue.Text = b.FuelLevelOut ?? "---";
             lblFuelLevelInValue.Text = b.FuelLevelIn ?? "---";
-            lblMileageOutValue.Text = b.MileageOut?.ToString("N0") ?? "0";
-            lblMileageInValue.Text = b.MileageIn?.ToString("N0") ?? "0";
+            lblMileageOutValue.Text = b.MileageOut?.ToString("N0")+"km" ?? "0";
+            lblMileageInValue.Text = b.MileageIn?.ToString("N0")+"km" ?? "0";
 
             // 3. Customer & Vehicle Info
             firstNameTextBox.Text = b.FirstName;

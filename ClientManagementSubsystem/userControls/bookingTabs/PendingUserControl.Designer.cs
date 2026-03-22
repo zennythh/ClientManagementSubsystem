@@ -55,22 +55,22 @@
             this.lblto = new System.Windows.Forms.Label();
             this.vehicleLicenseTextBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.lblLicenseNum = new System.Windows.Forms.Label();
+            this.vehiclePictureBox = new System.Windows.Forms.PictureBox();
             this.lblBookingid = new System.Windows.Forms.Label();
             this.vehicleNameTextBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.lblVehicleName = new System.Windows.Forms.Label();
             this.firstNameTextBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.lblFirstName = new System.Windows.Forms.Label();
+            this.rejectBtn = new FontAwesome.Sharp.IconButton();
+            this.approveBtn = new FontAwesome.Sharp.IconButton();
             this.outerConflictPanel = new System.Windows.Forms.Panel();
             this.conflictFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.lblNoBookingConflicts = new System.Windows.Forms.Label();
             this.lblBookingConflicts = new System.Windows.Forms.Label();
-            this.vehiclePictureBox = new System.Windows.Forms.PictureBox();
-            this.rejectBtn = new FontAwesome.Sharp.IconButton();
-            this.approveBtn = new FontAwesome.Sharp.IconButton();
             this.bookingDetailsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.vehiclePictureBox)).BeginInit();
             this.outerConflictPanel.SuspendLayout();
             this.conflictFlowPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.vehiclePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // bookingDetailsPanel
@@ -155,6 +155,7 @@
             this.customerBdayDTP.Size = new System.Drawing.Size(220, 33);
             this.customerBdayDTP.TabIndex = 44;
             this.customerBdayDTP.Value = new System.DateTime(2026, 11, 19, 0, 0, 0, 0);
+            this.customerBdayDTP.ValueChanged += new System.EventHandler(this.customerBdayDTP_ValueChanged);
             // 
             // rentalDateEndDTP
             // 
@@ -468,6 +469,18 @@
             this.lblLicenseNum.TabIndex = 9;
             this.lblLicenseNum.Text = "License Plate";
             // 
+            // vehiclePictureBox
+            // 
+            this.vehiclePictureBox.BackColor = System.Drawing.Color.Transparent;
+            this.vehiclePictureBox.ErrorImage = global::ClientManagementSubsystem.Properties.Resources.defaultVehicle;
+            this.vehiclePictureBox.Image = global::ClientManagementSubsystem.Properties.Resources.defaultVehicle;
+            this.vehiclePictureBox.Location = new System.Drawing.Point(466, 33);
+            this.vehiclePictureBox.Name = "vehiclePictureBox";
+            this.vehiclePictureBox.Size = new System.Drawing.Size(475, 268);
+            this.vehiclePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.vehiclePictureBox.TabIndex = 8;
+            this.vehiclePictureBox.TabStop = false;
+            // 
             // lblBookingid
             // 
             this.lblBookingid.AutoSize = true;
@@ -542,6 +555,45 @@
             this.lblFirstName.TabIndex = 2;
             this.lblFirstName.Text = "First Name";
             // 
+            // rejectBtn
+            // 
+            this.rejectBtn.BackColor = System.Drawing.Color.Tomato;
+            this.rejectBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.rejectBtn.Font = new System.Drawing.Font("Segoe UI Symbol", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rejectBtn.ForeColor = System.Drawing.Color.Black;
+            this.rejectBtn.IconChar = FontAwesome.Sharp.IconChar.X;
+            this.rejectBtn.IconColor = System.Drawing.Color.Black;
+            this.rejectBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.rejectBtn.IconSize = 40;
+            this.rejectBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.rejectBtn.Location = new System.Drawing.Point(529, 717);
+            this.rejectBtn.Name = "rejectBtn";
+            this.rejectBtn.Size = new System.Drawing.Size(184, 58);
+            this.rejectBtn.TabIndex = 1;
+            this.rejectBtn.Text = " Reject";
+            this.rejectBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.rejectBtn.UseVisualStyleBackColor = false;
+            this.rejectBtn.Click += new System.EventHandler(this.rejectBtn_Click);
+            // 
+            // approveBtn
+            // 
+            this.approveBtn.BackColor = System.Drawing.Color.LightGreen;
+            this.approveBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.approveBtn.Font = new System.Drawing.Font("Segoe UI Symbol", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.approveBtn.ForeColor = System.Drawing.Color.Black;
+            this.approveBtn.IconChar = FontAwesome.Sharp.IconChar.Check;
+            this.approveBtn.IconColor = System.Drawing.Color.Black;
+            this.approveBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.approveBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.approveBtn.Location = new System.Drawing.Point(252, 717);
+            this.approveBtn.Name = "approveBtn";
+            this.approveBtn.Size = new System.Drawing.Size(184, 58);
+            this.approveBtn.TabIndex = 0;
+            this.approveBtn.Text = "Approve";
+            this.approveBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.approveBtn.UseVisualStyleBackColor = false;
+            this.approveBtn.Click += new System.EventHandler(this.approveBtn_Click);
+            // 
             // outerConflictPanel
             // 
             this.outerConflictPanel.BackColor = System.Drawing.Color.Transparent;
@@ -591,57 +643,6 @@
             this.lblBookingConflicts.Text = "Booking Conflicts";
             this.lblBookingConflicts.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // vehiclePictureBox
-            // 
-            this.vehiclePictureBox.BackColor = System.Drawing.Color.Transparent;
-            this.vehiclePictureBox.ErrorImage = global::ClientManagementSubsystem.Properties.Resources.defaultVehicle;
-            this.vehiclePictureBox.Image = global::ClientManagementSubsystem.Properties.Resources.defaultVehicle;
-            this.vehiclePictureBox.Location = new System.Drawing.Point(466, 33);
-            this.vehiclePictureBox.Name = "vehiclePictureBox";
-            this.vehiclePictureBox.Size = new System.Drawing.Size(475, 268);
-            this.vehiclePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.vehiclePictureBox.TabIndex = 8;
-            this.vehiclePictureBox.TabStop = false;
-            // 
-            // rejectBtn
-            // 
-            this.rejectBtn.BackColor = System.Drawing.Color.Tomato;
-            this.rejectBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.rejectBtn.Font = new System.Drawing.Font("Segoe UI Symbol", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rejectBtn.ForeColor = System.Drawing.Color.Black;
-            this.rejectBtn.IconChar = FontAwesome.Sharp.IconChar.X;
-            this.rejectBtn.IconColor = System.Drawing.Color.Black;
-            this.rejectBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.rejectBtn.IconSize = 40;
-            this.rejectBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.rejectBtn.Location = new System.Drawing.Point(529, 717);
-            this.rejectBtn.Name = "rejectBtn";
-            this.rejectBtn.Size = new System.Drawing.Size(184, 58);
-            this.rejectBtn.TabIndex = 1;
-            this.rejectBtn.Text = " Reject";
-            this.rejectBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.rejectBtn.UseVisualStyleBackColor = false;
-            this.rejectBtn.Click += new System.EventHandler(this.rejectBtn_Click);
-            // 
-            // approveBtn
-            // 
-            this.approveBtn.BackColor = System.Drawing.Color.LightGreen;
-            this.approveBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.approveBtn.Font = new System.Drawing.Font("Segoe UI Symbol", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.approveBtn.ForeColor = System.Drawing.Color.Black;
-            this.approveBtn.IconChar = FontAwesome.Sharp.IconChar.Check;
-            this.approveBtn.IconColor = System.Drawing.Color.Black;
-            this.approveBtn.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.approveBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.approveBtn.Location = new System.Drawing.Point(252, 717);
-            this.approveBtn.Name = "approveBtn";
-            this.approveBtn.Size = new System.Drawing.Size(184, 58);
-            this.approveBtn.TabIndex = 0;
-            this.approveBtn.Text = "Approve";
-            this.approveBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.approveBtn.UseVisualStyleBackColor = false;
-            this.approveBtn.Click += new System.EventHandler(this.approveBtn_Click);
-            // 
             // PendingUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -651,10 +652,10 @@
             this.Size = new System.Drawing.Size(964, 790);
             this.bookingDetailsPanel.ResumeLayout(false);
             this.bookingDetailsPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.vehiclePictureBox)).EndInit();
             this.outerConflictPanel.ResumeLayout(false);
             this.outerConflictPanel.PerformLayout();
             this.conflictFlowPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.vehiclePictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }

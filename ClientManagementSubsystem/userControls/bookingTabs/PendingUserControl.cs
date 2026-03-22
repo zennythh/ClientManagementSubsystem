@@ -411,6 +411,17 @@ namespace ClientManagementSubsystem.userControls
                 isSyncing = false; // This ALWAYS runs, even if RefreshConflictSection crashes
             }
         }
+
+        private void customerBdayDTP_ValueChanged(object sender, EventArgs e)
+        {
+            if (currentPendingInfo == null || isSyncing) return;
+
+            // 1. Update the underlying data model
+            currentPendingInfo.DateOfBirth = customerBdayDTP.Value;
+
+            // 2. Update the UI TextBox
+            customerAgeTextBox.Text = currentPendingInfo.Age.ToString();
+        }
         #endregion
     }
 }

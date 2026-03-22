@@ -78,13 +78,6 @@ namespace ClientManagementSubsystem
             activityLabel.Text = "Bookings";
         }
 
-        private void personalBtn_Click(object sender, EventArgs e)
-        {
-            showControl(new personalUserControl());
-            btnSelection.ActivateButton(sender);
-            activityLabel.Text = "Personal Details";
-        }
-
         private void outboundBtn_Click(object sender, EventArgs e)
         {
             showControl(new outboundUserControl());

@@ -36,6 +36,15 @@ namespace ClientManagementSubsystem.models
         public DateTime DateDue { get; set; }
 
         // UI Helper for Age (Useful for insurance verification)
-        public int Age => DateTime.Now.Year - DateOfBirth.Year;
+        // Inside PendingInfos.cs
+        public int Age
+        {
+            get
+            {
+                int age = DateTime.Now.Year - DateOfBirth.Year;
+                if (DateOfBirth.Date > DateTime.Now.AddYears(-age)) age--;
+                return age;
+            }
+        }
     }
 }

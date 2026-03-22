@@ -180,12 +180,6 @@
     <Compile Include="userControls\bookingTabs\PendingUserControl.Designer.cs">
       <DependentUpon>PendingUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="userControls\mainTabs\personalUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="userControls\mainTabs\personalUserControl.Designer.cs">
-      <DependentUpon>personalUserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="userControls\mainTabs\inboundUserControl.cs">
@@ -229,9 +223,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="userControls\bookingTabs\PendingUserControl.resx">
       <DependentUpon>PendingUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="userControls\mainTabs\personalUserControl.resx">
-      <DependentUpon>personalUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

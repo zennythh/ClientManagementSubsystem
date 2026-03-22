@@ -189,7 +189,7 @@
             this.lblSustainedDamage.AutoSize = true;
             this.lblSustainedDamage.BackColor = System.Drawing.Color.Transparent;
             this.lblSustainedDamage.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSustainedDamage.Location = new System.Drawing.Point(375, 742);
+            this.lblSustainedDamage.Location = new System.Drawing.Point(375, 746);
             this.lblSustainedDamage.Name = "lblSustainedDamage";
             this.lblSustainedDamage.Size = new System.Drawing.Size(211, 30);
             this.lblSustainedDamage.TabIndex = 56;
