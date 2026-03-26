@@ -45,7 +45,6 @@
             this.lblFuelLevelOut = new System.Windows.Forms.Label();
             this.lblPriceValue = new System.Windows.Forms.Label();
             this.lblPrice = new System.Windows.Forms.Label();
-            this.customerBdayDTP = new System.Windows.Forms.DateTimePicker();
             this.rentalDateEndDTP = new System.Windows.Forms.DateTimePicker();
             this.rentalDateStartDTP = new System.Windows.Forms.DateTimePicker();
             this.lblBookingIDValue = new System.Windows.Forms.Label();
@@ -54,8 +53,6 @@
             this.lblDateofRequestValue = new System.Windows.Forms.Label();
             this.lblDateOfRequest = new System.Windows.Forms.Label();
             this.lblRentalPeriod = new System.Windows.Forms.Label();
-            this.lblCustomerAge = new System.Windows.Forms.Label();
-            this.lblCustomerBirthday = new System.Windows.Forms.Label();
             this.customerContactNumTextBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.lblCustomerContactNum = new System.Windows.Forms.Label();
             this.customerEmailTextBox = new Guna.UI2.WinForms.Guna2TextBox();
@@ -65,7 +62,6 @@
             this.lblLastName = new System.Windows.Forms.Label();
             this.customerLicenseTextBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.lblCustomerLicense = new System.Windows.Forms.Label();
-            this.customerAgeTextBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.lblto = new System.Windows.Forms.Label();
             this.vehicleLicenseTextBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.lblLicenseNum = new System.Windows.Forms.Label();
@@ -98,7 +94,6 @@
             this.bookingDetailsPanel.Controls.Add(this.lblFuelLevelOut);
             this.bookingDetailsPanel.Controls.Add(this.lblPriceValue);
             this.bookingDetailsPanel.Controls.Add(this.lblPrice);
-            this.bookingDetailsPanel.Controls.Add(this.customerBdayDTP);
             this.bookingDetailsPanel.Controls.Add(this.rentalDateEndDTP);
             this.bookingDetailsPanel.Controls.Add(this.rentalDateStartDTP);
             this.bookingDetailsPanel.Controls.Add(this.lblBookingIDValue);
@@ -107,8 +102,6 @@
             this.bookingDetailsPanel.Controls.Add(this.lblDateofRequestValue);
             this.bookingDetailsPanel.Controls.Add(this.lblDateOfRequest);
             this.bookingDetailsPanel.Controls.Add(this.lblRentalPeriod);
-            this.bookingDetailsPanel.Controls.Add(this.lblCustomerAge);
-            this.bookingDetailsPanel.Controls.Add(this.lblCustomerBirthday);
             this.bookingDetailsPanel.Controls.Add(this.customerContactNumTextBox);
             this.bookingDetailsPanel.Controls.Add(this.lblCustomerContactNum);
             this.bookingDetailsPanel.Controls.Add(this.customerEmailTextBox);
@@ -118,7 +111,6 @@
             this.bookingDetailsPanel.Controls.Add(this.lblLastName);
             this.bookingDetailsPanel.Controls.Add(this.customerLicenseTextBox);
             this.bookingDetailsPanel.Controls.Add(this.lblCustomerLicense);
-            this.bookingDetailsPanel.Controls.Add(this.customerAgeTextBox);
             this.bookingDetailsPanel.Controls.Add(this.lblto);
             this.bookingDetailsPanel.Controls.Add(this.vehicleLicenseTextBox);
             this.bookingDetailsPanel.Controls.Add(this.lblLicenseNum);
@@ -316,22 +308,6 @@
             this.lblPrice.TabIndex = 45;
             this.lblPrice.Text = "Total Price:";
             // 
-            // customerBdayDTP
-            // 
-            this.customerBdayDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customerBdayDTP.CalendarTitleForeColor = System.Drawing.Color.Azure;
-            this.customerBdayDTP.CustomFormat = "MMMM dd, yyyy";
-            this.customerBdayDTP.Enabled = false;
-            this.customerBdayDTP.Font = new System.Drawing.Font("Segoe UI Symbol", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customerBdayDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.customerBdayDTP.Location = new System.Drawing.Point(134, 413);
-            this.customerBdayDTP.MaxDate = new System.DateTime(2026, 12, 31, 0, 0, 0, 0);
-            this.customerBdayDTP.MinDate = new System.DateTime(1910, 12, 31, 0, 0, 0, 0);
-            this.customerBdayDTP.Name = "customerBdayDTP";
-            this.customerBdayDTP.Size = new System.Drawing.Size(220, 33);
-            this.customerBdayDTP.TabIndex = 44;
-            this.customerBdayDTP.Value = new System.DateTime(2026, 11, 19, 0, 0, 0, 0);
-            // 
             // rentalDateEndDTP
             // 
             this.rentalDateEndDTP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -423,28 +399,6 @@
             this.lblRentalPeriod.Size = new System.Drawing.Size(144, 30);
             this.lblRentalPeriod.TabIndex = 28;
             this.lblRentalPeriod.Text = "Rental Period";
-            // 
-            // lblCustomerAge
-            // 
-            this.lblCustomerAge.AutoSize = true;
-            this.lblCustomerAge.BackColor = System.Drawing.Color.Transparent;
-            this.lblCustomerAge.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCustomerAge.Location = new System.Drawing.Point(377, 415);
-            this.lblCustomerAge.Name = "lblCustomerAge";
-            this.lblCustomerAge.Size = new System.Drawing.Size(52, 30);
-            this.lblCustomerAge.TabIndex = 26;
-            this.lblCustomerAge.Text = "Age";
-            // 
-            // lblCustomerBirthday
-            // 
-            this.lblCustomerBirthday.AutoSize = true;
-            this.lblCustomerBirthday.BackColor = System.Drawing.Color.Transparent;
-            this.lblCustomerBirthday.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCustomerBirthday.Location = new System.Drawing.Point(31, 415);
-            this.lblCustomerBirthday.Name = "lblCustomerBirthday";
-            this.lblCustomerBirthday.Size = new System.Drawing.Size(97, 30);
-            this.lblCustomerBirthday.TabIndex = 24;
-            this.lblCustomerBirthday.Text = "Birthday";
             // 
             // customerContactNumTextBox
             // 
@@ -583,27 +537,6 @@
             this.lblCustomerLicense.Size = new System.Drawing.Size(171, 30);
             this.lblCustomerLicense.TabIndex = 15;
             this.lblCustomerLicense.Text = "License Number";
-            // 
-            // customerAgeTextBox
-            // 
-            this.customerAgeTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.customerAgeTextBox.DefaultText = "32";
-            this.customerAgeTextBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.customerAgeTextBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.customerAgeTextBox.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.customerAgeTextBox.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.customerAgeTextBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.customerAgeTextBox.Font = new System.Drawing.Font("Segoe UI Symbol", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customerAgeTextBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.customerAgeTextBox.Location = new System.Drawing.Point(435, 412);
-            this.customerAgeTextBox.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
-            this.customerAgeTextBox.Multiline = true;
-            this.customerAgeTextBox.Name = "customerAgeTextBox";
-            this.customerAgeTextBox.PlaceholderText = "";
-            this.customerAgeTextBox.ReadOnly = true;
-            this.customerAgeTextBox.SelectedText = "";
-            this.customerAgeTextBox.Size = new System.Drawing.Size(54, 34);
-            this.customerAgeTextBox.TabIndex = 14;
             // 
             // lblto
             // 
@@ -754,7 +687,6 @@
         private Guna.UI2.WinForms.Guna2Panel bookingDetailsPanel;
         private System.Windows.Forms.Label lblPriceValue;
         private System.Windows.Forms.Label lblPrice;
-        private System.Windows.Forms.DateTimePicker customerBdayDTP;
         private System.Windows.Forms.DateTimePicker rentalDateEndDTP;
         private System.Windows.Forms.DateTimePicker rentalDateStartDTP;
         private System.Windows.Forms.Label lblBookingIDValue;
@@ -763,8 +695,6 @@
         private System.Windows.Forms.Label lblDateofRequestValue;
         private System.Windows.Forms.Label lblDateOfRequest;
         private System.Windows.Forms.Label lblRentalPeriod;
-        private System.Windows.Forms.Label lblCustomerAge;
-        private System.Windows.Forms.Label lblCustomerBirthday;
         private Guna.UI2.WinForms.Guna2TextBox customerContactNumTextBox;
         private System.Windows.Forms.Label lblCustomerContactNum;
         private Guna.UI2.WinForms.Guna2TextBox customerEmailTextBox;
@@ -774,7 +704,6 @@
         private System.Windows.Forms.Label lblLastName;
         private Guna.UI2.WinForms.Guna2TextBox customerLicenseTextBox;
         private System.Windows.Forms.Label lblCustomerLicense;
-        private Guna.UI2.WinForms.Guna2TextBox customerAgeTextBox;
         private System.Windows.Forms.Label lblto;
         private Guna.UI2.WinForms.Guna2TextBox vehicleLicenseTextBox;
         private System.Windows.Forms.Label lblLicenseNum;

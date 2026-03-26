@@ -68,8 +68,6 @@ namespace ClientManagementSubsystem.userControls
             customerLicenseTextBox.Text = currentBookingInfo.LicenseNumber;
             customerEmailTextBox.Text = currentBookingInfo.Email;
             customerContactNumTextBox.Text = currentBookingInfo.PhoneNumber;
-            customerBdayDTP.Value = currentBookingInfo.DateOfBirth;
-            customerAgeTextBox.Text = currentBookingInfo.Age.ToString();
             lblDateofRequestValue.Text = GetFormattedDate(currentBookingInfo.DateSubmitted);
             vehicleLicenseTextBox.Text = currentBookingInfo.LicensePlate;
             vehicleNameTextBox.Text = currentBookingInfo.VehicleName;
@@ -97,7 +95,6 @@ namespace ClientManagementSubsystem.userControls
             customerLicenseTextBox.Clear();
             customerEmailTextBox.Clear();
             customerContactNumTextBox.Clear();
-            customerAgeTextBox.Clear();
             vehicleLicenseTextBox.Clear();
             vehicleNameTextBox.Clear();
             lblBookingIDValue.Text = "---";
@@ -143,7 +140,6 @@ namespace ClientManagementSubsystem.userControls
                 FirstName = b.FirstName,
                 LastName = b.LastName,
                 LicenseNumber = b.LicenseNumber,
-                DateOfBirth = b.DateOfBirth,
                 Email = b.Email,
                 PhoneNumber = b.PhoneNumber,
                 VehicleVIN = b.VehicleVIN,

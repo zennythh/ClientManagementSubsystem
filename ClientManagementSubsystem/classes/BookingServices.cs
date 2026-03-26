@@ -22,7 +22,6 @@ namespace ClientManagementSubsystem.classes
                 FirstName = reader.GetString("FirstName"),
                 LastName = reader.GetString("LastName"),
                 LicenseNumber = reader.GetString("LicenseNum"),
-                DateOfBirth = reader.GetDateTime("DateOfBirth"),
                 Email = reader.GetString("Email"),
                 PhoneNumber = reader.GetString("PhoneNumber"),
                 VehicleVIN = reader.GetString("VehicleVIN"),
@@ -227,10 +226,10 @@ namespace ClientManagementSubsystem.classes
                             }
                         }
 
-                        // 4. APPROVE CURRENT BOOKING
+                        // 4. APPROVE CURRENT BOOKING (DateOfBirth column removed)
                         string updateBooking = @"UPDATE Bookings SET 
                         FirstName=@fn, LastName=@ln, LicenseNum=@lic, Email=@em, PhoneNumber=@ph, 
-                        DateOfBirth=@dob, DateSchedOut=@start, DateDue=@due, 
+                        DateSchedOut=@start, DateDue=@due, 
                         ProjectedPrice=@price, Status='Reserved' 
                         WHERE BookingID=@bid";
 
@@ -241,10 +240,9 @@ namespace ClientManagementSubsystem.classes
                             cmd.Parameters.AddWithValue("@lic", info.LicenseNumber);
                             cmd.Parameters.AddWithValue("@em", info.Email);
                             cmd.Parameters.AddWithValue("@ph", info.PhoneNumber);
-                            cmd.Parameters.AddWithValue("@dob", info.DateOfBirth);
                             cmd.Parameters.AddWithValue("@start", info.DateSchedOut);
                             cmd.Parameters.AddWithValue("@due", info.DateDue);
-                            cmd.Parameters.AddWithValue("@price", info.ProjectedPrice); // <-- ADD THIS
+                            cmd.Parameters.AddWithValue("@price", info.ProjectedPrice);
                             cmd.Parameters.AddWithValue("@bid", info.BookingID);
                             cmd.ExecuteNonQuery();
                         }

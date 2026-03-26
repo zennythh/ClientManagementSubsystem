@@ -62,8 +62,7 @@ namespace ClientManagementSubsystem.userControls
             customerLicenseTextBox.Text = b.LicenseNumber;
             customerEmailTextBox.Text = b.Email;
             customerContactNumTextBox.Text = b.PhoneNumber;
-            customerBdayDTP.Value = b.DateOfBirth;
-            customerAgeTextBox.Text = CalculateAge(b.DateOfBirth).ToString();
+
             // Vehicle Info
             vehicleNameTextBox.Text = b.VehicleName;
             vehicleLicenseTextBox.Text = b.LicensePlate;
@@ -93,7 +92,6 @@ namespace ClientManagementSubsystem.userControls
             customerLicenseTextBox.Clear();
             customerEmailTextBox.Clear();
             customerContactNumTextBox.Clear();
-            customerAgeTextBox.Clear();
             vehicleLicenseTextBox.Clear();
             vehicleNameTextBox.Clear();
 
@@ -220,11 +218,6 @@ namespace ClientManagementSubsystem.userControls
         {
             searchDebounceTimer.Stop();
             searchDebounceTimer.Start();
-        }
-
-        private void customerBdayDTP_ValueChanged(object sender, EventArgs e)
-        {
-            customerAgeTextBox.Text = CalculateAge(customerBdayDTP.Value).ToString();
         }
 
         private void mileageOutTextBox_KeyPress(object sender, KeyPressEventArgs e)

@@ -9,7 +9,6 @@ namespace ClientManagementSubsystem.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string LicenseNumber { get; set; }
-        public DateTime DateOfBirth { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         // Vehicle Info
@@ -40,12 +39,6 @@ namespace ClientManagementSubsystem.Models
         public bool HasDamage { get; set; }
 
         public string FullName => $"{FirstName} {LastName}";
-
-        public int Age {  get; set; }
-
-        public string DisplayDates => Status == "Out"
-            ? $"Due: {DateDue:MMM dd, yyyy}"
-            : $"Scheduled: {DateSchedOut:MMM dd, yyyy}";
 
         public string TotalDistance
         {

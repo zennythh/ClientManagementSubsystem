@@ -30,7 +30,6 @@ namespace ClientManagementSubsystem.userControls
         {
             rentalDateStartDTP.Enabled = false;
             rentalDateEndDTP.Enabled = false;
-            customerBdayDTP.Enabled = false;
             dateOutDTP.Enabled = false; // Actual Release
             dateInDTP.Enabled = false;  // Actual Return
         }
@@ -90,7 +89,6 @@ namespace ClientManagementSubsystem.userControls
             lastNameTextBox.Text = b.LastName;
             customerLicenseTextBox.Text = b.LicenseNumber;
             customerEmailTextBox.Text = b.Email;
-            customerBdayDTP.Value = b.DateOfBirth;
             customerContactNumTextBox.Text = b.PhoneNumber;
 
             vehicleNameTextBox.Text = b.VehicleName;

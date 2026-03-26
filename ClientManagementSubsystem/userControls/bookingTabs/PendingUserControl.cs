@@ -76,8 +76,6 @@ namespace ClientManagementSubsystem.userControls
             customerLicenseTextBox.Text = currentPendingInfo.LicenseNumber;
             customerEmailTextBox.Text = currentPendingInfo.Email;
             customerContactNumTextBox.Text = currentPendingInfo.PhoneNumber;
-            customerBdayDTP.Value = currentPendingInfo.DateOfBirth;
-            customerAgeTextBox.Text = currentPendingInfo.Age.ToString();
             lblDateofRequestValue.Text = GetRequestDate(currentPendingInfo.DateSubmitted);
             vehicleLicenseTextBox.Text = currentPendingInfo.LicensePlate;
             vehicleNameTextBox.Text = currentPendingInfo.VehicleName;
@@ -165,7 +163,6 @@ namespace ClientManagementSubsystem.userControls
             currentPendingInfo.LicenseNumber = customerLicenseTextBox.Text;
             currentPendingInfo.Email = customerEmailTextBox.Text;
             currentPendingInfo.PhoneNumber = customerContactNumTextBox.Text;
-            currentPendingInfo.DateOfBirth = customerBdayDTP.Value;
             currentPendingInfo.DateSchedOut = rentalDateStartDTP.Value;
             currentPendingInfo.DateDue = rentalDateEndDTP.Value;
 
@@ -185,9 +182,6 @@ namespace ClientManagementSubsystem.userControls
 
             if (currentPendingInfo.PhoneNumber != originalBooking.PhoneNumber)
                 changes.Add($"• Contact: {originalBooking.PhoneNumber} → {currentPendingInfo.PhoneNumber}");
-
-            if (currentPendingInfo.DateOfBirth != originalBooking.DateOfBirth)
-                changes.Add($"• DOB: {originalBooking.DateOfBirth:MMM dd, yyyy} → {currentPendingInfo.DateOfBirth:MMM dd, yyyy}");
 
             if (currentPendingInfo.DateSchedOut != originalBooking.DateSchedOut)
                 changes.Add($"• Start: {originalBooking.DateSchedOut:MMM dd, hh:mm tt} → {currentPendingInfo.DateSchedOut:MMM dd, hh:mm tt}");
@@ -292,7 +286,6 @@ namespace ClientManagementSubsystem.userControls
             customerLicenseTextBox.Clear();
             customerEmailTextBox.Clear();
             customerContactNumTextBox.Clear();
-            customerAgeTextBox.Clear();
             vehicleLicenseTextBox.Clear();
             vehicleNameTextBox.Clear();
 
@@ -311,7 +304,6 @@ namespace ClientManagementSubsystem.userControls
                 FirstName = b.FirstName,
                 LastName = b.LastName,
                 LicenseNumber = b.LicenseNumber,
-                DateOfBirth = b.DateOfBirth,
                 Email = b.Email,
                 PhoneNumber = b.PhoneNumber,
                 VehicleVIN = b.VehicleVIN,
@@ -410,17 +402,6 @@ namespace ClientManagementSubsystem.userControls
             {
                 isSyncing = false; // This ALWAYS runs, even if RefreshConflictSection crashes
             }
-        }
-
-        private void customerBdayDTP_ValueChanged(object sender, EventArgs e)
-        {
-            if (currentPendingInfo == null || isSyncing) return;
-
-            // 1. Update the underlying data model
-            currentPendingInfo.DateOfBirth = customerBdayDTP.Value;
-
-            // 2. Update the UI TextBox
-            customerAgeTextBox.Text = currentPendingInfo.Age.ToString();
         }
         #endregion
     }

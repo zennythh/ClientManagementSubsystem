@@ -12,7 +12,7 @@ namespace ClientManagementSubsystem.userControls.cards
 {
     public partial class InspectionCard : UserControl
     {
-        private BookingHandler db = new BookingHandler();
+        private BookingServices db = new BookingServices();
         private Booking currentSelectedBooking;
         private List<string> selectedPaths = new List<string>();
 

@@ -53,8 +53,6 @@ namespace ClientManagementSubsystem.userControls
             customerLicenseTextBox.Text = b.LicenseNumber;
             customerEmailTextBox.Text = b.Email;
             customerContactNumTextBox.Text = b.PhoneNumber;
-            customerBdayDTP.Value = b.DateOfBirth;
-            customerAgeTextBox.Text = CalculateAge(b.DateOfBirth).ToString();
 
             // Vehicle Info
             vehicleNameTextBox.Text = b.VehicleName;
@@ -88,7 +86,6 @@ namespace ClientManagementSubsystem.userControls
             customerLicenseTextBox.Clear();
             customerEmailTextBox.Clear();
             customerContactNumTextBox.Clear();
-            customerAgeTextBox.Clear();
             vehicleLicenseTextBox.Clear();
             vehicleNameTextBox.Clear();
             fuelLevelOutTextBox.Text = "---";

@@ -17,7 +17,6 @@ namespace ClientManagementSubsystem.models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string LicenseNumber { get; set; }
-        public DateTime DateOfBirth { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
 
@@ -37,14 +36,5 @@ namespace ClientManagementSubsystem.models
 
         // UI Helper for Age (Useful for insurance verification)
         // Inside PendingInfos.cs
-        public int Age
-        {
-            get
-            {
-                int age = DateTime.Now.Year - DateOfBirth.Year;
-                if (DateOfBirth.Date > DateTime.Now.AddYears(-age)) age--;
-                return age;
-            }
         }
-    }
 }
