@@ -11,7 +11,7 @@ namespace ClientManagementSubsystem.userControls
 {
     public partial class outboundUserControl : UserControl
     {
-        private BookingHandler db = new BookingHandler();
+        private BookingServices db = new BookingServices();
         private Timer searchDebounceTimer;
         private Booking currentSelectedBooking; // Using Booking directly to avoid conversion issues
         private Panel emptyStateOverlay;

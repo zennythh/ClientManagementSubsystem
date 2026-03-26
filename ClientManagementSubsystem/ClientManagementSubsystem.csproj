@@ -107,7 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="classes\BookingHandler.cs" />
+    <Compile Include="classes\BookingServices.cs" />
     <Compile Include="classes\GetTimeAgo.cs" />
     <Compile Include="classes\RoamingPath.cs" />
     <Compile Include="models\Booking.cs" />

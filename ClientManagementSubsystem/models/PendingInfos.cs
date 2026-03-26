@@ -33,8 +33,5 @@ namespace ClientManagementSubsystem.models
         // Schedule Details
         public DateTime DateSchedOut { get; set; }
         public DateTime DateDue { get; set; }
-
-        // UI Helper for Age (Useful for insurance verification)
-        // Inside PendingInfos.cs
         }
 }

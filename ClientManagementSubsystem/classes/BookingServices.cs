@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace ClientManagementSubsystem.classes
 {
-    internal class BookingHandler
+    internal class BookingServices
     {
         private Booking MapReaderToBooking(MySqlDataReader reader)
         {
@@ -173,7 +173,7 @@ namespace ClientManagementSubsystem.classes
                 // Since MapReaderToBooking is instance-based and this is static, 
                 // we create a temporary instance or just map manually here.
                 // Recommendation: Make MapReaderToBooking public/internal static.
-                var handler = new BookingHandler();
+                var handler = new BookingServices();
 
                 using (var reader = cmd.ExecuteReader())
                 {

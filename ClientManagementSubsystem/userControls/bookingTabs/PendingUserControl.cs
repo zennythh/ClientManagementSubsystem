@@ -11,7 +11,7 @@ namespace ClientManagementSubsystem.userControls
 {
     public partial class PendingUserControl : UserControl
     {
-        private BookingHandler db = new BookingHandler();
+        private BookingServices db = new BookingServices();
         private Booking originalBooking;
         private PendingInfos currentPendingInfo;
         private bool isSyncing = false;
@@ -120,7 +120,7 @@ namespace ClientManagementSubsystem.userControls
             lblRentalTimeValue.Text = GetRentalDuration(rentalDateStartDTP.Value, rentalDateEndDTP.Value);
 
             conflictFlowPanel.Controls.Clear();
-            var conflicts = BookingHandler.GetConflictingBookings(
+            var conflicts = BookingServices.GetConflictingBookings(
                 currentPendingInfo.BookingID, currentPendingInfo.VehicleVIN,
                 rentalDateStartDTP.Value, rentalDateEndDTP.Value);
 
@@ -190,7 +190,7 @@ namespace ClientManagementSubsystem.userControls
                 changes.Add($"• Return: {originalBooking.DateDue:MMM dd, hh:mm tt} → {currentPendingInfo.DateDue:MMM dd, hh:mm tt}");
 
             // 3. Fetch Conflicts
-            var conflicts = BookingHandler.GetConflictingBookings(
+            var conflicts = BookingServices.GetConflictingBookings(
                 currentPendingInfo.BookingID, currentPendingInfo.VehicleVIN,
                 currentPendingInfo.DateSchedOut, currentPendingInfo.DateDue);
 

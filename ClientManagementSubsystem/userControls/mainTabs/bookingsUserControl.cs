@@ -12,7 +12,7 @@ namespace ClientManagementSubsystem
     public partial class bookingsUserControl : UserControl
     {
         private Timer searchDebounceTimer;
-        private BookingHandler db = new BookingHandler();
+        private BookingServices db = new BookingServices();
 
         // Tab UserControls
         private PendingUserControl pendingTabUC;

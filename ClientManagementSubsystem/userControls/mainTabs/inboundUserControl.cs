@@ -10,7 +10,7 @@ namespace ClientManagementSubsystem.userControls
 {
     public partial class inboundUserControl : UserControl
     {
-        private BookingHandler db = new BookingHandler();
+        private BookingServices db = new BookingServices();
         private Timer searchDebounceTimer;
         private Booking currentSelectedBooking;
         private Panel emptyStateOverlay;

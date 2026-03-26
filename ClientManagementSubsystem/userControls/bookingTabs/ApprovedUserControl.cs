@@ -9,7 +9,7 @@ namespace ClientManagementSubsystem.userControls
 {
     public partial class ApprovedUserControl : UserControl
     {
-        private BookingHandler db = new BookingHandler();
+        private BookingServices db = new BookingServices();
         private PendingInfos currentBookingInfo;
         private Panel emptyStateOverlay;
 

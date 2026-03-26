@@ -10,7 +10,7 @@ namespace ClientManagementSubsystem.userControls
 {
     public partial class CompletedUserControl : UserControl
     {
-        private BookingHandler db = new BookingHandler();
+        private BookingServices db = new BookingServices();
 
         // CHANGED: Use Booking type here to support the new metrics and damage flags
         private Booking currentBookingInfo;
