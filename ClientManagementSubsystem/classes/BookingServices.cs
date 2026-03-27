@@ -153,7 +153,7 @@ namespace ClientManagementSubsystem.classes
                     FROM Bookings b
                     JOIN Vehicles v ON b.VehicleVIN = v.VIN
                     WHERE b.VehicleVIN = @vin 
-                    AND b.Status IN ('Pending', 'Reserved', 'Out')
+                    AND b.Status IN ('Pending', 'Reserved', 'Ongoing')
                     AND @RequestedStart < DATE_ADD(b.DateDue, INTERVAL @Buffer HOUR)
                     AND @RequestedEnd > b.DateSchedOut
                     AND b.BookingID != @CurrentBookingID 
@@ -199,14 +199,14 @@ namespace ClientManagementSubsystem.classes
 
                         // --- THE SAFETY FILTER ---
                         // We ONLY auto-reject bookings that are 'Pending'. 
-                        // 'Reserved' or 'Out' bookings are left alone (the staff handles the buffer manually).
+                        // 'Reserved' or 'Ongoing' bookings are left alone (the staff handles the buffer manually).
                         var bookingsToReject = conflicts.Where(c => c.Status == "Pending").ToList();
 
                         // 2. CATEGORY CHECK: Hard Block
                         // If there's a DIRECT overlap with Reserved/Out, we still block the approval.
                         // Note: We only block if the overlap is REAL (requested start < their due date).
                         bool hasHardDirectConflict = conflicts.Any(c =>
-                            (c.Status == "Reserved" || c.Status == "Out") &&
+                            (c.Status == "Reserved" || c.Status == "Ongoing") &&
                             info.DateSchedOut < c.DateDue);
 
                         if (hasHardDirectConflict)
@@ -306,7 +306,7 @@ namespace ClientManagementSubsystem.classes
                     {
                         // 1. Update Booking status and metrics
                         string updateBooking = @"UPDATE Bookings SET 
-                                        Status = 'Out', 
+                                        Status = 'Ongoing', 
                                         DateOut = @dateOut, 
                                         MileageOut = @mOut, 
                                         FuelLevelOut = @fOut 
@@ -321,10 +321,10 @@ namespace ClientManagementSubsystem.classes
                             cmd.ExecuteNonQuery();
                         }
 
-                        // 2. Update Vehicle status to 'Out' 
+                        // 2. Update Vehicle status to 'Ongoing' 
                         // (Optional: You might already have 'Rented' from the Approval stage, 
-                        // but 'Out' is more specific for active driving)
-                        string updateVehicle = "UPDATE Vehicles SET CurrentStatus = 'Out' WHERE VIN = @vin";
+                        // but 'Ongoing' is more specific for active driving)
+                        string updateVehicle = "UPDATE Vehicles SET CurrentStatus = 'Ongoing' WHERE VIN = @vin";
                         using (var cmd = new MySqlCommand(updateVehicle, connection, transaction))
                         {
                             cmd.Parameters.AddWithValue("@vin", vin);
